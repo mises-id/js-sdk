@@ -1,0 +1,95 @@
+syntax = "proto3";
+package misesid.misestm.v1beta1;
+
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+
+import "misestm/v1beta1/DidRegistry.proto";
+import "misestm/v1beta1/UserInfo.proto";
+import "misestm/v1beta1/UserRelation.proto";
+import "misestm/v1beta1/rest_tx.proto";
+option go_package = "github.com/mises-id/mises-tm/x/misestm/types";
+
+// Rest defines the gRPC rest service.
+service RestQuery {
+
+	// query a did
+	rpc QueryDid(RestQueryDidRequest) returns (RestQueryDidResponse) {
+		option (google.api.http).get = "/mises/did";
+	}
+
+	// query a user info
+	rpc QueryUser(RestQueryUserRequest) returns (RestQueryUserResponse) {
+		option (google.api.http).get = "/mises/user";
+	}
+
+	// query user relations
+	rpc QueryUserRelation(RestQueryUserRelationRequest) returns (RestQueryUserRelationResponse) {
+		option (google.api.http).get = "/mises/user/relation";
+	}
+
+
+	// query app info
+	rpc QueryApp(RestQueryAppRequest) returns (RestQueryAppResponse) {
+		option (google.api.http).get = "/mises/app";
+	}
+
+
+	// query app info
+	rpc QueryAppFeeGrant(RestQueryAppFeeGrantRequest) returns (RestQueryAppFeeGrantResponse) {
+		option (google.api.http).get = "/mises/app/feegrant";
+	}
+
+
+}
+
+message RestQueryDidRequest {
+	string mises_id = 1;
+}
+
+message RestQueryDidResponse {
+	DidRegistry didRegistry = 1;
+}
+
+
+message RestQueryUserRequest {
+	string mises_uid = 1;
+}
+
+message RestQueryUserResponse {
+	misesid.misestm.v1beta1.PublicUserInfo pub_info = 1;
+	misesid.misestm.v1beta1.PrivateUserInfo pri_info = 2;
+}
+
+message RestQueryUserRelationRequest {
+	string mises_uid = 1;
+	string filter = 2;
+	cosmos.base.query.v1beta1.PageRequest pagination = 3;
+}
+
+message MisesID {
+	string mises_id = 1;
+}
+
+message RestQueryUserRelationResponse {
+	repeated MisesID mises_list = 1;
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+
+message RestQueryAppRequest {
+	string mises_appid = 1;
+}
+
+message RestQueryAppResponse {
+	misesid.misestm.v1beta1.PublicAppInfo pub_info = 1;
+}
+
+message RestQueryAppFeeGrantRequest {
+	string mises_appid = 1;
+	string mises_uid = 2;
+}
+
+message RestQueryAppFeeGrantResponse {
+	misesid.misestm.v1beta1.AppFeeGrant grant = 1;
+}
