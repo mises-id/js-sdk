@@ -128,30 +128,24 @@ export const PageRequest = {
 
   fromJSON(object: any): PageRequest {
     const message = { ...basePageRequest } as PageRequest
-    message.key = new Uint8Array()
-    if (object.key !== undefined && object.key !== null) {
-      message.key = bytesFromBase64(object.key)
-    }
-    if (object.offset !== undefined && object.offset !== null) {
-      message.offset = Long.fromString(object.offset)
-    } else {
-      message.offset = Long.UZERO
-    }
-    if (object.limit !== undefined && object.limit !== null) {
-      message.limit = Long.fromString(object.limit)
-    } else {
-      message.limit = Long.UZERO
-    }
-    if (object.countTotal !== undefined && object.countTotal !== null) {
-      message.countTotal = Boolean(object.countTotal)
-    } else {
-      message.countTotal = false
-    }
-    if (object.reverse !== undefined && object.reverse !== null) {
-      message.reverse = Boolean(object.reverse)
-    } else {
-      message.reverse = false
-    }
+    message.key =
+      object.key !== undefined && object.key !== null
+        ? bytesFromBase64(object.key)
+        : new Uint8Array()
+    message.offset =
+      object.offset !== undefined && object.offset !== null
+        ? Long.fromString(object.offset)
+        : Long.UZERO
+    message.limit =
+      object.limit !== undefined && object.limit !== null
+        ? Long.fromString(object.limit)
+        : Long.UZERO
+    message.countTotal =
+      object.countTotal !== undefined && object.countTotal !== null
+        ? Boolean(object.countTotal)
+        : false
+    message.reverse =
+      object.reverse !== undefined && object.reverse !== null ? Boolean(object.reverse) : false
     return message
   },
 
@@ -166,19 +160,17 @@ export const PageRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<PageRequest>): PageRequest {
+  fromPartial<I extends Exact<DeepPartial<PageRequest>, I>>(object: I): PageRequest {
     const message = { ...basePageRequest } as PageRequest
     message.key = object.key ?? new Uint8Array()
-    if (object.offset !== undefined && object.offset !== null) {
-      message.offset = object.offset as Long
-    } else {
-      message.offset = Long.UZERO
-    }
-    if (object.limit !== undefined && object.limit !== null) {
-      message.limit = object.limit as Long
-    } else {
-      message.limit = Long.UZERO
-    }
+    message.offset =
+      object.offset !== undefined && object.offset !== null
+        ? Long.fromValue(object.offset)
+        : Long.UZERO
+    message.limit =
+      object.limit !== undefined && object.limit !== null
+        ? Long.fromValue(object.limit)
+        : Long.UZERO
     message.countTotal = object.countTotal ?? false
     message.reverse = object.reverse ?? false
     return message
@@ -222,15 +214,14 @@ export const PageResponse = {
 
   fromJSON(object: any): PageResponse {
     const message = { ...basePageResponse } as PageResponse
-    message.nextKey = new Uint8Array()
-    if (object.nextKey !== undefined && object.nextKey !== null) {
-      message.nextKey = bytesFromBase64(object.nextKey)
-    }
-    if (object.total !== undefined && object.total !== null) {
-      message.total = Long.fromString(object.total)
-    } else {
-      message.total = Long.UZERO
-    }
+    message.nextKey =
+      object.nextKey !== undefined && object.nextKey !== null
+        ? bytesFromBase64(object.nextKey)
+        : new Uint8Array()
+    message.total =
+      object.total !== undefined && object.total !== null
+        ? Long.fromString(object.total)
+        : Long.UZERO
     return message
   },
 
@@ -244,14 +235,13 @@ export const PageResponse = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<PageResponse>): PageResponse {
+  fromPartial<I extends Exact<DeepPartial<PageResponse>, I>>(object: I): PageResponse {
     const message = { ...basePageResponse } as PageResponse
     message.nextKey = object.nextKey ?? new Uint8Array()
-    if (object.total !== undefined && object.total !== null) {
-      message.total = object.total as Long
-    } else {
-      message.total = Long.UZERO
-    }
+    message.total =
+      object.total !== undefined && object.total !== null
+        ? Long.fromValue(object.total)
+        : Long.UZERO
     return message
   }
 }
@@ -288,9 +278,12 @@ function base64FromBytes(arr: Uint8Array): string {
   return btoa(bin.join(''))
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
+
 export type DeepPartial<T> = T extends Builtin
   ? T
+  : T extends Long
+  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -298,6 +291,11 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
+
+type KeysOfUnion<T> = T extends T ? keyof T : never
+export type Exact<P, I extends P> = P extends Builtin
+  ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any

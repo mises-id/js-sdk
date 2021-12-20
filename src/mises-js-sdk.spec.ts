@@ -11,6 +11,6 @@ describe('MSdk test', () => {
 
   it('MSdk is instantiable', async () => {
     const sdk = await MSdk.newSdk()
-    expect(typeof sdk).toBe('MSdk')
+    expect(sdk).toBeInstanceOf(MSdk)
   })
 })

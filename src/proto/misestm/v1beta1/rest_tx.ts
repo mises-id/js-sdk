@@ -126,21 +126,12 @@ export const RestCreateDidRequest = {
 
   fromJSON(object: any): RestCreateDidRequest {
     const message = { ...baseRestCreateDidRequest } as RestCreateDidRequest
-    if (object.misesAppid !== undefined && object.misesAppid !== null) {
-      message.misesAppid = String(object.misesAppid)
-    } else {
-      message.misesAppid = ''
-    }
-    if (object.misesId !== undefined && object.misesId !== null) {
-      message.misesId = String(object.misesId)
-    } else {
-      message.misesId = ''
-    }
-    if (object.pubKey !== undefined && object.pubKey !== null) {
-      message.pubKey = String(object.pubKey)
-    } else {
-      message.pubKey = ''
-    }
+    message.misesAppid =
+      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
+    message.misesId =
+      object.misesId !== undefined && object.misesId !== null ? String(object.misesId) : ''
+    message.pubKey =
+      object.pubKey !== undefined && object.pubKey !== null ? String(object.pubKey) : ''
     return message
   },
 
@@ -152,7 +143,9 @@ export const RestCreateDidRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestCreateDidRequest>): RestCreateDidRequest {
+  fromPartial<I extends Exact<DeepPartial<RestCreateDidRequest>, I>>(
+    object: I
+  ): RestCreateDidRequest {
     const message = { ...baseRestCreateDidRequest } as RestCreateDidRequest
     message.misesAppid = object.misesAppid ?? ''
     message.misesId = object.misesId ?? ''
@@ -197,16 +190,9 @@ export const PrivateUserInfo = {
 
   fromJSON(object: any): PrivateUserInfo {
     const message = { ...basePrivateUserInfo } as PrivateUserInfo
-    if (object.encData !== undefined && object.encData !== null) {
-      message.encData = String(object.encData)
-    } else {
-      message.encData = ''
-    }
-    if (object.iv !== undefined && object.iv !== null) {
-      message.iv = String(object.iv)
-    } else {
-      message.iv = ''
-    }
+    message.encData =
+      object.encData !== undefined && object.encData !== null ? String(object.encData) : ''
+    message.iv = object.iv !== undefined && object.iv !== null ? String(object.iv) : ''
     return message
   },
 
@@ -217,7 +203,7 @@ export const PrivateUserInfo = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<PrivateUserInfo>): PrivateUserInfo {
+  fromPartial<I extends Exact<DeepPartial<PrivateUserInfo>, I>>(object: I): PrivateUserInfo {
     const message = { ...basePrivateUserInfo } as PrivateUserInfo
     message.encData = object.encData ?? ''
     message.iv = object.iv ?? ''
@@ -301,43 +287,18 @@ export const PublicUserInfo = {
 
   fromJSON(object: any): PublicUserInfo {
     const message = { ...basePublicUserInfo } as PublicUserInfo
-    message.emails = []
-    message.telephones = []
-    if (object.name !== undefined && object.name !== null) {
-      message.name = String(object.name)
-    } else {
-      message.name = ''
-    }
-    if (object.gender !== undefined && object.gender !== null) {
-      message.gender = String(object.gender)
-    } else {
-      message.gender = ''
-    }
-    if (object.avatarUrl !== undefined && object.avatarUrl !== null) {
-      message.avatarUrl = String(object.avatarUrl)
-    } else {
-      message.avatarUrl = ''
-    }
-    if (object.homePageUrl !== undefined && object.homePageUrl !== null) {
-      message.homePageUrl = String(object.homePageUrl)
-    } else {
-      message.homePageUrl = ''
-    }
-    if (object.emails !== undefined && object.emails !== null) {
-      for (const e of object.emails) {
-        message.emails.push(String(e))
-      }
-    }
-    if (object.telephones !== undefined && object.telephones !== null) {
-      for (const e of object.telephones) {
-        message.telephones.push(String(e))
-      }
-    }
-    if (object.intro !== undefined && object.intro !== null) {
-      message.intro = String(object.intro)
-    } else {
-      message.intro = ''
-    }
+    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
+    message.gender =
+      object.gender !== undefined && object.gender !== null ? String(object.gender) : ''
+    message.avatarUrl =
+      object.avatarUrl !== undefined && object.avatarUrl !== null ? String(object.avatarUrl) : ''
+    message.homePageUrl =
+      object.homePageUrl !== undefined && object.homePageUrl !== null
+        ? String(object.homePageUrl)
+        : ''
+    message.emails = (object.emails ?? []).map((e: any) => String(e))
+    message.telephones = (object.telephones ?? []).map((e: any) => String(e))
+    message.intro = object.intro !== undefined && object.intro !== null ? String(object.intro) : ''
     return message
   },
 
@@ -361,24 +322,14 @@ export const PublicUserInfo = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<PublicUserInfo>): PublicUserInfo {
+  fromPartial<I extends Exact<DeepPartial<PublicUserInfo>, I>>(object: I): PublicUserInfo {
     const message = { ...basePublicUserInfo } as PublicUserInfo
     message.name = object.name ?? ''
     message.gender = object.gender ?? ''
     message.avatarUrl = object.avatarUrl ?? ''
     message.homePageUrl = object.homePageUrl ?? ''
-    message.emails = []
-    if (object.emails !== undefined && object.emails !== null) {
-      for (const e of object.emails) {
-        message.emails.push(e)
-      }
-    }
-    message.telephones = []
-    if (object.telephones !== undefined && object.telephones !== null) {
-      for (const e of object.telephones) {
-        message.telephones.push(e)
-      }
-    }
+    message.emails = object.emails?.map(e => e) || []
+    message.telephones = object.telephones?.map(e => e) || []
     message.intro = object.intro ?? ''
     return message
   }
@@ -436,26 +387,18 @@ export const RestUpdateUserInfoRequest = {
     const message = {
       ...baseRestUpdateUserInfoRequest
     } as RestUpdateUserInfoRequest
-    if (object.misesAppid !== undefined && object.misesAppid !== null) {
-      message.misesAppid = String(object.misesAppid)
-    } else {
-      message.misesAppid = ''
-    }
-    if (object.misesUid !== undefined && object.misesUid !== null) {
-      message.misesUid = String(object.misesUid)
-    } else {
-      message.misesUid = ''
-    }
-    if (object.pubInfo !== undefined && object.pubInfo !== null) {
-      message.pubInfo = PublicUserInfo.fromJSON(object.pubInfo)
-    } else {
-      message.pubInfo = undefined
-    }
-    if (object.priInfo !== undefined && object.priInfo !== null) {
-      message.priInfo = PrivateUserInfo.fromJSON(object.priInfo)
-    } else {
-      message.priInfo = undefined
-    }
+    message.misesAppid =
+      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
+    message.misesUid =
+      object.misesUid !== undefined && object.misesUid !== null ? String(object.misesUid) : ''
+    message.pubInfo =
+      object.pubInfo !== undefined && object.pubInfo !== null
+        ? PublicUserInfo.fromJSON(object.pubInfo)
+        : undefined
+    message.priInfo =
+      object.priInfo !== undefined && object.priInfo !== null
+        ? PrivateUserInfo.fromJSON(object.priInfo)
+        : undefined
     return message
   },
 
@@ -470,22 +413,22 @@ export const RestUpdateUserInfoRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestUpdateUserInfoRequest>): RestUpdateUserInfoRequest {
+  fromPartial<I extends Exact<DeepPartial<RestUpdateUserInfoRequest>, I>>(
+    object: I
+  ): RestUpdateUserInfoRequest {
     const message = {
       ...baseRestUpdateUserInfoRequest
     } as RestUpdateUserInfoRequest
     message.misesAppid = object.misesAppid ?? ''
     message.misesUid = object.misesUid ?? ''
-    if (object.pubInfo !== undefined && object.pubInfo !== null) {
-      message.pubInfo = PublicUserInfo.fromPartial(object.pubInfo)
-    } else {
-      message.pubInfo = undefined
-    }
-    if (object.priInfo !== undefined && object.priInfo !== null) {
-      message.priInfo = PrivateUserInfo.fromPartial(object.priInfo)
-    } else {
-      message.priInfo = undefined
-    }
+    message.pubInfo =
+      object.pubInfo !== undefined && object.pubInfo !== null
+        ? PublicUserInfo.fromPartial(object.pubInfo)
+        : undefined
+    message.priInfo =
+      object.priInfo !== undefined && object.priInfo !== null
+        ? PrivateUserInfo.fromPartial(object.priInfo)
+        : undefined
     return message
   }
 }
@@ -550,26 +493,14 @@ export const RestUpdateUserRelationRequest = {
     const message = {
       ...baseRestUpdateUserRelationRequest
     } as RestUpdateUserRelationRequest
-    if (object.misesAppid !== undefined && object.misesAppid !== null) {
-      message.misesAppid = String(object.misesAppid)
-    } else {
-      message.misesAppid = ''
-    }
-    if (object.misesUid !== undefined && object.misesUid !== null) {
-      message.misesUid = String(object.misesUid)
-    } else {
-      message.misesUid = ''
-    }
-    if (object.targetId !== undefined && object.targetId !== null) {
-      message.targetId = String(object.targetId)
-    } else {
-      message.targetId = ''
-    }
-    if (object.action !== undefined && object.action !== null) {
-      message.action = String(object.action)
-    } else {
-      message.action = ''
-    }
+    message.misesAppid =
+      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
+    message.misesUid =
+      object.misesUid !== undefined && object.misesUid !== null ? String(object.misesUid) : ''
+    message.targetId =
+      object.targetId !== undefined && object.targetId !== null ? String(object.targetId) : ''
+    message.action =
+      object.action !== undefined && object.action !== null ? String(object.action) : ''
     return message
   },
 
@@ -582,7 +513,9 @@ export const RestUpdateUserRelationRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestUpdateUserRelationRequest>): RestUpdateUserRelationRequest {
+  fromPartial<I extends Exact<DeepPartial<RestUpdateUserRelationRequest>, I>>(
+    object: I
+  ): RestUpdateUserRelationRequest {
     const message = {
       ...baseRestUpdateUserRelationRequest
     } as RestUpdateUserRelationRequest
@@ -624,11 +557,8 @@ export const RestQueryTxRequest = {
 
   fromJSON(object: any): RestQueryTxRequest {
     const message = { ...baseRestQueryTxRequest } as RestQueryTxRequest
-    if (object.txhash !== undefined && object.txhash !== null) {
-      message.txhash = String(object.txhash)
-    } else {
-      message.txhash = ''
-    }
+    message.txhash =
+      object.txhash !== undefined && object.txhash !== null ? String(object.txhash) : ''
     return message
   },
 
@@ -638,7 +568,7 @@ export const RestQueryTxRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryTxRequest>): RestQueryTxRequest {
+  fromPartial<I extends Exact<DeepPartial<RestQueryTxRequest>, I>>(object: I): RestQueryTxRequest {
     const message = { ...baseRestQueryTxRequest } as RestQueryTxRequest
     message.txhash = object.txhash ?? ''
     return message
@@ -681,16 +611,11 @@ export const RestTxResponse = {
 
   fromJSON(object: any): RestTxResponse {
     const message = { ...baseRestTxResponse } as RestTxResponse
-    if (object.txResponse !== undefined && object.txResponse !== null) {
-      message.txResponse = TxResponse.fromJSON(object.txResponse)
-    } else {
-      message.txResponse = undefined
-    }
-    if (object.code !== undefined && object.code !== null) {
-      message.code = Number(object.code)
-    } else {
-      message.code = 0
-    }
+    message.txResponse =
+      object.txResponse !== undefined && object.txResponse !== null
+        ? TxResponse.fromJSON(object.txResponse)
+        : undefined
+    message.code = object.code !== undefined && object.code !== null ? Number(object.code) : 0
     return message
   },
 
@@ -698,17 +623,16 @@ export const RestTxResponse = {
     const obj: any = {}
     message.txResponse !== undefined &&
       (obj.txResponse = message.txResponse ? TxResponse.toJSON(message.txResponse) : undefined)
-    message.code !== undefined && (obj.code = message.code)
+    message.code !== undefined && (obj.code = Math.round(message.code))
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestTxResponse>): RestTxResponse {
+  fromPartial<I extends Exact<DeepPartial<RestTxResponse>, I>>(object: I): RestTxResponse {
     const message = { ...baseRestTxResponse } as RestTxResponse
-    if (object.txResponse !== undefined && object.txResponse !== null) {
-      message.txResponse = TxResponse.fromPartial(object.txResponse)
-    } else {
-      message.txResponse = undefined
-    }
+    message.txResponse =
+      object.txResponse !== undefined && object.txResponse !== null
+        ? TxResponse.fromPartial(object.txResponse)
+        : undefined
     message.code = object.code ?? 0
     return message
   }
@@ -782,37 +706,18 @@ export const PublicAppInfo = {
 
   fromJSON(object: any): PublicAppInfo {
     const message = { ...basePublicAppInfo } as PublicAppInfo
-    message.domains = []
-    if (object.name !== undefined && object.name !== null) {
-      message.name = String(object.name)
-    } else {
-      message.name = ''
-    }
-    if (object.domains !== undefined && object.domains !== null) {
-      for (const e of object.domains) {
-        message.domains.push(String(e))
-      }
-    }
-    if (object.developer !== undefined && object.developer !== null) {
-      message.developer = String(object.developer)
-    } else {
-      message.developer = ''
-    }
-    if (object.homeUrl !== undefined && object.homeUrl !== null) {
-      message.homeUrl = String(object.homeUrl)
-    } else {
-      message.homeUrl = ''
-    }
-    if (object.iconUrl !== undefined && object.iconUrl !== null) {
-      message.iconUrl = String(object.iconUrl)
-    } else {
-      message.iconUrl = ''
-    }
-    if (object.version !== undefined && object.version !== null) {
-      message.version = Long.fromString(object.version)
-    } else {
-      message.version = Long.UZERO
-    }
+    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
+    message.domains = (object.domains ?? []).map((e: any) => String(e))
+    message.developer =
+      object.developer !== undefined && object.developer !== null ? String(object.developer) : ''
+    message.homeUrl =
+      object.homeUrl !== undefined && object.homeUrl !== null ? String(object.homeUrl) : ''
+    message.iconUrl =
+      object.iconUrl !== undefined && object.iconUrl !== null ? String(object.iconUrl) : ''
+    message.version =
+      object.version !== undefined && object.version !== null
+        ? Long.fromString(object.version)
+        : Long.UZERO
     return message
   },
 
@@ -831,23 +736,17 @@ export const PublicAppInfo = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<PublicAppInfo>): PublicAppInfo {
+  fromPartial<I extends Exact<DeepPartial<PublicAppInfo>, I>>(object: I): PublicAppInfo {
     const message = { ...basePublicAppInfo } as PublicAppInfo
     message.name = object.name ?? ''
-    message.domains = []
-    if (object.domains !== undefined && object.domains !== null) {
-      for (const e of object.domains) {
-        message.domains.push(e)
-      }
-    }
+    message.domains = object.domains?.map(e => e) || []
     message.developer = object.developer ?? ''
     message.homeUrl = object.homeUrl ?? ''
     message.iconUrl = object.iconUrl ?? ''
-    if (object.version !== undefined && object.version !== null) {
-      message.version = object.version as Long
-    } else {
-      message.version = Long.UZERO
-    }
+    message.version =
+      object.version !== undefined && object.version !== null
+        ? Long.fromValue(object.version)
+        : Long.UZERO
     return message
   }
 }
@@ -892,16 +791,12 @@ export const RestUpdateAppInfoRequest = {
     const message = {
       ...baseRestUpdateAppInfoRequest
     } as RestUpdateAppInfoRequest
-    if (object.misesAppid !== undefined && object.misesAppid !== null) {
-      message.misesAppid = String(object.misesAppid)
-    } else {
-      message.misesAppid = ''
-    }
-    if (object.pubInfo !== undefined && object.pubInfo !== null) {
-      message.pubInfo = PublicAppInfo.fromJSON(object.pubInfo)
-    } else {
-      message.pubInfo = undefined
-    }
+    message.misesAppid =
+      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
+    message.pubInfo =
+      object.pubInfo !== undefined && object.pubInfo !== null
+        ? PublicAppInfo.fromJSON(object.pubInfo)
+        : undefined
     return message
   },
 
@@ -913,16 +808,17 @@ export const RestUpdateAppInfoRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestUpdateAppInfoRequest>): RestUpdateAppInfoRequest {
+  fromPartial<I extends Exact<DeepPartial<RestUpdateAppInfoRequest>, I>>(
+    object: I
+  ): RestUpdateAppInfoRequest {
     const message = {
       ...baseRestUpdateAppInfoRequest
     } as RestUpdateAppInfoRequest
     message.misesAppid = object.misesAppid ?? ''
-    if (object.pubInfo !== undefined && object.pubInfo !== null) {
-      message.pubInfo = PublicAppInfo.fromPartial(object.pubInfo)
-    } else {
-      message.pubInfo = undefined
-    }
+    message.pubInfo =
+      object.pubInfo !== undefined && object.pubInfo !== null
+        ? PublicAppInfo.fromPartial(object.pubInfo)
+        : undefined
     return message
   }
 }
@@ -969,21 +865,18 @@ export const AppFeeGrant = {
 
   fromJSON(object: any): AppFeeGrant {
     const message = { ...baseAppFeeGrant } as AppFeeGrant
-    if (object.spendLimit !== undefined && object.spendLimit !== null) {
-      message.spendLimit = Coin.fromJSON(object.spendLimit)
-    } else {
-      message.spendLimit = undefined
-    }
-    if (object.period !== undefined && object.period !== null) {
-      message.period = Duration.fromJSON(object.period)
-    } else {
-      message.period = undefined
-    }
-    if (object.expiration !== undefined && object.expiration !== null) {
-      message.expiration = fromJsonTimestamp(object.expiration)
-    } else {
-      message.expiration = undefined
-    }
+    message.spendLimit =
+      object.spendLimit !== undefined && object.spendLimit !== null
+        ? Coin.fromJSON(object.spendLimit)
+        : undefined
+    message.period =
+      object.period !== undefined && object.period !== null
+        ? Duration.fromJSON(object.period)
+        : undefined
+    message.expiration =
+      object.expiration !== undefined && object.expiration !== null
+        ? fromJsonTimestamp(object.expiration)
+        : undefined
     return message
   },
 
@@ -997,18 +890,16 @@ export const AppFeeGrant = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<AppFeeGrant>): AppFeeGrant {
+  fromPartial<I extends Exact<DeepPartial<AppFeeGrant>, I>>(object: I): AppFeeGrant {
     const message = { ...baseAppFeeGrant } as AppFeeGrant
-    if (object.spendLimit !== undefined && object.spendLimit !== null) {
-      message.spendLimit = Coin.fromPartial(object.spendLimit)
-    } else {
-      message.spendLimit = undefined
-    }
-    if (object.period !== undefined && object.period !== null) {
-      message.period = Duration.fromPartial(object.period)
-    } else {
-      message.period = undefined
-    }
+    message.spendLimit =
+      object.spendLimit !== undefined && object.spendLimit !== null
+        ? Coin.fromPartial(object.spendLimit)
+        : undefined
+    message.period =
+      object.period !== undefined && object.period !== null
+        ? Duration.fromPartial(object.period)
+        : undefined
     message.expiration = object.expiration ?? undefined
     return message
   }
@@ -1073,26 +964,16 @@ export const RestUpdateAppFeeGrantRequest = {
     const message = {
       ...baseRestUpdateAppFeeGrantRequest
     } as RestUpdateAppFeeGrantRequest
-    if (object.misesAppid !== undefined && object.misesAppid !== null) {
-      message.misesAppid = String(object.misesAppid)
-    } else {
-      message.misesAppid = ''
-    }
-    if (object.misesUid !== undefined && object.misesUid !== null) {
-      message.misesUid = String(object.misesUid)
-    } else {
-      message.misesUid = ''
-    }
-    if (object.grant !== undefined && object.grant !== null) {
-      message.grant = AppFeeGrant.fromJSON(object.grant)
-    } else {
-      message.grant = undefined
-    }
-    if (object.revoke !== undefined && object.revoke !== null) {
-      message.revoke = Boolean(object.revoke)
-    } else {
-      message.revoke = false
-    }
+    message.misesAppid =
+      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
+    message.misesUid =
+      object.misesUid !== undefined && object.misesUid !== null ? String(object.misesUid) : ''
+    message.grant =
+      object.grant !== undefined && object.grant !== null
+        ? AppFeeGrant.fromJSON(object.grant)
+        : undefined
+    message.revoke =
+      object.revoke !== undefined && object.revoke !== null ? Boolean(object.revoke) : false
     return message
   },
 
@@ -1106,17 +987,18 @@ export const RestUpdateAppFeeGrantRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestUpdateAppFeeGrantRequest>): RestUpdateAppFeeGrantRequest {
+  fromPartial<I extends Exact<DeepPartial<RestUpdateAppFeeGrantRequest>, I>>(
+    object: I
+  ): RestUpdateAppFeeGrantRequest {
     const message = {
       ...baseRestUpdateAppFeeGrantRequest
     } as RestUpdateAppFeeGrantRequest
     message.misesAppid = object.misesAppid ?? ''
     message.misesUid = object.misesUid ?? ''
-    if (object.grant !== undefined && object.grant !== null) {
-      message.grant = AppFeeGrant.fromPartial(object.grant)
-    } else {
-      message.grant = undefined
-    }
+    message.grant =
+      object.grant !== undefined && object.grant !== null
+        ? AppFeeGrant.fromPartial(object.grant)
+        : undefined
     message.revoke = object.revoke ?? false
     return message
   }
@@ -1190,9 +1072,12 @@ interface Rpc {
   request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
+
 export type DeepPartial<T> = T extends Builtin
   ? T
+  : T extends Long
+  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -1200,6 +1085,11 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
+
+type KeysOfUnion<T> = T extends T ? keyof T : never
+export type Exact<P, I extends P> = P extends Builtin
+  ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 function toTimestamp(date: Date): Timestamp {
   const seconds = numberToLong(date.getTime() / 1_000)

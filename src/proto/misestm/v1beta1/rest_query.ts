@@ -91,11 +91,8 @@ export const RestQueryDidRequest = {
 
   fromJSON(object: any): RestQueryDidRequest {
     const message = { ...baseRestQueryDidRequest } as RestQueryDidRequest
-    if (object.misesId !== undefined && object.misesId !== null) {
-      message.misesId = String(object.misesId)
-    } else {
-      message.misesId = ''
-    }
+    message.misesId =
+      object.misesId !== undefined && object.misesId !== null ? String(object.misesId) : ''
     return message
   },
 
@@ -105,7 +102,9 @@ export const RestQueryDidRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryDidRequest>): RestQueryDidRequest {
+  fromPartial<I extends Exact<DeepPartial<RestQueryDidRequest>, I>>(
+    object: I
+  ): RestQueryDidRequest {
     const message = { ...baseRestQueryDidRequest } as RestQueryDidRequest
     message.misesId = object.misesId ?? ''
     return message
@@ -142,11 +141,10 @@ export const RestQueryDidResponse = {
 
   fromJSON(object: any): RestQueryDidResponse {
     const message = { ...baseRestQueryDidResponse } as RestQueryDidResponse
-    if (object.didRegistry !== undefined && object.didRegistry !== null) {
-      message.didRegistry = DidRegistry.fromJSON(object.didRegistry)
-    } else {
-      message.didRegistry = undefined
-    }
+    message.didRegistry =
+      object.didRegistry !== undefined && object.didRegistry !== null
+        ? DidRegistry.fromJSON(object.didRegistry)
+        : undefined
     return message
   },
 
@@ -157,13 +155,14 @@ export const RestQueryDidResponse = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryDidResponse>): RestQueryDidResponse {
+  fromPartial<I extends Exact<DeepPartial<RestQueryDidResponse>, I>>(
+    object: I
+  ): RestQueryDidResponse {
     const message = { ...baseRestQueryDidResponse } as RestQueryDidResponse
-    if (object.didRegistry !== undefined && object.didRegistry !== null) {
-      message.didRegistry = DidRegistry.fromPartial(object.didRegistry)
-    } else {
-      message.didRegistry = undefined
-    }
+    message.didRegistry =
+      object.didRegistry !== undefined && object.didRegistry !== null
+        ? DidRegistry.fromPartial(object.didRegistry)
+        : undefined
     return message
   }
 }
@@ -198,11 +197,8 @@ export const RestQueryUserRequest = {
 
   fromJSON(object: any): RestQueryUserRequest {
     const message = { ...baseRestQueryUserRequest } as RestQueryUserRequest
-    if (object.misesUid !== undefined && object.misesUid !== null) {
-      message.misesUid = String(object.misesUid)
-    } else {
-      message.misesUid = ''
-    }
+    message.misesUid =
+      object.misesUid !== undefined && object.misesUid !== null ? String(object.misesUid) : ''
     return message
   },
 
@@ -212,7 +208,9 @@ export const RestQueryUserRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryUserRequest>): RestQueryUserRequest {
+  fromPartial<I extends Exact<DeepPartial<RestQueryUserRequest>, I>>(
+    object: I
+  ): RestQueryUserRequest {
     const message = { ...baseRestQueryUserRequest } as RestQueryUserRequest
     message.misesUid = object.misesUid ?? ''
     return message
@@ -255,16 +253,14 @@ export const RestQueryUserResponse = {
 
   fromJSON(object: any): RestQueryUserResponse {
     const message = { ...baseRestQueryUserResponse } as RestQueryUserResponse
-    if (object.pubInfo !== undefined && object.pubInfo !== null) {
-      message.pubInfo = PublicUserInfo.fromJSON(object.pubInfo)
-    } else {
-      message.pubInfo = undefined
-    }
-    if (object.priInfo !== undefined && object.priInfo !== null) {
-      message.priInfo = PrivateUserInfo.fromJSON(object.priInfo)
-    } else {
-      message.priInfo = undefined
-    }
+    message.pubInfo =
+      object.pubInfo !== undefined && object.pubInfo !== null
+        ? PublicUserInfo.fromJSON(object.pubInfo)
+        : undefined
+    message.priInfo =
+      object.priInfo !== undefined && object.priInfo !== null
+        ? PrivateUserInfo.fromJSON(object.priInfo)
+        : undefined
     return message
   },
 
@@ -277,18 +273,18 @@ export const RestQueryUserResponse = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryUserResponse>): RestQueryUserResponse {
+  fromPartial<I extends Exact<DeepPartial<RestQueryUserResponse>, I>>(
+    object: I
+  ): RestQueryUserResponse {
     const message = { ...baseRestQueryUserResponse } as RestQueryUserResponse
-    if (object.pubInfo !== undefined && object.pubInfo !== null) {
-      message.pubInfo = PublicUserInfo.fromPartial(object.pubInfo)
-    } else {
-      message.pubInfo = undefined
-    }
-    if (object.priInfo !== undefined && object.priInfo !== null) {
-      message.priInfo = PrivateUserInfo.fromPartial(object.priInfo)
-    } else {
-      message.priInfo = undefined
-    }
+    message.pubInfo =
+      object.pubInfo !== undefined && object.pubInfo !== null
+        ? PublicUserInfo.fromPartial(object.pubInfo)
+        : undefined
+    message.priInfo =
+      object.priInfo !== undefined && object.priInfo !== null
+        ? PrivateUserInfo.fromPartial(object.priInfo)
+        : undefined
     return message
   }
 }
@@ -342,21 +338,14 @@ export const RestQueryUserRelationRequest = {
     const message = {
       ...baseRestQueryUserRelationRequest
     } as RestQueryUserRelationRequest
-    if (object.misesUid !== undefined && object.misesUid !== null) {
-      message.misesUid = String(object.misesUid)
-    } else {
-      message.misesUid = ''
-    }
-    if (object.filter !== undefined && object.filter !== null) {
-      message.filter = String(object.filter)
-    } else {
-      message.filter = ''
-    }
-    if (object.pagination !== undefined && object.pagination !== null) {
-      message.pagination = PageRequest.fromJSON(object.pagination)
-    } else {
-      message.pagination = undefined
-    }
+    message.misesUid =
+      object.misesUid !== undefined && object.misesUid !== null ? String(object.misesUid) : ''
+    message.filter =
+      object.filter !== undefined && object.filter !== null ? String(object.filter) : ''
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromJSON(object.pagination)
+        : undefined
     return message
   },
 
@@ -369,17 +358,18 @@ export const RestQueryUserRelationRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryUserRelationRequest>): RestQueryUserRelationRequest {
+  fromPartial<I extends Exact<DeepPartial<RestQueryUserRelationRequest>, I>>(
+    object: I
+  ): RestQueryUserRelationRequest {
     const message = {
       ...baseRestQueryUserRelationRequest
     } as RestQueryUserRelationRequest
     message.misesUid = object.misesUid ?? ''
     message.filter = object.filter ?? ''
-    if (object.pagination !== undefined && object.pagination !== null) {
-      message.pagination = PageRequest.fromPartial(object.pagination)
-    } else {
-      message.pagination = undefined
-    }
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined
     return message
   }
 }
@@ -414,11 +404,8 @@ export const MisesID = {
 
   fromJSON(object: any): MisesID {
     const message = { ...baseMisesID } as MisesID
-    if (object.misesId !== undefined && object.misesId !== null) {
-      message.misesId = String(object.misesId)
-    } else {
-      message.misesId = ''
-    }
+    message.misesId =
+      object.misesId !== undefined && object.misesId !== null ? String(object.misesId) : ''
     return message
   },
 
@@ -428,7 +415,7 @@ export const MisesID = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<MisesID>): MisesID {
+  fromPartial<I extends Exact<DeepPartial<MisesID>, I>>(object: I): MisesID {
     const message = { ...baseMisesID } as MisesID
     message.misesId = object.misesId ?? ''
     return message
@@ -479,17 +466,11 @@ export const RestQueryUserRelationResponse = {
     const message = {
       ...baseRestQueryUserRelationResponse
     } as RestQueryUserRelationResponse
-    message.misesList = []
-    if (object.misesList !== undefined && object.misesList !== null) {
-      for (const e of object.misesList) {
-        message.misesList.push(MisesID.fromJSON(e))
-      }
-    }
-    if (object.pagination !== undefined && object.pagination !== null) {
-      message.pagination = PageResponse.fromJSON(object.pagination)
-    } else {
-      message.pagination = undefined
-    }
+    message.misesList = (object.misesList ?? []).map((e: any) => MisesID.fromJSON(e))
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromJSON(object.pagination)
+        : undefined
     return message
   },
 
@@ -505,21 +486,17 @@ export const RestQueryUserRelationResponse = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryUserRelationResponse>): RestQueryUserRelationResponse {
+  fromPartial<I extends Exact<DeepPartial<RestQueryUserRelationResponse>, I>>(
+    object: I
+  ): RestQueryUserRelationResponse {
     const message = {
       ...baseRestQueryUserRelationResponse
     } as RestQueryUserRelationResponse
-    message.misesList = []
-    if (object.misesList !== undefined && object.misesList !== null) {
-      for (const e of object.misesList) {
-        message.misesList.push(MisesID.fromPartial(e))
-      }
-    }
-    if (object.pagination !== undefined && object.pagination !== null) {
-      message.pagination = PageResponse.fromPartial(object.pagination)
-    } else {
-      message.pagination = undefined
-    }
+    message.misesList = object.misesList?.map(e => MisesID.fromPartial(e)) || []
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined
     return message
   }
 }
@@ -554,11 +531,8 @@ export const RestQueryAppRequest = {
 
   fromJSON(object: any): RestQueryAppRequest {
     const message = { ...baseRestQueryAppRequest } as RestQueryAppRequest
-    if (object.misesAppid !== undefined && object.misesAppid !== null) {
-      message.misesAppid = String(object.misesAppid)
-    } else {
-      message.misesAppid = ''
-    }
+    message.misesAppid =
+      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
     return message
   },
 
@@ -568,7 +542,9 @@ export const RestQueryAppRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryAppRequest>): RestQueryAppRequest {
+  fromPartial<I extends Exact<DeepPartial<RestQueryAppRequest>, I>>(
+    object: I
+  ): RestQueryAppRequest {
     const message = { ...baseRestQueryAppRequest } as RestQueryAppRequest
     message.misesAppid = object.misesAppid ?? ''
     return message
@@ -605,11 +581,10 @@ export const RestQueryAppResponse = {
 
   fromJSON(object: any): RestQueryAppResponse {
     const message = { ...baseRestQueryAppResponse } as RestQueryAppResponse
-    if (object.pubInfo !== undefined && object.pubInfo !== null) {
-      message.pubInfo = PublicAppInfo.fromJSON(object.pubInfo)
-    } else {
-      message.pubInfo = undefined
-    }
+    message.pubInfo =
+      object.pubInfo !== undefined && object.pubInfo !== null
+        ? PublicAppInfo.fromJSON(object.pubInfo)
+        : undefined
     return message
   },
 
@@ -620,13 +595,14 @@ export const RestQueryAppResponse = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryAppResponse>): RestQueryAppResponse {
+  fromPartial<I extends Exact<DeepPartial<RestQueryAppResponse>, I>>(
+    object: I
+  ): RestQueryAppResponse {
     const message = { ...baseRestQueryAppResponse } as RestQueryAppResponse
-    if (object.pubInfo !== undefined && object.pubInfo !== null) {
-      message.pubInfo = PublicAppInfo.fromPartial(object.pubInfo)
-    } else {
-      message.pubInfo = undefined
-    }
+    message.pubInfo =
+      object.pubInfo !== undefined && object.pubInfo !== null
+        ? PublicAppInfo.fromPartial(object.pubInfo)
+        : undefined
     return message
   }
 }
@@ -674,16 +650,10 @@ export const RestQueryAppFeeGrantRequest = {
     const message = {
       ...baseRestQueryAppFeeGrantRequest
     } as RestQueryAppFeeGrantRequest
-    if (object.misesAppid !== undefined && object.misesAppid !== null) {
-      message.misesAppid = String(object.misesAppid)
-    } else {
-      message.misesAppid = ''
-    }
-    if (object.misesUid !== undefined && object.misesUid !== null) {
-      message.misesUid = String(object.misesUid)
-    } else {
-      message.misesUid = ''
-    }
+    message.misesAppid =
+      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
+    message.misesUid =
+      object.misesUid !== undefined && object.misesUid !== null ? String(object.misesUid) : ''
     return message
   },
 
@@ -694,7 +664,9 @@ export const RestQueryAppFeeGrantRequest = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryAppFeeGrantRequest>): RestQueryAppFeeGrantRequest {
+  fromPartial<I extends Exact<DeepPartial<RestQueryAppFeeGrantRequest>, I>>(
+    object: I
+  ): RestQueryAppFeeGrantRequest {
     const message = {
       ...baseRestQueryAppFeeGrantRequest
     } as RestQueryAppFeeGrantRequest
@@ -741,11 +713,10 @@ export const RestQueryAppFeeGrantResponse = {
     const message = {
       ...baseRestQueryAppFeeGrantResponse
     } as RestQueryAppFeeGrantResponse
-    if (object.grant !== undefined && object.grant !== null) {
-      message.grant = AppFeeGrant.fromJSON(object.grant)
-    } else {
-      message.grant = undefined
-    }
+    message.grant =
+      object.grant !== undefined && object.grant !== null
+        ? AppFeeGrant.fromJSON(object.grant)
+        : undefined
     return message
   },
 
@@ -756,15 +727,16 @@ export const RestQueryAppFeeGrantResponse = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<RestQueryAppFeeGrantResponse>): RestQueryAppFeeGrantResponse {
+  fromPartial<I extends Exact<DeepPartial<RestQueryAppFeeGrantResponse>, I>>(
+    object: I
+  ): RestQueryAppFeeGrantResponse {
     const message = {
       ...baseRestQueryAppFeeGrantResponse
     } as RestQueryAppFeeGrantResponse
-    if (object.grant !== undefined && object.grant !== null) {
-      message.grant = AppFeeGrant.fromPartial(object.grant)
-    } else {
-      message.grant = undefined
-    }
+    message.grant =
+      object.grant !== undefined && object.grant !== null
+        ? AppFeeGrant.fromPartial(object.grant)
+        : undefined
     return message
   }
 }
@@ -828,9 +800,12 @@ interface Rpc {
   request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
+
 export type DeepPartial<T> = T extends Builtin
   ? T
+  : T extends Long
+  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -838,6 +813,11 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
+
+type KeysOfUnion<T> = T extends T ? keyof T : never
+export type Exact<P, I extends P> = P extends Builtin
+  ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any

@@ -373,7 +373,7 @@ export default class MSdk {
   public static async newSdk(): Promise<MSdk> {
     return new MSdk()
   }
-  private _lcdEndpoint: string = 'http://127.0.0.1:26657'
+  private _lcdEndpoint: string = 'tcp://127.0.0.1:26657'
   private _userMgr: MUserMgr = new MUserMgr()
   private _appMgr: MAppMgr = new MAppMgr()
 

@@ -96,46 +96,29 @@ export const UserRelation = {
 
   fromJSON(object: any): UserRelation {
     const message = { ...baseUserRelation } as UserRelation
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator)
-    } else {
-      message.creator = ''
-    }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
-    if (object.uidFrom !== undefined && object.uidFrom !== null) {
-      message.uidFrom = String(object.uidFrom)
-    } else {
-      message.uidFrom = ''
-    }
-    if (object.uidTo !== undefined && object.uidTo !== null) {
-      message.uidTo = String(object.uidTo)
-    } else {
-      message.uidTo = ''
-    }
-    if (object.isFollowing !== undefined && object.isFollowing !== null) {
-      message.isFollowing = Boolean(object.isFollowing)
-    } else {
-      message.isFollowing = false
-    }
-    if (object.isBlocking !== undefined && object.isBlocking !== null) {
-      message.isBlocking = Boolean(object.isBlocking)
-    } else {
-      message.isBlocking = false
-    }
-    if (object.isReferredBy !== undefined && object.isReferredBy !== null) {
-      message.isReferredBy = Boolean(object.isReferredBy)
-    } else {
-      message.isReferredBy = false
-    }
-    if (object.version !== undefined && object.version !== null) {
-      message.version = Long.fromString(object.version)
-    } else {
-      message.version = Long.UZERO
-    }
+    message.creator =
+      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
+    message.id =
+      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    message.uidFrom =
+      object.uidFrom !== undefined && object.uidFrom !== null ? String(object.uidFrom) : ''
+    message.uidTo = object.uidTo !== undefined && object.uidTo !== null ? String(object.uidTo) : ''
+    message.isFollowing =
+      object.isFollowing !== undefined && object.isFollowing !== null
+        ? Boolean(object.isFollowing)
+        : false
+    message.isBlocking =
+      object.isBlocking !== undefined && object.isBlocking !== null
+        ? Boolean(object.isBlocking)
+        : false
+    message.isReferredBy =
+      object.isReferredBy !== undefined && object.isReferredBy !== null
+        ? Boolean(object.isReferredBy)
+        : false
+    message.version =
+      object.version !== undefined && object.version !== null
+        ? Long.fromString(object.version)
+        : Long.UZERO
     return message
   },
 
@@ -152,31 +135,30 @@ export const UserRelation = {
     return obj
   },
 
-  fromPartial(object: DeepPartial<UserRelation>): UserRelation {
+  fromPartial<I extends Exact<DeepPartial<UserRelation>, I>>(object: I): UserRelation {
     const message = { ...baseUserRelation } as UserRelation
     message.creator = object.creator ?? ''
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
+    message.id =
+      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
     message.uidFrom = object.uidFrom ?? ''
     message.uidTo = object.uidTo ?? ''
     message.isFollowing = object.isFollowing ?? false
     message.isBlocking = object.isBlocking ?? false
     message.isReferredBy = object.isReferredBy ?? false
-    if (object.version !== undefined && object.version !== null) {
-      message.version = object.version as Long
-    } else {
-      message.version = Long.UZERO
-    }
+    message.version =
+      object.version !== undefined && object.version !== null
+        ? Long.fromValue(object.version)
+        : Long.UZERO
     return message
   }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
+
 export type DeepPartial<T> = T extends Builtin
   ? T
+  : T extends Long
+  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -184,6 +166,11 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
+
+type KeysOfUnion<T> = T extends T ? keyof T : never
+export type Exact<P, I extends P> = P extends Builtin
+  ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any
