@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 
 export const protobufPackage = 'google.protobuf'
 
@@ -85,7 +85,7 @@ export interface Duration {
 const baseDuration: object = { seconds: Long.ZERO, nanos: 0 }
 
 export const Duration = {
-  encode(message: Duration, writer: Writer = Writer.create()): Writer {
+  encode(message: Duration, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.seconds.isZero()) {
       writer.uint32(8).int64(message.seconds)
     }
@@ -95,8 +95,8 @@ export const Duration = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Duration {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): Duration {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseDuration } as Duration
     while (reader.pos < end) {
@@ -118,38 +118,41 @@ export const Duration = {
 
   fromJSON(object: any): Duration {
     const message = { ...baseDuration } as Duration
-    message.seconds =
-      object.seconds !== undefined && object.seconds !== null
-        ? Long.fromString(object.seconds)
-        : Long.ZERO
-    message.nanos = object.nanos !== undefined && object.nanos !== null ? Number(object.nanos) : 0
+    if (object.seconds !== undefined && object.seconds !== null) {
+      message.seconds = Long.fromString(object.seconds)
+    } else {
+      message.seconds = Long.ZERO
+    }
+    if (object.nanos !== undefined && object.nanos !== null) {
+      message.nanos = Number(object.nanos)
+    } else {
+      message.nanos = 0
+    }
     return message
   },
 
   toJSON(message: Duration): unknown {
     const obj: any = {}
     message.seconds !== undefined && (obj.seconds = (message.seconds || Long.ZERO).toString())
-    message.nanos !== undefined && (obj.nanos = Math.round(message.nanos))
+    message.nanos !== undefined && (obj.nanos = message.nanos)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Duration>, I>>(object: I): Duration {
+  fromPartial(object: DeepPartial<Duration>): Duration {
     const message = { ...baseDuration } as Duration
-    message.seconds =
-      object.seconds !== undefined && object.seconds !== null
-        ? Long.fromValue(object.seconds)
-        : Long.ZERO
+    if (object.seconds !== undefined && object.seconds !== null) {
+      message.seconds = object.seconds as Long
+    } else {
+      message.seconds = Long.ZERO
+    }
     message.nanos = object.nanos ?? 0
     return message
   }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -158,14 +161,7 @@ export type DeepPartial<T> = T extends Builtin
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
 
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
-
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }

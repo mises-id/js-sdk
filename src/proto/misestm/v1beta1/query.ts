@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 import { UserInfo } from '../../misestm/v1beta1/UserInfo'
 import { PageRequest, PageResponse } from '../../cosmos/base/query/v1beta1/pagination'
 import { UserRelation } from '../../misestm/v1beta1/UserRelation'
@@ -81,15 +81,15 @@ export interface QueryAllDidRegistryResponse {
 const baseQueryGetUserInfoRequest: object = { id: Long.UZERO }
 
 export const QueryGetUserInfoRequest = {
-  encode(message: QueryGetUserInfoRequest, writer: Writer = Writer.create()): Writer {
+  encode(message: QueryGetUserInfoRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.id.isZero()) {
       writer.uint32(8).uint64(message.id)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetUserInfoRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetUserInfoRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryGetUserInfoRequest
@@ -112,8 +112,11 @@ export const QueryGetUserInfoRequest = {
     const message = {
       ...baseQueryGetUserInfoRequest
     } as QueryGetUserInfoRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -123,14 +126,15 @@ export const QueryGetUserInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetUserInfoRequest>, I>>(
-    object: I
-  ): QueryGetUserInfoRequest {
+  fromPartial(object: DeepPartial<QueryGetUserInfoRequest>): QueryGetUserInfoRequest {
     const message = {
       ...baseQueryGetUserInfoRequest
     } as QueryGetUserInfoRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -138,15 +142,15 @@ export const QueryGetUserInfoRequest = {
 const baseQueryGetUserInfoResponse: object = {}
 
 export const QueryGetUserInfoResponse = {
-  encode(message: QueryGetUserInfoResponse, writer: Writer = Writer.create()): Writer {
+  encode(message: QueryGetUserInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.UserInfo !== undefined) {
       UserInfo.encode(message.UserInfo, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetUserInfoResponse {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetUserInfoResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryGetUserInfoResponse
@@ -169,10 +173,11 @@ export const QueryGetUserInfoResponse = {
     const message = {
       ...baseQueryGetUserInfoResponse
     } as QueryGetUserInfoResponse
-    message.UserInfo =
-      object.UserInfo !== undefined && object.UserInfo !== null
-        ? UserInfo.fromJSON(object.UserInfo)
-        : undefined
+    if (object.UserInfo !== undefined && object.UserInfo !== null) {
+      message.UserInfo = UserInfo.fromJSON(object.UserInfo)
+    } else {
+      message.UserInfo = undefined
+    }
     return message
   },
 
@@ -183,16 +188,15 @@ export const QueryGetUserInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetUserInfoResponse>, I>>(
-    object: I
-  ): QueryGetUserInfoResponse {
+  fromPartial(object: DeepPartial<QueryGetUserInfoResponse>): QueryGetUserInfoResponse {
     const message = {
       ...baseQueryGetUserInfoResponse
     } as QueryGetUserInfoResponse
-    message.UserInfo =
-      object.UserInfo !== undefined && object.UserInfo !== null
-        ? UserInfo.fromPartial(object.UserInfo)
-        : undefined
+    if (object.UserInfo !== undefined && object.UserInfo !== null) {
+      message.UserInfo = UserInfo.fromPartial(object.UserInfo)
+    } else {
+      message.UserInfo = undefined
+    }
     return message
   }
 }
@@ -200,15 +204,15 @@ export const QueryGetUserInfoResponse = {
 const baseQueryAllUserInfoRequest: object = {}
 
 export const QueryAllUserInfoRequest = {
-  encode(message: QueryAllUserInfoRequest, writer: Writer = Writer.create()): Writer {
+  encode(message: QueryAllUserInfoRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllUserInfoRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllUserInfoRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryAllUserInfoRequest
@@ -231,10 +235,11 @@ export const QueryAllUserInfoRequest = {
     const message = {
       ...baseQueryAllUserInfoRequest
     } as QueryAllUserInfoRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromJSON(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -245,16 +250,15 @@ export const QueryAllUserInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllUserInfoRequest>, I>>(
-    object: I
-  ): QueryAllUserInfoRequest {
+  fromPartial(object: DeepPartial<QueryAllUserInfoRequest>): QueryAllUserInfoRequest {
     const message = {
       ...baseQueryAllUserInfoRequest
     } as QueryAllUserInfoRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -262,7 +266,7 @@ export const QueryAllUserInfoRequest = {
 const baseQueryAllUserInfoResponse: object = {}
 
 export const QueryAllUserInfoResponse = {
-  encode(message: QueryAllUserInfoResponse, writer: Writer = Writer.create()): Writer {
+  encode(message: QueryAllUserInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.UserInfo) {
       UserInfo.encode(v!, writer.uint32(10).fork()).ldelim()
     }
@@ -272,8 +276,8 @@ export const QueryAllUserInfoResponse = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllUserInfoResponse {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllUserInfoResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryAllUserInfoResponse
@@ -300,11 +304,17 @@ export const QueryAllUserInfoResponse = {
     const message = {
       ...baseQueryAllUserInfoResponse
     } as QueryAllUserInfoResponse
-    message.UserInfo = (object.UserInfo ?? []).map((e: any) => UserInfo.fromJSON(e))
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromJSON(object.pagination)
-        : undefined
+    message.UserInfo = []
+    if (object.UserInfo !== undefined && object.UserInfo !== null) {
+      for (const e of object.UserInfo) {
+        message.UserInfo.push(UserInfo.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -320,17 +330,21 @@ export const QueryAllUserInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllUserInfoResponse>, I>>(
-    object: I
-  ): QueryAllUserInfoResponse {
+  fromPartial(object: DeepPartial<QueryAllUserInfoResponse>): QueryAllUserInfoResponse {
     const message = {
       ...baseQueryAllUserInfoResponse
     } as QueryAllUserInfoResponse
-    message.UserInfo = object.UserInfo?.map(e => UserInfo.fromPartial(e)) || []
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined
+    message.UserInfo = []
+    if (object.UserInfo !== undefined && object.UserInfo !== null) {
+      for (const e of object.UserInfo) {
+        message.UserInfo.push(UserInfo.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -338,15 +352,18 @@ export const QueryAllUserInfoResponse = {
 const baseQueryGetUserRelationRequest: object = { id: Long.UZERO }
 
 export const QueryGetUserRelationRequest = {
-  encode(message: QueryGetUserRelationRequest, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryGetUserRelationRequest,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (!message.id.isZero()) {
       writer.uint32(8).uint64(message.id)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetUserRelationRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetUserRelationRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryGetUserRelationRequest
@@ -369,8 +386,11 @@ export const QueryGetUserRelationRequest = {
     const message = {
       ...baseQueryGetUserRelationRequest
     } as QueryGetUserRelationRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -380,14 +400,15 @@ export const QueryGetUserRelationRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetUserRelationRequest>, I>>(
-    object: I
-  ): QueryGetUserRelationRequest {
+  fromPartial(object: DeepPartial<QueryGetUserRelationRequest>): QueryGetUserRelationRequest {
     const message = {
       ...baseQueryGetUserRelationRequest
     } as QueryGetUserRelationRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -395,15 +416,18 @@ export const QueryGetUserRelationRequest = {
 const baseQueryGetUserRelationResponse: object = {}
 
 export const QueryGetUserRelationResponse = {
-  encode(message: QueryGetUserRelationResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryGetUserRelationResponse,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.UserRelation !== undefined) {
       UserRelation.encode(message.UserRelation, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetUserRelationResponse {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetUserRelationResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryGetUserRelationResponse
@@ -426,10 +450,11 @@ export const QueryGetUserRelationResponse = {
     const message = {
       ...baseQueryGetUserRelationResponse
     } as QueryGetUserRelationResponse
-    message.UserRelation =
-      object.UserRelation !== undefined && object.UserRelation !== null
-        ? UserRelation.fromJSON(object.UserRelation)
-        : undefined
+    if (object.UserRelation !== undefined && object.UserRelation !== null) {
+      message.UserRelation = UserRelation.fromJSON(object.UserRelation)
+    } else {
+      message.UserRelation = undefined
+    }
     return message
   },
 
@@ -442,16 +467,15 @@ export const QueryGetUserRelationResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetUserRelationResponse>, I>>(
-    object: I
-  ): QueryGetUserRelationResponse {
+  fromPartial(object: DeepPartial<QueryGetUserRelationResponse>): QueryGetUserRelationResponse {
     const message = {
       ...baseQueryGetUserRelationResponse
     } as QueryGetUserRelationResponse
-    message.UserRelation =
-      object.UserRelation !== undefined && object.UserRelation !== null
-        ? UserRelation.fromPartial(object.UserRelation)
-        : undefined
+    if (object.UserRelation !== undefined && object.UserRelation !== null) {
+      message.UserRelation = UserRelation.fromPartial(object.UserRelation)
+    } else {
+      message.UserRelation = undefined
+    }
     return message
   }
 }
@@ -459,15 +483,18 @@ export const QueryGetUserRelationResponse = {
 const baseQueryAllUserRelationRequest: object = {}
 
 export const QueryAllUserRelationRequest = {
-  encode(message: QueryAllUserRelationRequest, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryAllUserRelationRequest,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllUserRelationRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllUserRelationRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryAllUserRelationRequest
@@ -490,10 +517,11 @@ export const QueryAllUserRelationRequest = {
     const message = {
       ...baseQueryAllUserRelationRequest
     } as QueryAllUserRelationRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromJSON(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -504,16 +532,15 @@ export const QueryAllUserRelationRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllUserRelationRequest>, I>>(
-    object: I
-  ): QueryAllUserRelationRequest {
+  fromPartial(object: DeepPartial<QueryAllUserRelationRequest>): QueryAllUserRelationRequest {
     const message = {
       ...baseQueryAllUserRelationRequest
     } as QueryAllUserRelationRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -521,7 +548,10 @@ export const QueryAllUserRelationRequest = {
 const baseQueryAllUserRelationResponse: object = {}
 
 export const QueryAllUserRelationResponse = {
-  encode(message: QueryAllUserRelationResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryAllUserRelationResponse,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     for (const v of message.UserRelation) {
       UserRelation.encode(v!, writer.uint32(10).fork()).ldelim()
     }
@@ -531,8 +561,8 @@ export const QueryAllUserRelationResponse = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllUserRelationResponse {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllUserRelationResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryAllUserRelationResponse
@@ -559,11 +589,17 @@ export const QueryAllUserRelationResponse = {
     const message = {
       ...baseQueryAllUserRelationResponse
     } as QueryAllUserRelationResponse
-    message.UserRelation = (object.UserRelation ?? []).map((e: any) => UserRelation.fromJSON(e))
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromJSON(object.pagination)
-        : undefined
+    message.UserRelation = []
+    if (object.UserRelation !== undefined && object.UserRelation !== null) {
+      for (const e of object.UserRelation) {
+        message.UserRelation.push(UserRelation.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -579,17 +615,21 @@ export const QueryAllUserRelationResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllUserRelationResponse>, I>>(
-    object: I
-  ): QueryAllUserRelationResponse {
+  fromPartial(object: DeepPartial<QueryAllUserRelationResponse>): QueryAllUserRelationResponse {
     const message = {
       ...baseQueryAllUserRelationResponse
     } as QueryAllUserRelationResponse
-    message.UserRelation = object.UserRelation?.map(e => UserRelation.fromPartial(e)) || []
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined
+    message.UserRelation = []
+    if (object.UserRelation !== undefined && object.UserRelation !== null) {
+      for (const e of object.UserRelation) {
+        message.UserRelation.push(UserRelation.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -597,15 +637,15 @@ export const QueryAllUserRelationResponse = {
 const baseQueryGetAppInfoRequest: object = { id: Long.UZERO }
 
 export const QueryGetAppInfoRequest = {
-  encode(message: QueryGetAppInfoRequest, writer: Writer = Writer.create()): Writer {
+  encode(message: QueryGetAppInfoRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.id.isZero()) {
       writer.uint32(8).uint64(message.id)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetAppInfoRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetAppInfoRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseQueryGetAppInfoRequest } as QueryGetAppInfoRequest
     while (reader.pos < end) {
@@ -624,8 +664,11 @@ export const QueryGetAppInfoRequest = {
 
   fromJSON(object: any): QueryGetAppInfoRequest {
     const message = { ...baseQueryGetAppInfoRequest } as QueryGetAppInfoRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -635,12 +678,13 @@ export const QueryGetAppInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetAppInfoRequest>, I>>(
-    object: I
-  ): QueryGetAppInfoRequest {
+  fromPartial(object: DeepPartial<QueryGetAppInfoRequest>): QueryGetAppInfoRequest {
     const message = { ...baseQueryGetAppInfoRequest } as QueryGetAppInfoRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -648,15 +692,15 @@ export const QueryGetAppInfoRequest = {
 const baseQueryGetAppInfoResponse: object = {}
 
 export const QueryGetAppInfoResponse = {
-  encode(message: QueryGetAppInfoResponse, writer: Writer = Writer.create()): Writer {
+  encode(message: QueryGetAppInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.AppInfo !== undefined) {
       AppInfo.encode(message.AppInfo, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetAppInfoResponse {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetAppInfoResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryGetAppInfoResponse
@@ -679,10 +723,11 @@ export const QueryGetAppInfoResponse = {
     const message = {
       ...baseQueryGetAppInfoResponse
     } as QueryGetAppInfoResponse
-    message.AppInfo =
-      object.AppInfo !== undefined && object.AppInfo !== null
-        ? AppInfo.fromJSON(object.AppInfo)
-        : undefined
+    if (object.AppInfo !== undefined && object.AppInfo !== null) {
+      message.AppInfo = AppInfo.fromJSON(object.AppInfo)
+    } else {
+      message.AppInfo = undefined
+    }
     return message
   },
 
@@ -693,16 +738,15 @@ export const QueryGetAppInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetAppInfoResponse>, I>>(
-    object: I
-  ): QueryGetAppInfoResponse {
+  fromPartial(object: DeepPartial<QueryGetAppInfoResponse>): QueryGetAppInfoResponse {
     const message = {
       ...baseQueryGetAppInfoResponse
     } as QueryGetAppInfoResponse
-    message.AppInfo =
-      object.AppInfo !== undefined && object.AppInfo !== null
-        ? AppInfo.fromPartial(object.AppInfo)
-        : undefined
+    if (object.AppInfo !== undefined && object.AppInfo !== null) {
+      message.AppInfo = AppInfo.fromPartial(object.AppInfo)
+    } else {
+      message.AppInfo = undefined
+    }
     return message
   }
 }
@@ -710,15 +754,15 @@ export const QueryGetAppInfoResponse = {
 const baseQueryAllAppInfoRequest: object = {}
 
 export const QueryAllAppInfoRequest = {
-  encode(message: QueryAllAppInfoRequest, writer: Writer = Writer.create()): Writer {
+  encode(message: QueryAllAppInfoRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllAppInfoRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllAppInfoRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseQueryAllAppInfoRequest } as QueryAllAppInfoRequest
     while (reader.pos < end) {
@@ -737,10 +781,11 @@ export const QueryAllAppInfoRequest = {
 
   fromJSON(object: any): QueryAllAppInfoRequest {
     const message = { ...baseQueryAllAppInfoRequest } as QueryAllAppInfoRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromJSON(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -751,14 +796,13 @@ export const QueryAllAppInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllAppInfoRequest>, I>>(
-    object: I
-  ): QueryAllAppInfoRequest {
+  fromPartial(object: DeepPartial<QueryAllAppInfoRequest>): QueryAllAppInfoRequest {
     const message = { ...baseQueryAllAppInfoRequest } as QueryAllAppInfoRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -766,7 +810,7 @@ export const QueryAllAppInfoRequest = {
 const baseQueryAllAppInfoResponse: object = {}
 
 export const QueryAllAppInfoResponse = {
-  encode(message: QueryAllAppInfoResponse, writer: Writer = Writer.create()): Writer {
+  encode(message: QueryAllAppInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.AppInfo) {
       AppInfo.encode(v!, writer.uint32(10).fork()).ldelim()
     }
@@ -776,8 +820,8 @@ export const QueryAllAppInfoResponse = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllAppInfoResponse {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllAppInfoResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryAllAppInfoResponse
@@ -804,11 +848,17 @@ export const QueryAllAppInfoResponse = {
     const message = {
       ...baseQueryAllAppInfoResponse
     } as QueryAllAppInfoResponse
-    message.AppInfo = (object.AppInfo ?? []).map((e: any) => AppInfo.fromJSON(e))
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromJSON(object.pagination)
-        : undefined
+    message.AppInfo = []
+    if (object.AppInfo !== undefined && object.AppInfo !== null) {
+      for (const e of object.AppInfo) {
+        message.AppInfo.push(AppInfo.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -824,17 +874,21 @@ export const QueryAllAppInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllAppInfoResponse>, I>>(
-    object: I
-  ): QueryAllAppInfoResponse {
+  fromPartial(object: DeepPartial<QueryAllAppInfoResponse>): QueryAllAppInfoResponse {
     const message = {
       ...baseQueryAllAppInfoResponse
     } as QueryAllAppInfoResponse
-    message.AppInfo = object.AppInfo?.map(e => AppInfo.fromPartial(e)) || []
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined
+    message.AppInfo = []
+    if (object.AppInfo !== undefined && object.AppInfo !== null) {
+      for (const e of object.AppInfo) {
+        message.AppInfo.push(AppInfo.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -842,15 +896,18 @@ export const QueryAllAppInfoResponse = {
 const baseQueryGetDidRegistryRequest: object = { id: Long.UZERO }
 
 export const QueryGetDidRegistryRequest = {
-  encode(message: QueryGetDidRegistryRequest, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryGetDidRegistryRequest,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (!message.id.isZero()) {
       writer.uint32(8).uint64(message.id)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetDidRegistryRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetDidRegistryRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryGetDidRegistryRequest
@@ -873,8 +930,11 @@ export const QueryGetDidRegistryRequest = {
     const message = {
       ...baseQueryGetDidRegistryRequest
     } as QueryGetDidRegistryRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -884,14 +944,15 @@ export const QueryGetDidRegistryRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetDidRegistryRequest>, I>>(
-    object: I
-  ): QueryGetDidRegistryRequest {
+  fromPartial(object: DeepPartial<QueryGetDidRegistryRequest>): QueryGetDidRegistryRequest {
     const message = {
       ...baseQueryGetDidRegistryRequest
     } as QueryGetDidRegistryRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -899,15 +960,18 @@ export const QueryGetDidRegistryRequest = {
 const baseQueryGetDidRegistryResponse: object = {}
 
 export const QueryGetDidRegistryResponse = {
-  encode(message: QueryGetDidRegistryResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryGetDidRegistryResponse,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.DidRegistry !== undefined) {
       DidRegistry.encode(message.DidRegistry, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetDidRegistryResponse {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetDidRegistryResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryGetDidRegistryResponse
@@ -930,10 +994,11 @@ export const QueryGetDidRegistryResponse = {
     const message = {
       ...baseQueryGetDidRegistryResponse
     } as QueryGetDidRegistryResponse
-    message.DidRegistry =
-      object.DidRegistry !== undefined && object.DidRegistry !== null
-        ? DidRegistry.fromJSON(object.DidRegistry)
-        : undefined
+    if (object.DidRegistry !== undefined && object.DidRegistry !== null) {
+      message.DidRegistry = DidRegistry.fromJSON(object.DidRegistry)
+    } else {
+      message.DidRegistry = undefined
+    }
     return message
   },
 
@@ -944,16 +1009,15 @@ export const QueryGetDidRegistryResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetDidRegistryResponse>, I>>(
-    object: I
-  ): QueryGetDidRegistryResponse {
+  fromPartial(object: DeepPartial<QueryGetDidRegistryResponse>): QueryGetDidRegistryResponse {
     const message = {
       ...baseQueryGetDidRegistryResponse
     } as QueryGetDidRegistryResponse
-    message.DidRegistry =
-      object.DidRegistry !== undefined && object.DidRegistry !== null
-        ? DidRegistry.fromPartial(object.DidRegistry)
-        : undefined
+    if (object.DidRegistry !== undefined && object.DidRegistry !== null) {
+      message.DidRegistry = DidRegistry.fromPartial(object.DidRegistry)
+    } else {
+      message.DidRegistry = undefined
+    }
     return message
   }
 }
@@ -961,15 +1025,18 @@ export const QueryGetDidRegistryResponse = {
 const baseQueryAllDidRegistryRequest: object = {}
 
 export const QueryAllDidRegistryRequest = {
-  encode(message: QueryAllDidRegistryRequest, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryAllDidRegistryRequest,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllDidRegistryRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllDidRegistryRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryAllDidRegistryRequest
@@ -992,10 +1059,11 @@ export const QueryAllDidRegistryRequest = {
     const message = {
       ...baseQueryAllDidRegistryRequest
     } as QueryAllDidRegistryRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromJSON(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -1006,16 +1074,15 @@ export const QueryAllDidRegistryRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllDidRegistryRequest>, I>>(
-    object: I
-  ): QueryAllDidRegistryRequest {
+  fromPartial(object: DeepPartial<QueryAllDidRegistryRequest>): QueryAllDidRegistryRequest {
     const message = {
       ...baseQueryAllDidRegistryRequest
     } as QueryAllDidRegistryRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -1023,7 +1090,10 @@ export const QueryAllDidRegistryRequest = {
 const baseQueryAllDidRegistryResponse: object = {}
 
 export const QueryAllDidRegistryResponse = {
-  encode(message: QueryAllDidRegistryResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryAllDidRegistryResponse,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     for (const v of message.DidRegistry) {
       DidRegistry.encode(v!, writer.uint32(10).fork()).ldelim()
     }
@@ -1033,8 +1103,8 @@ export const QueryAllDidRegistryResponse = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryAllDidRegistryResponse {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllDidRegistryResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseQueryAllDidRegistryResponse
@@ -1061,11 +1131,17 @@ export const QueryAllDidRegistryResponse = {
     const message = {
       ...baseQueryAllDidRegistryResponse
     } as QueryAllDidRegistryResponse
-    message.DidRegistry = (object.DidRegistry ?? []).map((e: any) => DidRegistry.fromJSON(e))
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromJSON(object.pagination)
-        : undefined
+    message.DidRegistry = []
+    if (object.DidRegistry !== undefined && object.DidRegistry !== null) {
+      for (const e of object.DidRegistry) {
+        message.DidRegistry.push(DidRegistry.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -1081,17 +1157,21 @@ export const QueryAllDidRegistryResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllDidRegistryResponse>, I>>(
-    object: I
-  ): QueryAllDidRegistryResponse {
+  fromPartial(object: DeepPartial<QueryAllDidRegistryResponse>): QueryAllDidRegistryResponse {
     const message = {
       ...baseQueryAllDidRegistryResponse
     } as QueryAllDidRegistryResponse
-    message.DidRegistry = object.DidRegistry?.map(e => DidRegistry.fromPartial(e)) || []
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined
+    message.DidRegistry = []
+    if (object.DidRegistry !== undefined && object.DidRegistry !== null) {
+      for (const e of object.DidRegistry) {
+        message.DidRegistry.push(DidRegistry.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -1132,49 +1212,49 @@ export class QueryClientImpl implements Query {
   UserInfo(request: QueryGetUserInfoRequest): Promise<QueryGetUserInfoResponse> {
     const data = QueryGetUserInfoRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Query', 'UserInfo', data)
-    return promise.then(data => QueryGetUserInfoResponse.decode(new Reader(data)))
+    return promise.then(data => QueryGetUserInfoResponse.decode(new _m0.Reader(data)))
   }
 
   UserInfoAll(request: QueryAllUserInfoRequest): Promise<QueryAllUserInfoResponse> {
     const data = QueryAllUserInfoRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Query', 'UserInfoAll', data)
-    return promise.then(data => QueryAllUserInfoResponse.decode(new Reader(data)))
+    return promise.then(data => QueryAllUserInfoResponse.decode(new _m0.Reader(data)))
   }
 
   UserRelation(request: QueryGetUserRelationRequest): Promise<QueryGetUserRelationResponse> {
     const data = QueryGetUserRelationRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Query', 'UserRelation', data)
-    return promise.then(data => QueryGetUserRelationResponse.decode(new Reader(data)))
+    return promise.then(data => QueryGetUserRelationResponse.decode(new _m0.Reader(data)))
   }
 
   UserRelationAll(request: QueryAllUserRelationRequest): Promise<QueryAllUserRelationResponse> {
     const data = QueryAllUserRelationRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Query', 'UserRelationAll', data)
-    return promise.then(data => QueryAllUserRelationResponse.decode(new Reader(data)))
+    return promise.then(data => QueryAllUserRelationResponse.decode(new _m0.Reader(data)))
   }
 
   AppInfo(request: QueryGetAppInfoRequest): Promise<QueryGetAppInfoResponse> {
     const data = QueryGetAppInfoRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Query', 'AppInfo', data)
-    return promise.then(data => QueryGetAppInfoResponse.decode(new Reader(data)))
+    return promise.then(data => QueryGetAppInfoResponse.decode(new _m0.Reader(data)))
   }
 
   AppInfoAll(request: QueryAllAppInfoRequest): Promise<QueryAllAppInfoResponse> {
     const data = QueryAllAppInfoRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Query', 'AppInfoAll', data)
-    return promise.then(data => QueryAllAppInfoResponse.decode(new Reader(data)))
+    return promise.then(data => QueryAllAppInfoResponse.decode(new _m0.Reader(data)))
   }
 
   DidRegistry(request: QueryGetDidRegistryRequest): Promise<QueryGetDidRegistryResponse> {
     const data = QueryGetDidRegistryRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Query', 'DidRegistry', data)
-    return promise.then(data => QueryGetDidRegistryResponse.decode(new Reader(data)))
+    return promise.then(data => QueryGetDidRegistryResponse.decode(new _m0.Reader(data)))
   }
 
   DidRegistryAll(request: QueryAllDidRegistryRequest): Promise<QueryAllDidRegistryResponse> {
     const data = QueryAllDidRegistryRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Query', 'DidRegistryAll', data)
-    return promise.then(data => QueryAllDidRegistryResponse.decode(new Reader(data)))
+    return promise.then(data => QueryAllDidRegistryResponse.decode(new _m0.Reader(data)))
   }
 }
 
@@ -1182,12 +1262,9 @@ interface Rpc {
   request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -1196,14 +1273,7 @@ export type DeepPartial<T> = T extends Builtin
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
 
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
-
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }

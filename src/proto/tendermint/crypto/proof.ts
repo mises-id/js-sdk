@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 
 export const protobufPackage = 'tendermint.crypto'
 
@@ -43,7 +43,7 @@ export interface ProofOps {
 const baseProof: object = { total: Long.ZERO, index: Long.ZERO }
 
 export const Proof = {
-  encode(message: Proof, writer: Writer = Writer.create()): Writer {
+  encode(message: Proof, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.total.isZero()) {
       writer.uint32(8).int64(message.total)
     }
@@ -59,8 +59,8 @@ export const Proof = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Proof {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): Proof {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseProof } as Proof
     message.aunts = []
@@ -90,19 +90,26 @@ export const Proof = {
 
   fromJSON(object: any): Proof {
     const message = { ...baseProof } as Proof
-    message.total =
-      object.total !== undefined && object.total !== null
-        ? Long.fromString(object.total)
-        : Long.ZERO
-    message.index =
-      object.index !== undefined && object.index !== null
-        ? Long.fromString(object.index)
-        : Long.ZERO
-    message.leafHash =
-      object.leafHash !== undefined && object.leafHash !== null
-        ? bytesFromBase64(object.leafHash)
-        : new Uint8Array()
-    message.aunts = (object.aunts ?? []).map((e: any) => bytesFromBase64(e))
+    message.aunts = []
+    message.leafHash = new Uint8Array()
+    if (object.total !== undefined && object.total !== null) {
+      message.total = Long.fromString(object.total)
+    } else {
+      message.total = Long.ZERO
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = Long.fromString(object.index)
+    } else {
+      message.index = Long.ZERO
+    }
+    if (object.leafHash !== undefined && object.leafHash !== null) {
+      message.leafHash = bytesFromBase64(object.leafHash)
+    }
+    if (object.aunts !== undefined && object.aunts !== null) {
+      for (const e of object.aunts) {
+        message.aunts.push(bytesFromBase64(e))
+      }
+    }
     return message
   },
 
@@ -122,14 +129,25 @@ export const Proof = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Proof>, I>>(object: I): Proof {
+  fromPartial(object: DeepPartial<Proof>): Proof {
     const message = { ...baseProof } as Proof
-    message.total =
-      object.total !== undefined && object.total !== null ? Long.fromValue(object.total) : Long.ZERO
-    message.index =
-      object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO
+    if (object.total !== undefined && object.total !== null) {
+      message.total = object.total as Long
+    } else {
+      message.total = Long.ZERO
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index as Long
+    } else {
+      message.index = Long.ZERO
+    }
     message.leafHash = object.leafHash ?? new Uint8Array()
-    message.aunts = object.aunts?.map(e => e) || []
+    message.aunts = []
+    if (object.aunts !== undefined && object.aunts !== null) {
+      for (const e of object.aunts) {
+        message.aunts.push(e)
+      }
+    }
     return message
   }
 }
@@ -137,7 +155,7 @@ export const Proof = {
 const baseValueOp: object = {}
 
 export const ValueOp = {
-  encode(message: ValueOp, writer: Writer = Writer.create()): Writer {
+  encode(message: ValueOp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key)
     }
@@ -147,8 +165,8 @@ export const ValueOp = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ValueOp {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValueOp {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseValueOp } as ValueOp
     message.key = new Uint8Array()
@@ -171,12 +189,15 @@ export const ValueOp = {
 
   fromJSON(object: any): ValueOp {
     const message = { ...baseValueOp } as ValueOp
-    message.key =
-      object.key !== undefined && object.key !== null
-        ? bytesFromBase64(object.key)
-        : new Uint8Array()
-    message.proof =
-      object.proof !== undefined && object.proof !== null ? Proof.fromJSON(object.proof) : undefined
+    message.key = new Uint8Array()
+    if (object.key !== undefined && object.key !== null) {
+      message.key = bytesFromBase64(object.key)
+    }
+    if (object.proof !== undefined && object.proof !== null) {
+      message.proof = Proof.fromJSON(object.proof)
+    } else {
+      message.proof = undefined
+    }
     return message
   },
 
@@ -189,13 +210,14 @@ export const ValueOp = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ValueOp>, I>>(object: I): ValueOp {
+  fromPartial(object: DeepPartial<ValueOp>): ValueOp {
     const message = { ...baseValueOp } as ValueOp
     message.key = object.key ?? new Uint8Array()
-    message.proof =
-      object.proof !== undefined && object.proof !== null
-        ? Proof.fromPartial(object.proof)
-        : undefined
+    if (object.proof !== undefined && object.proof !== null) {
+      message.proof = Proof.fromPartial(object.proof)
+    } else {
+      message.proof = undefined
+    }
     return message
   }
 }
@@ -203,7 +225,7 @@ export const ValueOp = {
 const baseDominoOp: object = { key: '', input: '', output: '' }
 
 export const DominoOp = {
-  encode(message: DominoOp, writer: Writer = Writer.create()): Writer {
+  encode(message: DominoOp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== '') {
       writer.uint32(10).string(message.key)
     }
@@ -216,8 +238,8 @@ export const DominoOp = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): DominoOp {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): DominoOp {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseDominoOp } as DominoOp
     while (reader.pos < end) {
@@ -242,10 +264,21 @@ export const DominoOp = {
 
   fromJSON(object: any): DominoOp {
     const message = { ...baseDominoOp } as DominoOp
-    message.key = object.key !== undefined && object.key !== null ? String(object.key) : ''
-    message.input = object.input !== undefined && object.input !== null ? String(object.input) : ''
-    message.output =
-      object.output !== undefined && object.output !== null ? String(object.output) : ''
+    if (object.key !== undefined && object.key !== null) {
+      message.key = String(object.key)
+    } else {
+      message.key = ''
+    }
+    if (object.input !== undefined && object.input !== null) {
+      message.input = String(object.input)
+    } else {
+      message.input = ''
+    }
+    if (object.output !== undefined && object.output !== null) {
+      message.output = String(object.output)
+    } else {
+      message.output = ''
+    }
     return message
   },
 
@@ -257,7 +290,7 @@ export const DominoOp = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<DominoOp>, I>>(object: I): DominoOp {
+  fromPartial(object: DeepPartial<DominoOp>): DominoOp {
     const message = { ...baseDominoOp } as DominoOp
     message.key = object.key ?? ''
     message.input = object.input ?? ''
@@ -269,7 +302,7 @@ export const DominoOp = {
 const baseProofOp: object = { type: '' }
 
 export const ProofOp = {
-  encode(message: ProofOp, writer: Writer = Writer.create()): Writer {
+  encode(message: ProofOp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.type !== '') {
       writer.uint32(10).string(message.type)
     }
@@ -282,8 +315,8 @@ export const ProofOp = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ProofOp {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ProofOp {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseProofOp } as ProofOp
     message.key = new Uint8Array()
@@ -310,15 +343,19 @@ export const ProofOp = {
 
   fromJSON(object: any): ProofOp {
     const message = { ...baseProofOp } as ProofOp
-    message.type = object.type !== undefined && object.type !== null ? String(object.type) : ''
-    message.key =
-      object.key !== undefined && object.key !== null
-        ? bytesFromBase64(object.key)
-        : new Uint8Array()
-    message.data =
-      object.data !== undefined && object.data !== null
-        ? bytesFromBase64(object.data)
-        : new Uint8Array()
+    message.key = new Uint8Array()
+    message.data = new Uint8Array()
+    if (object.type !== undefined && object.type !== null) {
+      message.type = String(object.type)
+    } else {
+      message.type = ''
+    }
+    if (object.key !== undefined && object.key !== null) {
+      message.key = bytesFromBase64(object.key)
+    }
+    if (object.data !== undefined && object.data !== null) {
+      message.data = bytesFromBase64(object.data)
+    }
     return message
   },
 
@@ -332,7 +369,7 @@ export const ProofOp = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ProofOp>, I>>(object: I): ProofOp {
+  fromPartial(object: DeepPartial<ProofOp>): ProofOp {
     const message = { ...baseProofOp } as ProofOp
     message.type = object.type ?? ''
     message.key = object.key ?? new Uint8Array()
@@ -344,15 +381,15 @@ export const ProofOp = {
 const baseProofOps: object = {}
 
 export const ProofOps = {
-  encode(message: ProofOps, writer: Writer = Writer.create()): Writer {
+  encode(message: ProofOps, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.ops) {
       ProofOp.encode(v!, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ProofOps {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ProofOps {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseProofOps } as ProofOps
     message.ops = []
@@ -372,7 +409,12 @@ export const ProofOps = {
 
   fromJSON(object: any): ProofOps {
     const message = { ...baseProofOps } as ProofOps
-    message.ops = (object.ops ?? []).map((e: any) => ProofOp.fromJSON(e))
+    message.ops = []
+    if (object.ops !== undefined && object.ops !== null) {
+      for (const e of object.ops) {
+        message.ops.push(ProofOp.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -386,9 +428,14 @@ export const ProofOps = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ProofOps>, I>>(object: I): ProofOps {
+  fromPartial(object: DeepPartial<ProofOps>): ProofOps {
     const message = { ...baseProofOps } as ProofOps
-    message.ops = object.ops?.map(e => ProofOp.fromPartial(e)) || []
+    message.ops = []
+    if (object.ops !== undefined && object.ops !== null) {
+      for (const e of object.ops) {
+        message.ops.push(ProofOp.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -425,12 +472,9 @@ function base64FromBytes(arr: Uint8Array): string {
   return btoa(bin.join(''))
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -439,14 +483,7 @@ export type DeepPartial<T> = T extends Builtin
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
 
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
-
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }

@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 
 export const protobufPackage = 'google.protobuf'
 
@@ -1119,15 +1119,15 @@ export interface GeneratedCodeInfo_Annotation {
 const baseFileDescriptorSet: object = {}
 
 export const FileDescriptorSet = {
-  encode(message: FileDescriptorSet, writer: Writer = Writer.create()): Writer {
+  encode(message: FileDescriptorSet, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.file) {
       FileDescriptorProto.encode(v!, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): FileDescriptorSet {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): FileDescriptorSet {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseFileDescriptorSet } as FileDescriptorSet
     message.file = []
@@ -1147,7 +1147,12 @@ export const FileDescriptorSet = {
 
   fromJSON(object: any): FileDescriptorSet {
     const message = { ...baseFileDescriptorSet } as FileDescriptorSet
-    message.file = (object.file ?? []).map((e: any) => FileDescriptorProto.fromJSON(e))
+    message.file = []
+    if (object.file !== undefined && object.file !== null) {
+      for (const e of object.file) {
+        message.file.push(FileDescriptorProto.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -1161,9 +1166,14 @@ export const FileDescriptorSet = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<FileDescriptorSet>, I>>(object: I): FileDescriptorSet {
+  fromPartial(object: DeepPartial<FileDescriptorSet>): FileDescriptorSet {
     const message = { ...baseFileDescriptorSet } as FileDescriptorSet
-    message.file = object.file?.map(e => FileDescriptorProto.fromPartial(e)) || []
+    message.file = []
+    if (object.file !== undefined && object.file !== null) {
+      for (const e of object.file) {
+        message.file.push(FileDescriptorProto.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -1178,7 +1188,7 @@ const baseFileDescriptorProto: object = {
 }
 
 export const FileDescriptorProto = {
-  encode(message: FileDescriptorProto, writer: Writer = Writer.create()): Writer {
+  encode(message: FileDescriptorProto, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -1222,8 +1232,8 @@ export const FileDescriptorProto = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): FileDescriptorProto {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): FileDescriptorProto {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseFileDescriptorProto } as FileDescriptorProto
     message.dependency = []
@@ -1296,26 +1306,73 @@ export const FileDescriptorProto = {
 
   fromJSON(object: any): FileDescriptorProto {
     const message = { ...baseFileDescriptorProto } as FileDescriptorProto
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.package =
-      object.package !== undefined && object.package !== null ? String(object.package) : ''
-    message.dependency = (object.dependency ?? []).map((e: any) => String(e))
-    message.publicDependency = (object.publicDependency ?? []).map((e: any) => Number(e))
-    message.weakDependency = (object.weakDependency ?? []).map((e: any) => Number(e))
-    message.messageType = (object.messageType ?? []).map((e: any) => DescriptorProto.fromJSON(e))
-    message.enumType = (object.enumType ?? []).map((e: any) => EnumDescriptorProto.fromJSON(e))
-    message.service = (object.service ?? []).map((e: any) => ServiceDescriptorProto.fromJSON(e))
-    message.extension = (object.extension ?? []).map((e: any) => FieldDescriptorProto.fromJSON(e))
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? FileOptions.fromJSON(object.options)
-        : undefined
-    message.sourceCodeInfo =
-      object.sourceCodeInfo !== undefined && object.sourceCodeInfo !== null
-        ? SourceCodeInfo.fromJSON(object.sourceCodeInfo)
-        : undefined
-    message.syntax =
-      object.syntax !== undefined && object.syntax !== null ? String(object.syntax) : ''
+    message.dependency = []
+    message.publicDependency = []
+    message.weakDependency = []
+    message.messageType = []
+    message.enumType = []
+    message.service = []
+    message.extension = []
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.package !== undefined && object.package !== null) {
+      message.package = String(object.package)
+    } else {
+      message.package = ''
+    }
+    if (object.dependency !== undefined && object.dependency !== null) {
+      for (const e of object.dependency) {
+        message.dependency.push(String(e))
+      }
+    }
+    if (object.publicDependency !== undefined && object.publicDependency !== null) {
+      for (const e of object.publicDependency) {
+        message.publicDependency.push(Number(e))
+      }
+    }
+    if (object.weakDependency !== undefined && object.weakDependency !== null) {
+      for (const e of object.weakDependency) {
+        message.weakDependency.push(Number(e))
+      }
+    }
+    if (object.messageType !== undefined && object.messageType !== null) {
+      for (const e of object.messageType) {
+        message.messageType.push(DescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.enumType !== undefined && object.enumType !== null) {
+      for (const e of object.enumType) {
+        message.enumType.push(EnumDescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.service !== undefined && object.service !== null) {
+      for (const e of object.service) {
+        message.service.push(ServiceDescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.extension !== undefined && object.extension !== null) {
+      for (const e of object.extension) {
+        message.extension.push(FieldDescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = FileOptions.fromJSON(object.options)
+    } else {
+      message.options = undefined
+    }
+    if (object.sourceCodeInfo !== undefined && object.sourceCodeInfo !== null) {
+      message.sourceCodeInfo = SourceCodeInfo.fromJSON(object.sourceCodeInfo)
+    } else {
+      message.sourceCodeInfo = undefined
+    }
+    if (object.syntax !== undefined && object.syntax !== null) {
+      message.syntax = String(object.syntax)
+    } else {
+      message.syntax = ''
+    }
     return message
   },
 
@@ -1329,12 +1386,12 @@ export const FileDescriptorProto = {
       obj.dependency = []
     }
     if (message.publicDependency) {
-      obj.publicDependency = message.publicDependency.map(e => Math.round(e))
+      obj.publicDependency = message.publicDependency.map(e => e)
     } else {
       obj.publicDependency = []
     }
     if (message.weakDependency) {
-      obj.weakDependency = message.weakDependency.map(e => Math.round(e))
+      obj.weakDependency = message.weakDependency.map(e => e)
     } else {
       obj.weakDependency = []
     }
@@ -1368,27 +1425,62 @@ export const FileDescriptorProto = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<FileDescriptorProto>, I>>(
-    object: I
-  ): FileDescriptorProto {
+  fromPartial(object: DeepPartial<FileDescriptorProto>): FileDescriptorProto {
     const message = { ...baseFileDescriptorProto } as FileDescriptorProto
     message.name = object.name ?? ''
     message.package = object.package ?? ''
-    message.dependency = object.dependency?.map(e => e) || []
-    message.publicDependency = object.publicDependency?.map(e => e) || []
-    message.weakDependency = object.weakDependency?.map(e => e) || []
-    message.messageType = object.messageType?.map(e => DescriptorProto.fromPartial(e)) || []
-    message.enumType = object.enumType?.map(e => EnumDescriptorProto.fromPartial(e)) || []
-    message.service = object.service?.map(e => ServiceDescriptorProto.fromPartial(e)) || []
-    message.extension = object.extension?.map(e => FieldDescriptorProto.fromPartial(e)) || []
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? FileOptions.fromPartial(object.options)
-        : undefined
-    message.sourceCodeInfo =
-      object.sourceCodeInfo !== undefined && object.sourceCodeInfo !== null
-        ? SourceCodeInfo.fromPartial(object.sourceCodeInfo)
-        : undefined
+    message.dependency = []
+    if (object.dependency !== undefined && object.dependency !== null) {
+      for (const e of object.dependency) {
+        message.dependency.push(e)
+      }
+    }
+    message.publicDependency = []
+    if (object.publicDependency !== undefined && object.publicDependency !== null) {
+      for (const e of object.publicDependency) {
+        message.publicDependency.push(e)
+      }
+    }
+    message.weakDependency = []
+    if (object.weakDependency !== undefined && object.weakDependency !== null) {
+      for (const e of object.weakDependency) {
+        message.weakDependency.push(e)
+      }
+    }
+    message.messageType = []
+    if (object.messageType !== undefined && object.messageType !== null) {
+      for (const e of object.messageType) {
+        message.messageType.push(DescriptorProto.fromPartial(e))
+      }
+    }
+    message.enumType = []
+    if (object.enumType !== undefined && object.enumType !== null) {
+      for (const e of object.enumType) {
+        message.enumType.push(EnumDescriptorProto.fromPartial(e))
+      }
+    }
+    message.service = []
+    if (object.service !== undefined && object.service !== null) {
+      for (const e of object.service) {
+        message.service.push(ServiceDescriptorProto.fromPartial(e))
+      }
+    }
+    message.extension = []
+    if (object.extension !== undefined && object.extension !== null) {
+      for (const e of object.extension) {
+        message.extension.push(FieldDescriptorProto.fromPartial(e))
+      }
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = FileOptions.fromPartial(object.options)
+    } else {
+      message.options = undefined
+    }
+    if (object.sourceCodeInfo !== undefined && object.sourceCodeInfo !== null) {
+      message.sourceCodeInfo = SourceCodeInfo.fromPartial(object.sourceCodeInfo)
+    } else {
+      message.sourceCodeInfo = undefined
+    }
     message.syntax = object.syntax ?? ''
     return message
   }
@@ -1397,7 +1489,7 @@ export const FileDescriptorProto = {
 const baseDescriptorProto: object = { name: '', reservedName: '' }
 
 export const DescriptorProto = {
-  encode(message: DescriptorProto, writer: Writer = Writer.create()): Writer {
+  encode(message: DescriptorProto, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -1431,8 +1523,8 @@ export const DescriptorProto = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): DescriptorProto {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): DescriptorProto {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseDescriptorProto } as DescriptorProto
     message.field = []
@@ -1488,23 +1580,64 @@ export const DescriptorProto = {
 
   fromJSON(object: any): DescriptorProto {
     const message = { ...baseDescriptorProto } as DescriptorProto
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.field = (object.field ?? []).map((e: any) => FieldDescriptorProto.fromJSON(e))
-    message.extension = (object.extension ?? []).map((e: any) => FieldDescriptorProto.fromJSON(e))
-    message.nestedType = (object.nestedType ?? []).map((e: any) => DescriptorProto.fromJSON(e))
-    message.enumType = (object.enumType ?? []).map((e: any) => EnumDescriptorProto.fromJSON(e))
-    message.extensionRange = (object.extensionRange ?? []).map((e: any) =>
-      DescriptorProto_ExtensionRange.fromJSON(e)
-    )
-    message.oneofDecl = (object.oneofDecl ?? []).map((e: any) => OneofDescriptorProto.fromJSON(e))
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? MessageOptions.fromJSON(object.options)
-        : undefined
-    message.reservedRange = (object.reservedRange ?? []).map((e: any) =>
-      DescriptorProto_ReservedRange.fromJSON(e)
-    )
-    message.reservedName = (object.reservedName ?? []).map((e: any) => String(e))
+    message.field = []
+    message.extension = []
+    message.nestedType = []
+    message.enumType = []
+    message.extensionRange = []
+    message.oneofDecl = []
+    message.reservedRange = []
+    message.reservedName = []
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.field !== undefined && object.field !== null) {
+      for (const e of object.field) {
+        message.field.push(FieldDescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.extension !== undefined && object.extension !== null) {
+      for (const e of object.extension) {
+        message.extension.push(FieldDescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.nestedType !== undefined && object.nestedType !== null) {
+      for (const e of object.nestedType) {
+        message.nestedType.push(DescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.enumType !== undefined && object.enumType !== null) {
+      for (const e of object.enumType) {
+        message.enumType.push(EnumDescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.extensionRange !== undefined && object.extensionRange !== null) {
+      for (const e of object.extensionRange) {
+        message.extensionRange.push(DescriptorProto_ExtensionRange.fromJSON(e))
+      }
+    }
+    if (object.oneofDecl !== undefined && object.oneofDecl !== null) {
+      for (const e of object.oneofDecl) {
+        message.oneofDecl.push(OneofDescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = MessageOptions.fromJSON(object.options)
+    } else {
+      message.options = undefined
+    }
+    if (object.reservedRange !== undefined && object.reservedRange !== null) {
+      for (const e of object.reservedRange) {
+        message.reservedRange.push(DescriptorProto_ReservedRange.fromJSON(e))
+      }
+    }
+    if (object.reservedName !== undefined && object.reservedName !== null) {
+      for (const e of object.reservedName) {
+        message.reservedName.push(String(e))
+      }
+    }
     return message
   },
 
@@ -1560,23 +1693,62 @@ export const DescriptorProto = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<DescriptorProto>, I>>(object: I): DescriptorProto {
+  fromPartial(object: DeepPartial<DescriptorProto>): DescriptorProto {
     const message = { ...baseDescriptorProto } as DescriptorProto
     message.name = object.name ?? ''
-    message.field = object.field?.map(e => FieldDescriptorProto.fromPartial(e)) || []
-    message.extension = object.extension?.map(e => FieldDescriptorProto.fromPartial(e)) || []
-    message.nestedType = object.nestedType?.map(e => DescriptorProto.fromPartial(e)) || []
-    message.enumType = object.enumType?.map(e => EnumDescriptorProto.fromPartial(e)) || []
-    message.extensionRange =
-      object.extensionRange?.map(e => DescriptorProto_ExtensionRange.fromPartial(e)) || []
-    message.oneofDecl = object.oneofDecl?.map(e => OneofDescriptorProto.fromPartial(e)) || []
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? MessageOptions.fromPartial(object.options)
-        : undefined
-    message.reservedRange =
-      object.reservedRange?.map(e => DescriptorProto_ReservedRange.fromPartial(e)) || []
-    message.reservedName = object.reservedName?.map(e => e) || []
+    message.field = []
+    if (object.field !== undefined && object.field !== null) {
+      for (const e of object.field) {
+        message.field.push(FieldDescriptorProto.fromPartial(e))
+      }
+    }
+    message.extension = []
+    if (object.extension !== undefined && object.extension !== null) {
+      for (const e of object.extension) {
+        message.extension.push(FieldDescriptorProto.fromPartial(e))
+      }
+    }
+    message.nestedType = []
+    if (object.nestedType !== undefined && object.nestedType !== null) {
+      for (const e of object.nestedType) {
+        message.nestedType.push(DescriptorProto.fromPartial(e))
+      }
+    }
+    message.enumType = []
+    if (object.enumType !== undefined && object.enumType !== null) {
+      for (const e of object.enumType) {
+        message.enumType.push(EnumDescriptorProto.fromPartial(e))
+      }
+    }
+    message.extensionRange = []
+    if (object.extensionRange !== undefined && object.extensionRange !== null) {
+      for (const e of object.extensionRange) {
+        message.extensionRange.push(DescriptorProto_ExtensionRange.fromPartial(e))
+      }
+    }
+    message.oneofDecl = []
+    if (object.oneofDecl !== undefined && object.oneofDecl !== null) {
+      for (const e of object.oneofDecl) {
+        message.oneofDecl.push(OneofDescriptorProto.fromPartial(e))
+      }
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = MessageOptions.fromPartial(object.options)
+    } else {
+      message.options = undefined
+    }
+    message.reservedRange = []
+    if (object.reservedRange !== undefined && object.reservedRange !== null) {
+      for (const e of object.reservedRange) {
+        message.reservedRange.push(DescriptorProto_ReservedRange.fromPartial(e))
+      }
+    }
+    message.reservedName = []
+    if (object.reservedName !== undefined && object.reservedName !== null) {
+      for (const e of object.reservedName) {
+        message.reservedName.push(e)
+      }
+    }
     return message
   }
 }
@@ -1584,7 +1756,10 @@ export const DescriptorProto = {
 const baseDescriptorProto_ExtensionRange: object = { start: 0, end: 0 }
 
 export const DescriptorProto_ExtensionRange = {
-  encode(message: DescriptorProto_ExtensionRange, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: DescriptorProto_ExtensionRange,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.start !== 0) {
       writer.uint32(8).int32(message.start)
     }
@@ -1597,8 +1772,8 @@ export const DescriptorProto_ExtensionRange = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): DescriptorProto_ExtensionRange {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): DescriptorProto_ExtensionRange {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseDescriptorProto_ExtensionRange
@@ -1627,36 +1802,44 @@ export const DescriptorProto_ExtensionRange = {
     const message = {
       ...baseDescriptorProto_ExtensionRange
     } as DescriptorProto_ExtensionRange
-    message.start = object.start !== undefined && object.start !== null ? Number(object.start) : 0
-    message.end = object.end !== undefined && object.end !== null ? Number(object.end) : 0
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? ExtensionRangeOptions.fromJSON(object.options)
-        : undefined
+    if (object.start !== undefined && object.start !== null) {
+      message.start = Number(object.start)
+    } else {
+      message.start = 0
+    }
+    if (object.end !== undefined && object.end !== null) {
+      message.end = Number(object.end)
+    } else {
+      message.end = 0
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = ExtensionRangeOptions.fromJSON(object.options)
+    } else {
+      message.options = undefined
+    }
     return message
   },
 
   toJSON(message: DescriptorProto_ExtensionRange): unknown {
     const obj: any = {}
-    message.start !== undefined && (obj.start = Math.round(message.start))
-    message.end !== undefined && (obj.end = Math.round(message.end))
+    message.start !== undefined && (obj.start = message.start)
+    message.end !== undefined && (obj.end = message.end)
     message.options !== undefined &&
       (obj.options = message.options ? ExtensionRangeOptions.toJSON(message.options) : undefined)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<DescriptorProto_ExtensionRange>, I>>(
-    object: I
-  ): DescriptorProto_ExtensionRange {
+  fromPartial(object: DeepPartial<DescriptorProto_ExtensionRange>): DescriptorProto_ExtensionRange {
     const message = {
       ...baseDescriptorProto_ExtensionRange
     } as DescriptorProto_ExtensionRange
     message.start = object.start ?? 0
     message.end = object.end ?? 0
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? ExtensionRangeOptions.fromPartial(object.options)
-        : undefined
+    if (object.options !== undefined && object.options !== null) {
+      message.options = ExtensionRangeOptions.fromPartial(object.options)
+    } else {
+      message.options = undefined
+    }
     return message
   }
 }
@@ -1664,7 +1847,10 @@ export const DescriptorProto_ExtensionRange = {
 const baseDescriptorProto_ReservedRange: object = { start: 0, end: 0 }
 
 export const DescriptorProto_ReservedRange = {
-  encode(message: DescriptorProto_ReservedRange, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: DescriptorProto_ReservedRange,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.start !== 0) {
       writer.uint32(8).int32(message.start)
     }
@@ -1674,8 +1860,8 @@ export const DescriptorProto_ReservedRange = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): DescriptorProto_ReservedRange {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): DescriptorProto_ReservedRange {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseDescriptorProto_ReservedRange
@@ -1701,21 +1887,27 @@ export const DescriptorProto_ReservedRange = {
     const message = {
       ...baseDescriptorProto_ReservedRange
     } as DescriptorProto_ReservedRange
-    message.start = object.start !== undefined && object.start !== null ? Number(object.start) : 0
-    message.end = object.end !== undefined && object.end !== null ? Number(object.end) : 0
+    if (object.start !== undefined && object.start !== null) {
+      message.start = Number(object.start)
+    } else {
+      message.start = 0
+    }
+    if (object.end !== undefined && object.end !== null) {
+      message.end = Number(object.end)
+    } else {
+      message.end = 0
+    }
     return message
   },
 
   toJSON(message: DescriptorProto_ReservedRange): unknown {
     const obj: any = {}
-    message.start !== undefined && (obj.start = Math.round(message.start))
-    message.end !== undefined && (obj.end = Math.round(message.end))
+    message.start !== undefined && (obj.start = message.start)
+    message.end !== undefined && (obj.end = message.end)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<DescriptorProto_ReservedRange>, I>>(
-    object: I
-  ): DescriptorProto_ReservedRange {
+  fromPartial(object: DeepPartial<DescriptorProto_ReservedRange>): DescriptorProto_ReservedRange {
     const message = {
       ...baseDescriptorProto_ReservedRange
     } as DescriptorProto_ReservedRange
@@ -1728,15 +1920,15 @@ export const DescriptorProto_ReservedRange = {
 const baseExtensionRangeOptions: object = {}
 
 export const ExtensionRangeOptions = {
-  encode(message: ExtensionRangeOptions, writer: Writer = Writer.create()): Writer {
+  encode(message: ExtensionRangeOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.uninterpretedOption) {
       UninterpretedOption.encode(v!, writer.uint32(7994).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ExtensionRangeOptions {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ExtensionRangeOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseExtensionRangeOptions } as ExtensionRangeOptions
     message.uninterpretedOption = []
@@ -1756,9 +1948,12 @@ export const ExtensionRangeOptions = {
 
   fromJSON(object: any): ExtensionRangeOptions {
     const message = { ...baseExtensionRangeOptions } as ExtensionRangeOptions
-    message.uninterpretedOption = (object.uninterpretedOption ?? []).map((e: any) =>
-      UninterpretedOption.fromJSON(e)
-    )
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -1774,12 +1969,14 @@ export const ExtensionRangeOptions = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ExtensionRangeOptions>, I>>(
-    object: I
-  ): ExtensionRangeOptions {
+  fromPartial(object: DeepPartial<ExtensionRangeOptions>): ExtensionRangeOptions {
     const message = { ...baseExtensionRangeOptions } as ExtensionRangeOptions
-    message.uninterpretedOption =
-      object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || []
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -1798,7 +1995,7 @@ const baseFieldDescriptorProto: object = {
 }
 
 export const FieldDescriptorProto = {
-  encode(message: FieldDescriptorProto, writer: Writer = Writer.create()): Writer {
+  encode(message: FieldDescriptorProto, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -1835,8 +2032,8 @@ export const FieldDescriptorProto = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): FieldDescriptorProto {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): FieldDescriptorProto {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseFieldDescriptorProto } as FieldDescriptorProto
     while (reader.pos < end) {
@@ -1885,50 +2082,74 @@ export const FieldDescriptorProto = {
 
   fromJSON(object: any): FieldDescriptorProto {
     const message = { ...baseFieldDescriptorProto } as FieldDescriptorProto
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.number =
-      object.number !== undefined && object.number !== null ? Number(object.number) : 0
-    message.label =
-      object.label !== undefined && object.label !== null
-        ? fieldDescriptorProto_LabelFromJSON(object.label)
-        : 1
-    message.type =
-      object.type !== undefined && object.type !== null
-        ? fieldDescriptorProto_TypeFromJSON(object.type)
-        : 1
-    message.typeName =
-      object.typeName !== undefined && object.typeName !== null ? String(object.typeName) : ''
-    message.extendee =
-      object.extendee !== undefined && object.extendee !== null ? String(object.extendee) : ''
-    message.defaultValue =
-      object.defaultValue !== undefined && object.defaultValue !== null
-        ? String(object.defaultValue)
-        : ''
-    message.oneofIndex =
-      object.oneofIndex !== undefined && object.oneofIndex !== null ? Number(object.oneofIndex) : 0
-    message.jsonName =
-      object.jsonName !== undefined && object.jsonName !== null ? String(object.jsonName) : ''
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? FieldOptions.fromJSON(object.options)
-        : undefined
-    message.proto3Optional =
-      object.proto3Optional !== undefined && object.proto3Optional !== null
-        ? Boolean(object.proto3Optional)
-        : false
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.number !== undefined && object.number !== null) {
+      message.number = Number(object.number)
+    } else {
+      message.number = 0
+    }
+    if (object.label !== undefined && object.label !== null) {
+      message.label = fieldDescriptorProto_LabelFromJSON(object.label)
+    } else {
+      message.label = 1
+    }
+    if (object.type !== undefined && object.type !== null) {
+      message.type = fieldDescriptorProto_TypeFromJSON(object.type)
+    } else {
+      message.type = 1
+    }
+    if (object.typeName !== undefined && object.typeName !== null) {
+      message.typeName = String(object.typeName)
+    } else {
+      message.typeName = ''
+    }
+    if (object.extendee !== undefined && object.extendee !== null) {
+      message.extendee = String(object.extendee)
+    } else {
+      message.extendee = ''
+    }
+    if (object.defaultValue !== undefined && object.defaultValue !== null) {
+      message.defaultValue = String(object.defaultValue)
+    } else {
+      message.defaultValue = ''
+    }
+    if (object.oneofIndex !== undefined && object.oneofIndex !== null) {
+      message.oneofIndex = Number(object.oneofIndex)
+    } else {
+      message.oneofIndex = 0
+    }
+    if (object.jsonName !== undefined && object.jsonName !== null) {
+      message.jsonName = String(object.jsonName)
+    } else {
+      message.jsonName = ''
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = FieldOptions.fromJSON(object.options)
+    } else {
+      message.options = undefined
+    }
+    if (object.proto3Optional !== undefined && object.proto3Optional !== null) {
+      message.proto3Optional = Boolean(object.proto3Optional)
+    } else {
+      message.proto3Optional = false
+    }
     return message
   },
 
   toJSON(message: FieldDescriptorProto): unknown {
     const obj: any = {}
     message.name !== undefined && (obj.name = message.name)
-    message.number !== undefined && (obj.number = Math.round(message.number))
+    message.number !== undefined && (obj.number = message.number)
     message.label !== undefined && (obj.label = fieldDescriptorProto_LabelToJSON(message.label))
     message.type !== undefined && (obj.type = fieldDescriptorProto_TypeToJSON(message.type))
     message.typeName !== undefined && (obj.typeName = message.typeName)
     message.extendee !== undefined && (obj.extendee = message.extendee)
     message.defaultValue !== undefined && (obj.defaultValue = message.defaultValue)
-    message.oneofIndex !== undefined && (obj.oneofIndex = Math.round(message.oneofIndex))
+    message.oneofIndex !== undefined && (obj.oneofIndex = message.oneofIndex)
     message.jsonName !== undefined && (obj.jsonName = message.jsonName)
     message.options !== undefined &&
       (obj.options = message.options ? FieldOptions.toJSON(message.options) : undefined)
@@ -1936,9 +2157,7 @@ export const FieldDescriptorProto = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<FieldDescriptorProto>, I>>(
-    object: I
-  ): FieldDescriptorProto {
+  fromPartial(object: DeepPartial<FieldDescriptorProto>): FieldDescriptorProto {
     const message = { ...baseFieldDescriptorProto } as FieldDescriptorProto
     message.name = object.name ?? ''
     message.number = object.number ?? 0
@@ -1949,10 +2168,11 @@ export const FieldDescriptorProto = {
     message.defaultValue = object.defaultValue ?? ''
     message.oneofIndex = object.oneofIndex ?? 0
     message.jsonName = object.jsonName ?? ''
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? FieldOptions.fromPartial(object.options)
-        : undefined
+    if (object.options !== undefined && object.options !== null) {
+      message.options = FieldOptions.fromPartial(object.options)
+    } else {
+      message.options = undefined
+    }
     message.proto3Optional = object.proto3Optional ?? false
     return message
   }
@@ -1961,7 +2181,7 @@ export const FieldDescriptorProto = {
 const baseOneofDescriptorProto: object = { name: '' }
 
 export const OneofDescriptorProto = {
-  encode(message: OneofDescriptorProto, writer: Writer = Writer.create()): Writer {
+  encode(message: OneofDescriptorProto, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -1971,8 +2191,8 @@ export const OneofDescriptorProto = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): OneofDescriptorProto {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): OneofDescriptorProto {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseOneofDescriptorProto } as OneofDescriptorProto
     while (reader.pos < end) {
@@ -1994,11 +2214,16 @@ export const OneofDescriptorProto = {
 
   fromJSON(object: any): OneofDescriptorProto {
     const message = { ...baseOneofDescriptorProto } as OneofDescriptorProto
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? OneofOptions.fromJSON(object.options)
-        : undefined
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = OneofOptions.fromJSON(object.options)
+    } else {
+      message.options = undefined
+    }
     return message
   },
 
@@ -2010,15 +2235,14 @@ export const OneofDescriptorProto = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<OneofDescriptorProto>, I>>(
-    object: I
-  ): OneofDescriptorProto {
+  fromPartial(object: DeepPartial<OneofDescriptorProto>): OneofDescriptorProto {
     const message = { ...baseOneofDescriptorProto } as OneofDescriptorProto
     message.name = object.name ?? ''
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? OneofOptions.fromPartial(object.options)
-        : undefined
+    if (object.options !== undefined && object.options !== null) {
+      message.options = OneofOptions.fromPartial(object.options)
+    } else {
+      message.options = undefined
+    }
     return message
   }
 }
@@ -2026,7 +2250,7 @@ export const OneofDescriptorProto = {
 const baseEnumDescriptorProto: object = { name: '', reservedName: '' }
 
 export const EnumDescriptorProto = {
-  encode(message: EnumDescriptorProto, writer: Writer = Writer.create()): Writer {
+  encode(message: EnumDescriptorProto, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -2045,8 +2269,8 @@ export const EnumDescriptorProto = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): EnumDescriptorProto {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): EnumDescriptorProto {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseEnumDescriptorProto } as EnumDescriptorProto
     message.value = []
@@ -2082,16 +2306,34 @@ export const EnumDescriptorProto = {
 
   fromJSON(object: any): EnumDescriptorProto {
     const message = { ...baseEnumDescriptorProto } as EnumDescriptorProto
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.value = (object.value ?? []).map((e: any) => EnumValueDescriptorProto.fromJSON(e))
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? EnumOptions.fromJSON(object.options)
-        : undefined
-    message.reservedRange = (object.reservedRange ?? []).map((e: any) =>
-      EnumDescriptorProto_EnumReservedRange.fromJSON(e)
-    )
-    message.reservedName = (object.reservedName ?? []).map((e: any) => String(e))
+    message.value = []
+    message.reservedRange = []
+    message.reservedName = []
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.value !== undefined && object.value !== null) {
+      for (const e of object.value) {
+        message.value.push(EnumValueDescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = EnumOptions.fromJSON(object.options)
+    } else {
+      message.options = undefined
+    }
+    if (object.reservedRange !== undefined && object.reservedRange !== null) {
+      for (const e of object.reservedRange) {
+        message.reservedRange.push(EnumDescriptorProto_EnumReservedRange.fromJSON(e))
+      }
+    }
+    if (object.reservedName !== undefined && object.reservedName !== null) {
+      for (const e of object.reservedName) {
+        message.reservedName.push(String(e))
+      }
+    }
     return message
   },
 
@@ -2120,19 +2362,32 @@ export const EnumDescriptorProto = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<EnumDescriptorProto>, I>>(
-    object: I
-  ): EnumDescriptorProto {
+  fromPartial(object: DeepPartial<EnumDescriptorProto>): EnumDescriptorProto {
     const message = { ...baseEnumDescriptorProto } as EnumDescriptorProto
     message.name = object.name ?? ''
-    message.value = object.value?.map(e => EnumValueDescriptorProto.fromPartial(e)) || []
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? EnumOptions.fromPartial(object.options)
-        : undefined
-    message.reservedRange =
-      object.reservedRange?.map(e => EnumDescriptorProto_EnumReservedRange.fromPartial(e)) || []
-    message.reservedName = object.reservedName?.map(e => e) || []
+    message.value = []
+    if (object.value !== undefined && object.value !== null) {
+      for (const e of object.value) {
+        message.value.push(EnumValueDescriptorProto.fromPartial(e))
+      }
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = EnumOptions.fromPartial(object.options)
+    } else {
+      message.options = undefined
+    }
+    message.reservedRange = []
+    if (object.reservedRange !== undefined && object.reservedRange !== null) {
+      for (const e of object.reservedRange) {
+        message.reservedRange.push(EnumDescriptorProto_EnumReservedRange.fromPartial(e))
+      }
+    }
+    message.reservedName = []
+    if (object.reservedName !== undefined && object.reservedName !== null) {
+      for (const e of object.reservedName) {
+        message.reservedName.push(e)
+      }
+    }
     return message
   }
 }
@@ -2140,7 +2395,10 @@ export const EnumDescriptorProto = {
 const baseEnumDescriptorProto_EnumReservedRange: object = { start: 0, end: 0 }
 
 export const EnumDescriptorProto_EnumReservedRange = {
-  encode(message: EnumDescriptorProto_EnumReservedRange, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: EnumDescriptorProto_EnumReservedRange,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.start !== 0) {
       writer.uint32(8).int32(message.start)
     }
@@ -2150,8 +2408,8 @@ export const EnumDescriptorProto_EnumReservedRange = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): EnumDescriptorProto_EnumReservedRange {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): EnumDescriptorProto_EnumReservedRange {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseEnumDescriptorProto_EnumReservedRange
@@ -2177,20 +2435,28 @@ export const EnumDescriptorProto_EnumReservedRange = {
     const message = {
       ...baseEnumDescriptorProto_EnumReservedRange
     } as EnumDescriptorProto_EnumReservedRange
-    message.start = object.start !== undefined && object.start !== null ? Number(object.start) : 0
-    message.end = object.end !== undefined && object.end !== null ? Number(object.end) : 0
+    if (object.start !== undefined && object.start !== null) {
+      message.start = Number(object.start)
+    } else {
+      message.start = 0
+    }
+    if (object.end !== undefined && object.end !== null) {
+      message.end = Number(object.end)
+    } else {
+      message.end = 0
+    }
     return message
   },
 
   toJSON(message: EnumDescriptorProto_EnumReservedRange): unknown {
     const obj: any = {}
-    message.start !== undefined && (obj.start = Math.round(message.start))
-    message.end !== undefined && (obj.end = Math.round(message.end))
+    message.start !== undefined && (obj.start = message.start)
+    message.end !== undefined && (obj.end = message.end)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<EnumDescriptorProto_EnumReservedRange>, I>>(
-    object: I
+  fromPartial(
+    object: DeepPartial<EnumDescriptorProto_EnumReservedRange>
   ): EnumDescriptorProto_EnumReservedRange {
     const message = {
       ...baseEnumDescriptorProto_EnumReservedRange
@@ -2204,7 +2470,7 @@ export const EnumDescriptorProto_EnumReservedRange = {
 const baseEnumValueDescriptorProto: object = { name: '', number: 0 }
 
 export const EnumValueDescriptorProto = {
-  encode(message: EnumValueDescriptorProto, writer: Writer = Writer.create()): Writer {
+  encode(message: EnumValueDescriptorProto, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -2217,8 +2483,8 @@ export const EnumValueDescriptorProto = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): EnumValueDescriptorProto {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): EnumValueDescriptorProto {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseEnumValueDescriptorProto
@@ -2247,37 +2513,44 @@ export const EnumValueDescriptorProto = {
     const message = {
       ...baseEnumValueDescriptorProto
     } as EnumValueDescriptorProto
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.number =
-      object.number !== undefined && object.number !== null ? Number(object.number) : 0
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? EnumValueOptions.fromJSON(object.options)
-        : undefined
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.number !== undefined && object.number !== null) {
+      message.number = Number(object.number)
+    } else {
+      message.number = 0
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = EnumValueOptions.fromJSON(object.options)
+    } else {
+      message.options = undefined
+    }
     return message
   },
 
   toJSON(message: EnumValueDescriptorProto): unknown {
     const obj: any = {}
     message.name !== undefined && (obj.name = message.name)
-    message.number !== undefined && (obj.number = Math.round(message.number))
+    message.number !== undefined && (obj.number = message.number)
     message.options !== undefined &&
       (obj.options = message.options ? EnumValueOptions.toJSON(message.options) : undefined)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<EnumValueDescriptorProto>, I>>(
-    object: I
-  ): EnumValueDescriptorProto {
+  fromPartial(object: DeepPartial<EnumValueDescriptorProto>): EnumValueDescriptorProto {
     const message = {
       ...baseEnumValueDescriptorProto
     } as EnumValueDescriptorProto
     message.name = object.name ?? ''
     message.number = object.number ?? 0
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? EnumValueOptions.fromPartial(object.options)
-        : undefined
+    if (object.options !== undefined && object.options !== null) {
+      message.options = EnumValueOptions.fromPartial(object.options)
+    } else {
+      message.options = undefined
+    }
     return message
   }
 }
@@ -2285,7 +2558,7 @@ export const EnumValueDescriptorProto = {
 const baseServiceDescriptorProto: object = { name: '' }
 
 export const ServiceDescriptorProto = {
-  encode(message: ServiceDescriptorProto, writer: Writer = Writer.create()): Writer {
+  encode(message: ServiceDescriptorProto, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -2298,8 +2571,8 @@ export const ServiceDescriptorProto = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ServiceDescriptorProto {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ServiceDescriptorProto {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseServiceDescriptorProto } as ServiceDescriptorProto
     message.method = []
@@ -2325,12 +2598,22 @@ export const ServiceDescriptorProto = {
 
   fromJSON(object: any): ServiceDescriptorProto {
     const message = { ...baseServiceDescriptorProto } as ServiceDescriptorProto
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.method = (object.method ?? []).map((e: any) => MethodDescriptorProto.fromJSON(e))
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? ServiceOptions.fromJSON(object.options)
-        : undefined
+    message.method = []
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.method !== undefined && object.method !== null) {
+      for (const e of object.method) {
+        message.method.push(MethodDescriptorProto.fromJSON(e))
+      }
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = ServiceOptions.fromJSON(object.options)
+    } else {
+      message.options = undefined
+    }
     return message
   },
 
@@ -2347,16 +2630,20 @@ export const ServiceDescriptorProto = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ServiceDescriptorProto>, I>>(
-    object: I
-  ): ServiceDescriptorProto {
+  fromPartial(object: DeepPartial<ServiceDescriptorProto>): ServiceDescriptorProto {
     const message = { ...baseServiceDescriptorProto } as ServiceDescriptorProto
     message.name = object.name ?? ''
-    message.method = object.method?.map(e => MethodDescriptorProto.fromPartial(e)) || []
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? ServiceOptions.fromPartial(object.options)
-        : undefined
+    message.method = []
+    if (object.method !== undefined && object.method !== null) {
+      for (const e of object.method) {
+        message.method.push(MethodDescriptorProto.fromPartial(e))
+      }
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = ServiceOptions.fromPartial(object.options)
+    } else {
+      message.options = undefined
+    }
     return message
   }
 }
@@ -2370,7 +2657,7 @@ const baseMethodDescriptorProto: object = {
 }
 
 export const MethodDescriptorProto = {
-  encode(message: MethodDescriptorProto, writer: Writer = Writer.create()): Writer {
+  encode(message: MethodDescriptorProto, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -2392,8 +2679,8 @@ export const MethodDescriptorProto = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MethodDescriptorProto {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): MethodDescriptorProto {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseMethodDescriptorProto } as MethodDescriptorProto
     while (reader.pos < end) {
@@ -2427,23 +2714,36 @@ export const MethodDescriptorProto = {
 
   fromJSON(object: any): MethodDescriptorProto {
     const message = { ...baseMethodDescriptorProto } as MethodDescriptorProto
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.inputType =
-      object.inputType !== undefined && object.inputType !== null ? String(object.inputType) : ''
-    message.outputType =
-      object.outputType !== undefined && object.outputType !== null ? String(object.outputType) : ''
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? MethodOptions.fromJSON(object.options)
-        : undefined
-    message.clientStreaming =
-      object.clientStreaming !== undefined && object.clientStreaming !== null
-        ? Boolean(object.clientStreaming)
-        : false
-    message.serverStreaming =
-      object.serverStreaming !== undefined && object.serverStreaming !== null
-        ? Boolean(object.serverStreaming)
-        : false
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.inputType !== undefined && object.inputType !== null) {
+      message.inputType = String(object.inputType)
+    } else {
+      message.inputType = ''
+    }
+    if (object.outputType !== undefined && object.outputType !== null) {
+      message.outputType = String(object.outputType)
+    } else {
+      message.outputType = ''
+    }
+    if (object.options !== undefined && object.options !== null) {
+      message.options = MethodOptions.fromJSON(object.options)
+    } else {
+      message.options = undefined
+    }
+    if (object.clientStreaming !== undefined && object.clientStreaming !== null) {
+      message.clientStreaming = Boolean(object.clientStreaming)
+    } else {
+      message.clientStreaming = false
+    }
+    if (object.serverStreaming !== undefined && object.serverStreaming !== null) {
+      message.serverStreaming = Boolean(object.serverStreaming)
+    } else {
+      message.serverStreaming = false
+    }
     return message
   },
 
@@ -2459,17 +2759,16 @@ export const MethodDescriptorProto = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MethodDescriptorProto>, I>>(
-    object: I
-  ): MethodDescriptorProto {
+  fromPartial(object: DeepPartial<MethodDescriptorProto>): MethodDescriptorProto {
     const message = { ...baseMethodDescriptorProto } as MethodDescriptorProto
     message.name = object.name ?? ''
     message.inputType = object.inputType ?? ''
     message.outputType = object.outputType ?? ''
-    message.options =
-      object.options !== undefined && object.options !== null
-        ? MethodOptions.fromPartial(object.options)
-        : undefined
+    if (object.options !== undefined && object.options !== null) {
+      message.options = MethodOptions.fromPartial(object.options)
+    } else {
+      message.options = undefined
+    }
     message.clientStreaming = object.clientStreaming ?? false
     message.serverStreaming = object.serverStreaming ?? false
     return message
@@ -2500,7 +2799,7 @@ const baseFileOptions: object = {
 }
 
 export const FileOptions = {
-  encode(message: FileOptions, writer: Writer = Writer.create()): Writer {
+  encode(message: FileOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.javaPackage !== '') {
       writer.uint32(10).string(message.javaPackage)
     }
@@ -2567,8 +2866,8 @@ export const FileOptions = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): FileOptions {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): FileOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseFileOptions } as FileOptions
     message.uninterpretedOption = []
@@ -2648,87 +2947,115 @@ export const FileOptions = {
 
   fromJSON(object: any): FileOptions {
     const message = { ...baseFileOptions } as FileOptions
-    message.javaPackage =
-      object.javaPackage !== undefined && object.javaPackage !== null
-        ? String(object.javaPackage)
-        : ''
-    message.javaOuterClassname =
-      object.javaOuterClassname !== undefined && object.javaOuterClassname !== null
-        ? String(object.javaOuterClassname)
-        : ''
-    message.javaMultipleFiles =
-      object.javaMultipleFiles !== undefined && object.javaMultipleFiles !== null
-        ? Boolean(object.javaMultipleFiles)
-        : false
-    message.javaGenerateEqualsAndHash =
-      object.javaGenerateEqualsAndHash !== undefined && object.javaGenerateEqualsAndHash !== null
-        ? Boolean(object.javaGenerateEqualsAndHash)
-        : false
-    message.javaStringCheckUtf8 =
-      object.javaStringCheckUtf8 !== undefined && object.javaStringCheckUtf8 !== null
-        ? Boolean(object.javaStringCheckUtf8)
-        : false
-    message.optimizeFor =
-      object.optimizeFor !== undefined && object.optimizeFor !== null
-        ? fileOptions_OptimizeModeFromJSON(object.optimizeFor)
-        : 1
-    message.goPackage =
-      object.goPackage !== undefined && object.goPackage !== null ? String(object.goPackage) : ''
-    message.ccGenericServices =
-      object.ccGenericServices !== undefined && object.ccGenericServices !== null
-        ? Boolean(object.ccGenericServices)
-        : false
-    message.javaGenericServices =
-      object.javaGenericServices !== undefined && object.javaGenericServices !== null
-        ? Boolean(object.javaGenericServices)
-        : false
-    message.pyGenericServices =
-      object.pyGenericServices !== undefined && object.pyGenericServices !== null
-        ? Boolean(object.pyGenericServices)
-        : false
-    message.phpGenericServices =
-      object.phpGenericServices !== undefined && object.phpGenericServices !== null
-        ? Boolean(object.phpGenericServices)
-        : false
-    message.deprecated =
-      object.deprecated !== undefined && object.deprecated !== null
-        ? Boolean(object.deprecated)
-        : false
-    message.ccEnableArenas =
-      object.ccEnableArenas !== undefined && object.ccEnableArenas !== null
-        ? Boolean(object.ccEnableArenas)
-        : false
-    message.objcClassPrefix =
-      object.objcClassPrefix !== undefined && object.objcClassPrefix !== null
-        ? String(object.objcClassPrefix)
-        : ''
-    message.csharpNamespace =
-      object.csharpNamespace !== undefined && object.csharpNamespace !== null
-        ? String(object.csharpNamespace)
-        : ''
-    message.swiftPrefix =
-      object.swiftPrefix !== undefined && object.swiftPrefix !== null
-        ? String(object.swiftPrefix)
-        : ''
-    message.phpClassPrefix =
-      object.phpClassPrefix !== undefined && object.phpClassPrefix !== null
-        ? String(object.phpClassPrefix)
-        : ''
-    message.phpNamespace =
-      object.phpNamespace !== undefined && object.phpNamespace !== null
-        ? String(object.phpNamespace)
-        : ''
-    message.phpMetadataNamespace =
-      object.phpMetadataNamespace !== undefined && object.phpMetadataNamespace !== null
-        ? String(object.phpMetadataNamespace)
-        : ''
-    message.rubyPackage =
-      object.rubyPackage !== undefined && object.rubyPackage !== null
-        ? String(object.rubyPackage)
-        : ''
-    message.uninterpretedOption = (object.uninterpretedOption ?? []).map((e: any) =>
-      UninterpretedOption.fromJSON(e)
-    )
+    message.uninterpretedOption = []
+    if (object.javaPackage !== undefined && object.javaPackage !== null) {
+      message.javaPackage = String(object.javaPackage)
+    } else {
+      message.javaPackage = ''
+    }
+    if (object.javaOuterClassname !== undefined && object.javaOuterClassname !== null) {
+      message.javaOuterClassname = String(object.javaOuterClassname)
+    } else {
+      message.javaOuterClassname = ''
+    }
+    if (object.javaMultipleFiles !== undefined && object.javaMultipleFiles !== null) {
+      message.javaMultipleFiles = Boolean(object.javaMultipleFiles)
+    } else {
+      message.javaMultipleFiles = false
+    }
+    if (
+      object.javaGenerateEqualsAndHash !== undefined &&
+      object.javaGenerateEqualsAndHash !== null
+    ) {
+      message.javaGenerateEqualsAndHash = Boolean(object.javaGenerateEqualsAndHash)
+    } else {
+      message.javaGenerateEqualsAndHash = false
+    }
+    if (object.javaStringCheckUtf8 !== undefined && object.javaStringCheckUtf8 !== null) {
+      message.javaStringCheckUtf8 = Boolean(object.javaStringCheckUtf8)
+    } else {
+      message.javaStringCheckUtf8 = false
+    }
+    if (object.optimizeFor !== undefined && object.optimizeFor !== null) {
+      message.optimizeFor = fileOptions_OptimizeModeFromJSON(object.optimizeFor)
+    } else {
+      message.optimizeFor = 1
+    }
+    if (object.goPackage !== undefined && object.goPackage !== null) {
+      message.goPackage = String(object.goPackage)
+    } else {
+      message.goPackage = ''
+    }
+    if (object.ccGenericServices !== undefined && object.ccGenericServices !== null) {
+      message.ccGenericServices = Boolean(object.ccGenericServices)
+    } else {
+      message.ccGenericServices = false
+    }
+    if (object.javaGenericServices !== undefined && object.javaGenericServices !== null) {
+      message.javaGenericServices = Boolean(object.javaGenericServices)
+    } else {
+      message.javaGenericServices = false
+    }
+    if (object.pyGenericServices !== undefined && object.pyGenericServices !== null) {
+      message.pyGenericServices = Boolean(object.pyGenericServices)
+    } else {
+      message.pyGenericServices = false
+    }
+    if (object.phpGenericServices !== undefined && object.phpGenericServices !== null) {
+      message.phpGenericServices = Boolean(object.phpGenericServices)
+    } else {
+      message.phpGenericServices = false
+    }
+    if (object.deprecated !== undefined && object.deprecated !== null) {
+      message.deprecated = Boolean(object.deprecated)
+    } else {
+      message.deprecated = false
+    }
+    if (object.ccEnableArenas !== undefined && object.ccEnableArenas !== null) {
+      message.ccEnableArenas = Boolean(object.ccEnableArenas)
+    } else {
+      message.ccEnableArenas = false
+    }
+    if (object.objcClassPrefix !== undefined && object.objcClassPrefix !== null) {
+      message.objcClassPrefix = String(object.objcClassPrefix)
+    } else {
+      message.objcClassPrefix = ''
+    }
+    if (object.csharpNamespace !== undefined && object.csharpNamespace !== null) {
+      message.csharpNamespace = String(object.csharpNamespace)
+    } else {
+      message.csharpNamespace = ''
+    }
+    if (object.swiftPrefix !== undefined && object.swiftPrefix !== null) {
+      message.swiftPrefix = String(object.swiftPrefix)
+    } else {
+      message.swiftPrefix = ''
+    }
+    if (object.phpClassPrefix !== undefined && object.phpClassPrefix !== null) {
+      message.phpClassPrefix = String(object.phpClassPrefix)
+    } else {
+      message.phpClassPrefix = ''
+    }
+    if (object.phpNamespace !== undefined && object.phpNamespace !== null) {
+      message.phpNamespace = String(object.phpNamespace)
+    } else {
+      message.phpNamespace = ''
+    }
+    if (object.phpMetadataNamespace !== undefined && object.phpMetadataNamespace !== null) {
+      message.phpMetadataNamespace = String(object.phpMetadataNamespace)
+    } else {
+      message.phpMetadataNamespace = ''
+    }
+    if (object.rubyPackage !== undefined && object.rubyPackage !== null) {
+      message.rubyPackage = String(object.rubyPackage)
+    } else {
+      message.rubyPackage = ''
+    }
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -2771,7 +3098,7 @@ export const FileOptions = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<FileOptions>, I>>(object: I): FileOptions {
+  fromPartial(object: DeepPartial<FileOptions>): FileOptions {
     const message = { ...baseFileOptions } as FileOptions
     message.javaPackage = object.javaPackage ?? ''
     message.javaOuterClassname = object.javaOuterClassname ?? ''
@@ -2793,8 +3120,12 @@ export const FileOptions = {
     message.phpNamespace = object.phpNamespace ?? ''
     message.phpMetadataNamespace = object.phpMetadataNamespace ?? ''
     message.rubyPackage = object.rubyPackage ?? ''
-    message.uninterpretedOption =
-      object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || []
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -2807,7 +3138,7 @@ const baseMessageOptions: object = {
 }
 
 export const MessageOptions = {
-  encode(message: MessageOptions, writer: Writer = Writer.create()): Writer {
+  encode(message: MessageOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.messageSetWireFormat === true) {
       writer.uint32(8).bool(message.messageSetWireFormat)
     }
@@ -2826,8 +3157,8 @@ export const MessageOptions = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MessageOptions {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): MessageOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseMessageOptions } as MessageOptions
     message.uninterpretedOption = []
@@ -2859,24 +3190,35 @@ export const MessageOptions = {
 
   fromJSON(object: any): MessageOptions {
     const message = { ...baseMessageOptions } as MessageOptions
-    message.messageSetWireFormat =
-      object.messageSetWireFormat !== undefined && object.messageSetWireFormat !== null
-        ? Boolean(object.messageSetWireFormat)
-        : false
-    message.noStandardDescriptorAccessor =
+    message.uninterpretedOption = []
+    if (object.messageSetWireFormat !== undefined && object.messageSetWireFormat !== null) {
+      message.messageSetWireFormat = Boolean(object.messageSetWireFormat)
+    } else {
+      message.messageSetWireFormat = false
+    }
+    if (
       object.noStandardDescriptorAccessor !== undefined &&
       object.noStandardDescriptorAccessor !== null
-        ? Boolean(object.noStandardDescriptorAccessor)
-        : false
-    message.deprecated =
-      object.deprecated !== undefined && object.deprecated !== null
-        ? Boolean(object.deprecated)
-        : false
-    message.mapEntry =
-      object.mapEntry !== undefined && object.mapEntry !== null ? Boolean(object.mapEntry) : false
-    message.uninterpretedOption = (object.uninterpretedOption ?? []).map((e: any) =>
-      UninterpretedOption.fromJSON(e)
-    )
+    ) {
+      message.noStandardDescriptorAccessor = Boolean(object.noStandardDescriptorAccessor)
+    } else {
+      message.noStandardDescriptorAccessor = false
+    }
+    if (object.deprecated !== undefined && object.deprecated !== null) {
+      message.deprecated = Boolean(object.deprecated)
+    } else {
+      message.deprecated = false
+    }
+    if (object.mapEntry !== undefined && object.mapEntry !== null) {
+      message.mapEntry = Boolean(object.mapEntry)
+    } else {
+      message.mapEntry = false
+    }
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -2898,14 +3240,18 @@ export const MessageOptions = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MessageOptions>, I>>(object: I): MessageOptions {
+  fromPartial(object: DeepPartial<MessageOptions>): MessageOptions {
     const message = { ...baseMessageOptions } as MessageOptions
     message.messageSetWireFormat = object.messageSetWireFormat ?? false
     message.noStandardDescriptorAccessor = object.noStandardDescriptorAccessor ?? false
     message.deprecated = object.deprecated ?? false
     message.mapEntry = object.mapEntry ?? false
-    message.uninterpretedOption =
-      object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || []
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -2920,7 +3266,7 @@ const baseFieldOptions: object = {
 }
 
 export const FieldOptions = {
-  encode(message: FieldOptions, writer: Writer = Writer.create()): Writer {
+  encode(message: FieldOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.ctype !== 0) {
       writer.uint32(8).int32(message.ctype)
     }
@@ -2945,8 +3291,8 @@ export const FieldOptions = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): FieldOptions {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): FieldOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseFieldOptions } as FieldOptions
     message.uninterpretedOption = []
@@ -2984,25 +3330,42 @@ export const FieldOptions = {
 
   fromJSON(object: any): FieldOptions {
     const message = { ...baseFieldOptions } as FieldOptions
-    message.ctype =
-      object.ctype !== undefined && object.ctype !== null
-        ? fieldOptions_CTypeFromJSON(object.ctype)
-        : 0
-    message.packed =
-      object.packed !== undefined && object.packed !== null ? Boolean(object.packed) : false
-    message.jstype =
-      object.jstype !== undefined && object.jstype !== null
-        ? fieldOptions_JSTypeFromJSON(object.jstype)
-        : 0
-    message.lazy = object.lazy !== undefined && object.lazy !== null ? Boolean(object.lazy) : false
-    message.deprecated =
-      object.deprecated !== undefined && object.deprecated !== null
-        ? Boolean(object.deprecated)
-        : false
-    message.weak = object.weak !== undefined && object.weak !== null ? Boolean(object.weak) : false
-    message.uninterpretedOption = (object.uninterpretedOption ?? []).map((e: any) =>
-      UninterpretedOption.fromJSON(e)
-    )
+    message.uninterpretedOption = []
+    if (object.ctype !== undefined && object.ctype !== null) {
+      message.ctype = fieldOptions_CTypeFromJSON(object.ctype)
+    } else {
+      message.ctype = 0
+    }
+    if (object.packed !== undefined && object.packed !== null) {
+      message.packed = Boolean(object.packed)
+    } else {
+      message.packed = false
+    }
+    if (object.jstype !== undefined && object.jstype !== null) {
+      message.jstype = fieldOptions_JSTypeFromJSON(object.jstype)
+    } else {
+      message.jstype = 0
+    }
+    if (object.lazy !== undefined && object.lazy !== null) {
+      message.lazy = Boolean(object.lazy)
+    } else {
+      message.lazy = false
+    }
+    if (object.deprecated !== undefined && object.deprecated !== null) {
+      message.deprecated = Boolean(object.deprecated)
+    } else {
+      message.deprecated = false
+    }
+    if (object.weak !== undefined && object.weak !== null) {
+      message.weak = Boolean(object.weak)
+    } else {
+      message.weak = false
+    }
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3024,7 +3387,7 @@ export const FieldOptions = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<FieldOptions>, I>>(object: I): FieldOptions {
+  fromPartial(object: DeepPartial<FieldOptions>): FieldOptions {
     const message = { ...baseFieldOptions } as FieldOptions
     message.ctype = object.ctype ?? 0
     message.packed = object.packed ?? false
@@ -3032,8 +3395,12 @@ export const FieldOptions = {
     message.lazy = object.lazy ?? false
     message.deprecated = object.deprecated ?? false
     message.weak = object.weak ?? false
-    message.uninterpretedOption =
-      object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || []
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3041,15 +3408,15 @@ export const FieldOptions = {
 const baseOneofOptions: object = {}
 
 export const OneofOptions = {
-  encode(message: OneofOptions, writer: Writer = Writer.create()): Writer {
+  encode(message: OneofOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.uninterpretedOption) {
       UninterpretedOption.encode(v!, writer.uint32(7994).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): OneofOptions {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): OneofOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseOneofOptions } as OneofOptions
     message.uninterpretedOption = []
@@ -3069,9 +3436,12 @@ export const OneofOptions = {
 
   fromJSON(object: any): OneofOptions {
     const message = { ...baseOneofOptions } as OneofOptions
-    message.uninterpretedOption = (object.uninterpretedOption ?? []).map((e: any) =>
-      UninterpretedOption.fromJSON(e)
-    )
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3087,10 +3457,14 @@ export const OneofOptions = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<OneofOptions>, I>>(object: I): OneofOptions {
+  fromPartial(object: DeepPartial<OneofOptions>): OneofOptions {
     const message = { ...baseOneofOptions } as OneofOptions
-    message.uninterpretedOption =
-      object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || []
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3098,7 +3472,7 @@ export const OneofOptions = {
 const baseEnumOptions: object = { allowAlias: false, deprecated: false }
 
 export const EnumOptions = {
-  encode(message: EnumOptions, writer: Writer = Writer.create()): Writer {
+  encode(message: EnumOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.allowAlias === true) {
       writer.uint32(16).bool(message.allowAlias)
     }
@@ -3111,8 +3485,8 @@ export const EnumOptions = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): EnumOptions {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): EnumOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseEnumOptions } as EnumOptions
     message.uninterpretedOption = []
@@ -3138,17 +3512,22 @@ export const EnumOptions = {
 
   fromJSON(object: any): EnumOptions {
     const message = { ...baseEnumOptions } as EnumOptions
-    message.allowAlias =
-      object.allowAlias !== undefined && object.allowAlias !== null
-        ? Boolean(object.allowAlias)
-        : false
-    message.deprecated =
-      object.deprecated !== undefined && object.deprecated !== null
-        ? Boolean(object.deprecated)
-        : false
-    message.uninterpretedOption = (object.uninterpretedOption ?? []).map((e: any) =>
-      UninterpretedOption.fromJSON(e)
-    )
+    message.uninterpretedOption = []
+    if (object.allowAlias !== undefined && object.allowAlias !== null) {
+      message.allowAlias = Boolean(object.allowAlias)
+    } else {
+      message.allowAlias = false
+    }
+    if (object.deprecated !== undefined && object.deprecated !== null) {
+      message.deprecated = Boolean(object.deprecated)
+    } else {
+      message.deprecated = false
+    }
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3166,12 +3545,16 @@ export const EnumOptions = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<EnumOptions>, I>>(object: I): EnumOptions {
+  fromPartial(object: DeepPartial<EnumOptions>): EnumOptions {
     const message = { ...baseEnumOptions } as EnumOptions
     message.allowAlias = object.allowAlias ?? false
     message.deprecated = object.deprecated ?? false
-    message.uninterpretedOption =
-      object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || []
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3179,7 +3562,7 @@ export const EnumOptions = {
 const baseEnumValueOptions: object = { deprecated: false }
 
 export const EnumValueOptions = {
-  encode(message: EnumValueOptions, writer: Writer = Writer.create()): Writer {
+  encode(message: EnumValueOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.deprecated === true) {
       writer.uint32(8).bool(message.deprecated)
     }
@@ -3189,8 +3572,8 @@ export const EnumValueOptions = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): EnumValueOptions {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): EnumValueOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseEnumValueOptions } as EnumValueOptions
     message.uninterpretedOption = []
@@ -3213,13 +3596,17 @@ export const EnumValueOptions = {
 
   fromJSON(object: any): EnumValueOptions {
     const message = { ...baseEnumValueOptions } as EnumValueOptions
-    message.deprecated =
-      object.deprecated !== undefined && object.deprecated !== null
-        ? Boolean(object.deprecated)
-        : false
-    message.uninterpretedOption = (object.uninterpretedOption ?? []).map((e: any) =>
-      UninterpretedOption.fromJSON(e)
-    )
+    message.uninterpretedOption = []
+    if (object.deprecated !== undefined && object.deprecated !== null) {
+      message.deprecated = Boolean(object.deprecated)
+    } else {
+      message.deprecated = false
+    }
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3236,11 +3623,15 @@ export const EnumValueOptions = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<EnumValueOptions>, I>>(object: I): EnumValueOptions {
+  fromPartial(object: DeepPartial<EnumValueOptions>): EnumValueOptions {
     const message = { ...baseEnumValueOptions } as EnumValueOptions
     message.deprecated = object.deprecated ?? false
-    message.uninterpretedOption =
-      object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || []
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3248,7 +3639,7 @@ export const EnumValueOptions = {
 const baseServiceOptions: object = { deprecated: false }
 
 export const ServiceOptions = {
-  encode(message: ServiceOptions, writer: Writer = Writer.create()): Writer {
+  encode(message: ServiceOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.deprecated === true) {
       writer.uint32(264).bool(message.deprecated)
     }
@@ -3258,8 +3649,8 @@ export const ServiceOptions = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ServiceOptions {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ServiceOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseServiceOptions } as ServiceOptions
     message.uninterpretedOption = []
@@ -3282,13 +3673,17 @@ export const ServiceOptions = {
 
   fromJSON(object: any): ServiceOptions {
     const message = { ...baseServiceOptions } as ServiceOptions
-    message.deprecated =
-      object.deprecated !== undefined && object.deprecated !== null
-        ? Boolean(object.deprecated)
-        : false
-    message.uninterpretedOption = (object.uninterpretedOption ?? []).map((e: any) =>
-      UninterpretedOption.fromJSON(e)
-    )
+    message.uninterpretedOption = []
+    if (object.deprecated !== undefined && object.deprecated !== null) {
+      message.deprecated = Boolean(object.deprecated)
+    } else {
+      message.deprecated = false
+    }
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3305,11 +3700,15 @@ export const ServiceOptions = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ServiceOptions>, I>>(object: I): ServiceOptions {
+  fromPartial(object: DeepPartial<ServiceOptions>): ServiceOptions {
     const message = { ...baseServiceOptions } as ServiceOptions
     message.deprecated = object.deprecated ?? false
-    message.uninterpretedOption =
-      object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || []
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3317,7 +3716,7 @@ export const ServiceOptions = {
 const baseMethodOptions: object = { deprecated: false, idempotencyLevel: 0 }
 
 export const MethodOptions = {
-  encode(message: MethodOptions, writer: Writer = Writer.create()): Writer {
+  encode(message: MethodOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.deprecated === true) {
       writer.uint32(264).bool(message.deprecated)
     }
@@ -3330,8 +3729,8 @@ export const MethodOptions = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MethodOptions {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): MethodOptions {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseMethodOptions } as MethodOptions
     message.uninterpretedOption = []
@@ -3357,17 +3756,22 @@ export const MethodOptions = {
 
   fromJSON(object: any): MethodOptions {
     const message = { ...baseMethodOptions } as MethodOptions
-    message.deprecated =
-      object.deprecated !== undefined && object.deprecated !== null
-        ? Boolean(object.deprecated)
-        : false
-    message.idempotencyLevel =
-      object.idempotencyLevel !== undefined && object.idempotencyLevel !== null
-        ? methodOptions_IdempotencyLevelFromJSON(object.idempotencyLevel)
-        : 0
-    message.uninterpretedOption = (object.uninterpretedOption ?? []).map((e: any) =>
-      UninterpretedOption.fromJSON(e)
-    )
+    message.uninterpretedOption = []
+    if (object.deprecated !== undefined && object.deprecated !== null) {
+      message.deprecated = Boolean(object.deprecated)
+    } else {
+      message.deprecated = false
+    }
+    if (object.idempotencyLevel !== undefined && object.idempotencyLevel !== null) {
+      message.idempotencyLevel = methodOptions_IdempotencyLevelFromJSON(object.idempotencyLevel)
+    } else {
+      message.idempotencyLevel = 0
+    }
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3386,12 +3790,16 @@ export const MethodOptions = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MethodOptions>, I>>(object: I): MethodOptions {
+  fromPartial(object: DeepPartial<MethodOptions>): MethodOptions {
     const message = { ...baseMethodOptions } as MethodOptions
     message.deprecated = object.deprecated ?? false
     message.idempotencyLevel = object.idempotencyLevel ?? 0
-    message.uninterpretedOption =
-      object.uninterpretedOption?.map(e => UninterpretedOption.fromPartial(e)) || []
+    message.uninterpretedOption = []
+    if (object.uninterpretedOption !== undefined && object.uninterpretedOption !== null) {
+      for (const e of object.uninterpretedOption) {
+        message.uninterpretedOption.push(UninterpretedOption.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3405,7 +3813,7 @@ const baseUninterpretedOption: object = {
 }
 
 export const UninterpretedOption = {
-  encode(message: UninterpretedOption, writer: Writer = Writer.create()): Writer {
+  encode(message: UninterpretedOption, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.name) {
       UninterpretedOption_NamePart.encode(v!, writer.uint32(18).fork()).ldelim()
     }
@@ -3430,8 +3838,8 @@ export const UninterpretedOption = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): UninterpretedOption {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): UninterpretedOption {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseUninterpretedOption } as UninterpretedOption
     message.name = []
@@ -3470,31 +3878,41 @@ export const UninterpretedOption = {
 
   fromJSON(object: any): UninterpretedOption {
     const message = { ...baseUninterpretedOption } as UninterpretedOption
-    message.name = (object.name ?? []).map((e: any) => UninterpretedOption_NamePart.fromJSON(e))
-    message.identifierValue =
-      object.identifierValue !== undefined && object.identifierValue !== null
-        ? String(object.identifierValue)
-        : ''
-    message.positiveIntValue =
-      object.positiveIntValue !== undefined && object.positiveIntValue !== null
-        ? Long.fromString(object.positiveIntValue)
-        : Long.UZERO
-    message.negativeIntValue =
-      object.negativeIntValue !== undefined && object.negativeIntValue !== null
-        ? Long.fromString(object.negativeIntValue)
-        : Long.ZERO
-    message.doubleValue =
-      object.doubleValue !== undefined && object.doubleValue !== null
-        ? Number(object.doubleValue)
-        : 0
-    message.stringValue =
-      object.stringValue !== undefined && object.stringValue !== null
-        ? bytesFromBase64(object.stringValue)
-        : new Uint8Array()
-    message.aggregateValue =
-      object.aggregateValue !== undefined && object.aggregateValue !== null
-        ? String(object.aggregateValue)
-        : ''
+    message.name = []
+    message.stringValue = new Uint8Array()
+    if (object.name !== undefined && object.name !== null) {
+      for (const e of object.name) {
+        message.name.push(UninterpretedOption_NamePart.fromJSON(e))
+      }
+    }
+    if (object.identifierValue !== undefined && object.identifierValue !== null) {
+      message.identifierValue = String(object.identifierValue)
+    } else {
+      message.identifierValue = ''
+    }
+    if (object.positiveIntValue !== undefined && object.positiveIntValue !== null) {
+      message.positiveIntValue = Long.fromString(object.positiveIntValue)
+    } else {
+      message.positiveIntValue = Long.UZERO
+    }
+    if (object.negativeIntValue !== undefined && object.negativeIntValue !== null) {
+      message.negativeIntValue = Long.fromString(object.negativeIntValue)
+    } else {
+      message.negativeIntValue = Long.ZERO
+    }
+    if (object.doubleValue !== undefined && object.doubleValue !== null) {
+      message.doubleValue = Number(object.doubleValue)
+    } else {
+      message.doubleValue = 0
+    }
+    if (object.stringValue !== undefined && object.stringValue !== null) {
+      message.stringValue = bytesFromBase64(object.stringValue)
+    }
+    if (object.aggregateValue !== undefined && object.aggregateValue !== null) {
+      message.aggregateValue = String(object.aggregateValue)
+    } else {
+      message.aggregateValue = ''
+    }
     return message
   },
 
@@ -3519,20 +3937,25 @@ export const UninterpretedOption = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<UninterpretedOption>, I>>(
-    object: I
-  ): UninterpretedOption {
+  fromPartial(object: DeepPartial<UninterpretedOption>): UninterpretedOption {
     const message = { ...baseUninterpretedOption } as UninterpretedOption
-    message.name = object.name?.map(e => UninterpretedOption_NamePart.fromPartial(e)) || []
+    message.name = []
+    if (object.name !== undefined && object.name !== null) {
+      for (const e of object.name) {
+        message.name.push(UninterpretedOption_NamePart.fromPartial(e))
+      }
+    }
     message.identifierValue = object.identifierValue ?? ''
-    message.positiveIntValue =
-      object.positiveIntValue !== undefined && object.positiveIntValue !== null
-        ? Long.fromValue(object.positiveIntValue)
-        : Long.UZERO
-    message.negativeIntValue =
-      object.negativeIntValue !== undefined && object.negativeIntValue !== null
-        ? Long.fromValue(object.negativeIntValue)
-        : Long.ZERO
+    if (object.positiveIntValue !== undefined && object.positiveIntValue !== null) {
+      message.positiveIntValue = object.positiveIntValue as Long
+    } else {
+      message.positiveIntValue = Long.UZERO
+    }
+    if (object.negativeIntValue !== undefined && object.negativeIntValue !== null) {
+      message.negativeIntValue = object.negativeIntValue as Long
+    } else {
+      message.negativeIntValue = Long.ZERO
+    }
     message.doubleValue = object.doubleValue ?? 0
     message.stringValue = object.stringValue ?? new Uint8Array()
     message.aggregateValue = object.aggregateValue ?? ''
@@ -3546,7 +3969,10 @@ const baseUninterpretedOption_NamePart: object = {
 }
 
 export const UninterpretedOption_NamePart = {
-  encode(message: UninterpretedOption_NamePart, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: UninterpretedOption_NamePart,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.namePart !== '') {
       writer.uint32(10).string(message.namePart)
     }
@@ -3556,8 +3982,8 @@ export const UninterpretedOption_NamePart = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): UninterpretedOption_NamePart {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): UninterpretedOption_NamePart {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseUninterpretedOption_NamePart
@@ -3583,12 +4009,16 @@ export const UninterpretedOption_NamePart = {
     const message = {
       ...baseUninterpretedOption_NamePart
     } as UninterpretedOption_NamePart
-    message.namePart =
-      object.namePart !== undefined && object.namePart !== null ? String(object.namePart) : ''
-    message.isExtension =
-      object.isExtension !== undefined && object.isExtension !== null
-        ? Boolean(object.isExtension)
-        : false
+    if (object.namePart !== undefined && object.namePart !== null) {
+      message.namePart = String(object.namePart)
+    } else {
+      message.namePart = ''
+    }
+    if (object.isExtension !== undefined && object.isExtension !== null) {
+      message.isExtension = Boolean(object.isExtension)
+    } else {
+      message.isExtension = false
+    }
     return message
   },
 
@@ -3599,9 +4029,7 @@ export const UninterpretedOption_NamePart = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<UninterpretedOption_NamePart>, I>>(
-    object: I
-  ): UninterpretedOption_NamePart {
+  fromPartial(object: DeepPartial<UninterpretedOption_NamePart>): UninterpretedOption_NamePart {
     const message = {
       ...baseUninterpretedOption_NamePart
     } as UninterpretedOption_NamePart
@@ -3614,15 +4042,15 @@ export const UninterpretedOption_NamePart = {
 const baseSourceCodeInfo: object = {}
 
 export const SourceCodeInfo = {
-  encode(message: SourceCodeInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: SourceCodeInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.location) {
       SourceCodeInfo_Location.encode(v!, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): SourceCodeInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): SourceCodeInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseSourceCodeInfo } as SourceCodeInfo
     message.location = []
@@ -3642,7 +4070,12 @@ export const SourceCodeInfo = {
 
   fromJSON(object: any): SourceCodeInfo {
     const message = { ...baseSourceCodeInfo } as SourceCodeInfo
-    message.location = (object.location ?? []).map((e: any) => SourceCodeInfo_Location.fromJSON(e))
+    message.location = []
+    if (object.location !== undefined && object.location !== null) {
+      for (const e of object.location) {
+        message.location.push(SourceCodeInfo_Location.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3656,9 +4089,14 @@ export const SourceCodeInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<SourceCodeInfo>, I>>(object: I): SourceCodeInfo {
+  fromPartial(object: DeepPartial<SourceCodeInfo>): SourceCodeInfo {
     const message = { ...baseSourceCodeInfo } as SourceCodeInfo
-    message.location = object.location?.map(e => SourceCodeInfo_Location.fromPartial(e)) || []
+    message.location = []
+    if (object.location !== undefined && object.location !== null) {
+      for (const e of object.location) {
+        message.location.push(SourceCodeInfo_Location.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3672,7 +4110,7 @@ const baseSourceCodeInfo_Location: object = {
 }
 
 export const SourceCodeInfo_Location = {
-  encode(message: SourceCodeInfo_Location, writer: Writer = Writer.create()): Writer {
+  encode(message: SourceCodeInfo_Location, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     writer.uint32(10).fork()
     for (const v of message.path) {
       writer.int32(v)
@@ -3695,8 +4133,8 @@ export const SourceCodeInfo_Location = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): SourceCodeInfo_Location {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): SourceCodeInfo_Location {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseSourceCodeInfo_Location
@@ -3748,31 +4186,46 @@ export const SourceCodeInfo_Location = {
     const message = {
       ...baseSourceCodeInfo_Location
     } as SourceCodeInfo_Location
-    message.path = (object.path ?? []).map((e: any) => Number(e))
-    message.span = (object.span ?? []).map((e: any) => Number(e))
-    message.leadingComments =
-      object.leadingComments !== undefined && object.leadingComments !== null
-        ? String(object.leadingComments)
-        : ''
-    message.trailingComments =
-      object.trailingComments !== undefined && object.trailingComments !== null
-        ? String(object.trailingComments)
-        : ''
-    message.leadingDetachedComments = (object.leadingDetachedComments ?? []).map((e: any) =>
-      String(e)
-    )
+    message.path = []
+    message.span = []
+    message.leadingDetachedComments = []
+    if (object.path !== undefined && object.path !== null) {
+      for (const e of object.path) {
+        message.path.push(Number(e))
+      }
+    }
+    if (object.span !== undefined && object.span !== null) {
+      for (const e of object.span) {
+        message.span.push(Number(e))
+      }
+    }
+    if (object.leadingComments !== undefined && object.leadingComments !== null) {
+      message.leadingComments = String(object.leadingComments)
+    } else {
+      message.leadingComments = ''
+    }
+    if (object.trailingComments !== undefined && object.trailingComments !== null) {
+      message.trailingComments = String(object.trailingComments)
+    } else {
+      message.trailingComments = ''
+    }
+    if (object.leadingDetachedComments !== undefined && object.leadingDetachedComments !== null) {
+      for (const e of object.leadingDetachedComments) {
+        message.leadingDetachedComments.push(String(e))
+      }
+    }
     return message
   },
 
   toJSON(message: SourceCodeInfo_Location): unknown {
     const obj: any = {}
     if (message.path) {
-      obj.path = message.path.map(e => Math.round(e))
+      obj.path = message.path.map(e => e)
     } else {
       obj.path = []
     }
     if (message.span) {
-      obj.span = message.span.map(e => Math.round(e))
+      obj.span = message.span.map(e => e)
     } else {
       obj.span = []
     }
@@ -3786,17 +4239,30 @@ export const SourceCodeInfo_Location = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<SourceCodeInfo_Location>, I>>(
-    object: I
-  ): SourceCodeInfo_Location {
+  fromPartial(object: DeepPartial<SourceCodeInfo_Location>): SourceCodeInfo_Location {
     const message = {
       ...baseSourceCodeInfo_Location
     } as SourceCodeInfo_Location
-    message.path = object.path?.map(e => e) || []
-    message.span = object.span?.map(e => e) || []
+    message.path = []
+    if (object.path !== undefined && object.path !== null) {
+      for (const e of object.path) {
+        message.path.push(e)
+      }
+    }
+    message.span = []
+    if (object.span !== undefined && object.span !== null) {
+      for (const e of object.span) {
+        message.span.push(e)
+      }
+    }
     message.leadingComments = object.leadingComments ?? ''
     message.trailingComments = object.trailingComments ?? ''
-    message.leadingDetachedComments = object.leadingDetachedComments?.map(e => e) || []
+    message.leadingDetachedComments = []
+    if (object.leadingDetachedComments !== undefined && object.leadingDetachedComments !== null) {
+      for (const e of object.leadingDetachedComments) {
+        message.leadingDetachedComments.push(e)
+      }
+    }
     return message
   }
 }
@@ -3804,15 +4270,15 @@ export const SourceCodeInfo_Location = {
 const baseGeneratedCodeInfo: object = {}
 
 export const GeneratedCodeInfo = {
-  encode(message: GeneratedCodeInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: GeneratedCodeInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.annotation) {
       GeneratedCodeInfo_Annotation.encode(v!, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): GeneratedCodeInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): GeneratedCodeInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseGeneratedCodeInfo } as GeneratedCodeInfo
     message.annotation = []
@@ -3832,9 +4298,12 @@ export const GeneratedCodeInfo = {
 
   fromJSON(object: any): GeneratedCodeInfo {
     const message = { ...baseGeneratedCodeInfo } as GeneratedCodeInfo
-    message.annotation = (object.annotation ?? []).map((e: any) =>
-      GeneratedCodeInfo_Annotation.fromJSON(e)
-    )
+    message.annotation = []
+    if (object.annotation !== undefined && object.annotation !== null) {
+      for (const e of object.annotation) {
+        message.annotation.push(GeneratedCodeInfo_Annotation.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3850,10 +4319,14 @@ export const GeneratedCodeInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<GeneratedCodeInfo>, I>>(object: I): GeneratedCodeInfo {
+  fromPartial(object: DeepPartial<GeneratedCodeInfo>): GeneratedCodeInfo {
     const message = { ...baseGeneratedCodeInfo } as GeneratedCodeInfo
-    message.annotation =
-      object.annotation?.map(e => GeneratedCodeInfo_Annotation.fromPartial(e)) || []
+    message.annotation = []
+    if (object.annotation !== undefined && object.annotation !== null) {
+      for (const e of object.annotation) {
+        message.annotation.push(GeneratedCodeInfo_Annotation.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3866,7 +4339,10 @@ const baseGeneratedCodeInfo_Annotation: object = {
 }
 
 export const GeneratedCodeInfo_Annotation = {
-  encode(message: GeneratedCodeInfo_Annotation, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: GeneratedCodeInfo_Annotation,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     writer.uint32(10).fork()
     for (const v of message.path) {
       writer.int32(v)
@@ -3884,8 +4360,8 @@ export const GeneratedCodeInfo_Annotation = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): GeneratedCodeInfo_Annotation {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): GeneratedCodeInfo_Annotation {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseGeneratedCodeInfo_Annotation
@@ -3925,34 +4401,53 @@ export const GeneratedCodeInfo_Annotation = {
     const message = {
       ...baseGeneratedCodeInfo_Annotation
     } as GeneratedCodeInfo_Annotation
-    message.path = (object.path ?? []).map((e: any) => Number(e))
-    message.sourceFile =
-      object.sourceFile !== undefined && object.sourceFile !== null ? String(object.sourceFile) : ''
-    message.begin = object.begin !== undefined && object.begin !== null ? Number(object.begin) : 0
-    message.end = object.end !== undefined && object.end !== null ? Number(object.end) : 0
+    message.path = []
+    if (object.path !== undefined && object.path !== null) {
+      for (const e of object.path) {
+        message.path.push(Number(e))
+      }
+    }
+    if (object.sourceFile !== undefined && object.sourceFile !== null) {
+      message.sourceFile = String(object.sourceFile)
+    } else {
+      message.sourceFile = ''
+    }
+    if (object.begin !== undefined && object.begin !== null) {
+      message.begin = Number(object.begin)
+    } else {
+      message.begin = 0
+    }
+    if (object.end !== undefined && object.end !== null) {
+      message.end = Number(object.end)
+    } else {
+      message.end = 0
+    }
     return message
   },
 
   toJSON(message: GeneratedCodeInfo_Annotation): unknown {
     const obj: any = {}
     if (message.path) {
-      obj.path = message.path.map(e => Math.round(e))
+      obj.path = message.path.map(e => e)
     } else {
       obj.path = []
     }
     message.sourceFile !== undefined && (obj.sourceFile = message.sourceFile)
-    message.begin !== undefined && (obj.begin = Math.round(message.begin))
-    message.end !== undefined && (obj.end = Math.round(message.end))
+    message.begin !== undefined && (obj.begin = message.begin)
+    message.end !== undefined && (obj.end = message.end)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<GeneratedCodeInfo_Annotation>, I>>(
-    object: I
-  ): GeneratedCodeInfo_Annotation {
+  fromPartial(object: DeepPartial<GeneratedCodeInfo_Annotation>): GeneratedCodeInfo_Annotation {
     const message = {
       ...baseGeneratedCodeInfo_Annotation
     } as GeneratedCodeInfo_Annotation
-    message.path = object.path?.map(e => e) || []
+    message.path = []
+    if (object.path !== undefined && object.path !== null) {
+      for (const e of object.path) {
+        message.path.push(e)
+      }
+    }
     message.sourceFile = object.sourceFile ?? ''
     message.begin = object.begin ?? 0
     message.end = object.end ?? 0
@@ -3992,12 +4487,9 @@ function base64FromBytes(arr: Uint8Array): string {
   return btoa(bin.join(''))
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -4006,14 +4498,7 @@ export type DeepPartial<T> = T extends Builtin
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
 
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
-
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }

@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 
 export const protobufPackage = 'misesid.misestm.v1beta1'
 
@@ -25,7 +25,7 @@ const baseDidRegistry: object = {
 }
 
 export const DidRegistry = {
-  encode(message: DidRegistry, writer: Writer = Writer.create()): Writer {
+  encode(message: DidRegistry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.creator !== '') {
       writer.uint32(10).string(message.creator)
     }
@@ -50,8 +50,8 @@ export const DidRegistry = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): DidRegistry {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): DidRegistry {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseDidRegistry } as DidRegistry
     while (reader.pos < end) {
@@ -88,23 +88,41 @@ export const DidRegistry = {
 
   fromJSON(object: any): DidRegistry {
     const message = { ...baseDidRegistry } as DidRegistry
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
-    message.did = object.did !== undefined && object.did !== null ? String(object.did) : ''
-    message.pkeyDid =
-      object.pkeyDid !== undefined && object.pkeyDid !== null ? String(object.pkeyDid) : ''
-    message.pkeyType =
-      object.pkeyType !== undefined && object.pkeyType !== null ? String(object.pkeyType) : ''
-    message.pkeyMultibase =
-      object.pkeyMultibase !== undefined && object.pkeyMultibase !== null
-        ? String(object.pkeyMultibase)
-        : ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
+    if (object.did !== undefined && object.did !== null) {
+      message.did = String(object.did)
+    } else {
+      message.did = ''
+    }
+    if (object.pkeyDid !== undefined && object.pkeyDid !== null) {
+      message.pkeyDid = String(object.pkeyDid)
+    } else {
+      message.pkeyDid = ''
+    }
+    if (object.pkeyType !== undefined && object.pkeyType !== null) {
+      message.pkeyType = String(object.pkeyType)
+    } else {
+      message.pkeyType = ''
+    }
+    if (object.pkeyMultibase !== undefined && object.pkeyMultibase !== null) {
+      message.pkeyMultibase = String(object.pkeyMultibase)
+    } else {
+      message.pkeyMultibase = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -120,29 +138,30 @@ export const DidRegistry = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<DidRegistry>, I>>(object: I): DidRegistry {
+  fromPartial(object: DeepPartial<DidRegistry>): DidRegistry {
     const message = { ...baseDidRegistry } as DidRegistry
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     message.did = object.did ?? ''
     message.pkeyDid = object.pkeyDid ?? ''
     message.pkeyType = object.pkeyType ?? ''
     message.pkeyMultibase = object.pkeyMultibase ?? ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -151,14 +170,7 @@ export type DeepPartial<T> = T extends Builtin
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
 
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
-
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }

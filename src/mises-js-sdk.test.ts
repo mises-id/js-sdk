@@ -1,5 +1,5 @@
 /* eslint-disable */
-import MSdk from '../src/mises-js-sdk'
+import MSdk from './mises-js-sdk'
 
 /**
  * MSdk test
@@ -11,6 +11,6 @@ describe('MSdk test', () => {
 
   it('MSdk is instantiable', async () => {
     const sdk = await MSdk.newSdk()
-    expect(sdk).toBeInstanceOf(MSdk)
+    expect(typeof sdk).toBe('MSdk')
   })
 })

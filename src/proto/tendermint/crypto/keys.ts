@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 
 export const protobufPackage = 'tendermint.crypto'
 
@@ -13,7 +13,7 @@ export interface PublicKey {
 const basePublicKey: object = {}
 
 export const PublicKey = {
-  encode(message: PublicKey, writer: Writer = Writer.create()): Writer {
+  encode(message: PublicKey, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.ed25519 !== undefined) {
       writer.uint32(10).bytes(message.ed25519)
     }
@@ -23,8 +23,8 @@ export const PublicKey = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): PublicKey {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): PublicKey {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...basePublicKey } as PublicKey
     while (reader.pos < end) {
@@ -46,14 +46,12 @@ export const PublicKey = {
 
   fromJSON(object: any): PublicKey {
     const message = { ...basePublicKey } as PublicKey
-    message.ed25519 =
-      object.ed25519 !== undefined && object.ed25519 !== null
-        ? bytesFromBase64(object.ed25519)
-        : undefined
-    message.secp256k1 =
-      object.secp256k1 !== undefined && object.secp256k1 !== null
-        ? bytesFromBase64(object.secp256k1)
-        : undefined
+    if (object.ed25519 !== undefined && object.ed25519 !== null) {
+      message.ed25519 = bytesFromBase64(object.ed25519)
+    }
+    if (object.secp256k1 !== undefined && object.secp256k1 !== null) {
+      message.secp256k1 = bytesFromBase64(object.secp256k1)
+    }
     return message
   },
 
@@ -67,7 +65,7 @@ export const PublicKey = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<PublicKey>, I>>(object: I): PublicKey {
+  fromPartial(object: DeepPartial<PublicKey>): PublicKey {
     const message = { ...basePublicKey } as PublicKey
     message.ed25519 = object.ed25519 ?? undefined
     message.secp256k1 = object.secp256k1 ?? undefined
@@ -107,12 +105,9 @@ function base64FromBytes(arr: Uint8Array): string {
   return btoa(bin.join(''))
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -121,14 +116,7 @@ export type DeepPartial<T> = T extends Builtin
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
 
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
-
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }

@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 
 export const protobufPackage = 'google.protobuf'
 
@@ -123,7 +123,7 @@ export interface Any {
 const baseAny: object = { typeUrl: '' }
 
 export const Any = {
-  encode(message: Any, writer: Writer = Writer.create()): Writer {
+  encode(message: Any, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.typeUrl !== '') {
       writer.uint32(10).string(message.typeUrl)
     }
@@ -133,8 +133,8 @@ export const Any = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Any {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): Any {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseAny } as Any
     message.value = new Uint8Array()
@@ -157,12 +157,15 @@ export const Any = {
 
   fromJSON(object: any): Any {
     const message = { ...baseAny } as Any
-    message.typeUrl =
-      object.typeUrl !== undefined && object.typeUrl !== null ? String(object.typeUrl) : ''
-    message.value =
-      object.value !== undefined && object.value !== null
-        ? bytesFromBase64(object.value)
-        : new Uint8Array()
+    message.value = new Uint8Array()
+    if (object.typeUrl !== undefined && object.typeUrl !== null) {
+      message.typeUrl = String(object.typeUrl)
+    } else {
+      message.typeUrl = ''
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = bytesFromBase64(object.value)
+    }
     return message
   },
 
@@ -174,7 +177,7 @@ export const Any = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Any>, I>>(object: I): Any {
+  fromPartial(object: DeepPartial<Any>): Any {
     const message = { ...baseAny } as Any
     message.typeUrl = object.typeUrl ?? ''
     message.value = object.value ?? new Uint8Array()
@@ -214,12 +217,9 @@ function base64FromBytes(arr: Uint8Array): string {
   return btoa(bin.join(''))
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -228,14 +228,7 @@ export type DeepPartial<T> = T extends Builtin
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
 
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
-
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }

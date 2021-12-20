@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 import { Header } from '../../tendermint/types/types'
 import { ProofOps } from '../../tendermint/crypto/proof'
 import { EvidenceParams, ValidatorParams, VersionParams } from '../../tendermint/types/params'
@@ -540,7 +540,7 @@ export interface Snapshot {
 const baseRequest: object = {}
 
 export const Request = {
-  encode(message: Request, writer: Writer = Writer.create()): Writer {
+  encode(message: Request, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.echo !== undefined) {
       RequestEcho.encode(message.echo, writer.uint32(10).fork()).ldelim()
     }
@@ -592,8 +592,8 @@ export const Request = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Request {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): Request {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequest } as Request
     while (reader.pos < end) {
@@ -654,66 +654,81 @@ export const Request = {
 
   fromJSON(object: any): Request {
     const message = { ...baseRequest } as Request
-    message.echo =
-      object.echo !== undefined && object.echo !== null
-        ? RequestEcho.fromJSON(object.echo)
-        : undefined
-    message.flush =
-      object.flush !== undefined && object.flush !== null
-        ? RequestFlush.fromJSON(object.flush)
-        : undefined
-    message.info =
-      object.info !== undefined && object.info !== null
-        ? RequestInfo.fromJSON(object.info)
-        : undefined
-    message.setOption =
-      object.setOption !== undefined && object.setOption !== null
-        ? RequestSetOption.fromJSON(object.setOption)
-        : undefined
-    message.initChain =
-      object.initChain !== undefined && object.initChain !== null
-        ? RequestInitChain.fromJSON(object.initChain)
-        : undefined
-    message.query =
-      object.query !== undefined && object.query !== null
-        ? RequestQuery.fromJSON(object.query)
-        : undefined
-    message.beginBlock =
-      object.beginBlock !== undefined && object.beginBlock !== null
-        ? RequestBeginBlock.fromJSON(object.beginBlock)
-        : undefined
-    message.checkTx =
-      object.checkTx !== undefined && object.checkTx !== null
-        ? RequestCheckTx.fromJSON(object.checkTx)
-        : undefined
-    message.deliverTx =
-      object.deliverTx !== undefined && object.deliverTx !== null
-        ? RequestDeliverTx.fromJSON(object.deliverTx)
-        : undefined
-    message.endBlock =
-      object.endBlock !== undefined && object.endBlock !== null
-        ? RequestEndBlock.fromJSON(object.endBlock)
-        : undefined
-    message.commit =
-      object.commit !== undefined && object.commit !== null
-        ? RequestCommit.fromJSON(object.commit)
-        : undefined
-    message.listSnapshots =
-      object.listSnapshots !== undefined && object.listSnapshots !== null
-        ? RequestListSnapshots.fromJSON(object.listSnapshots)
-        : undefined
-    message.offerSnapshot =
-      object.offerSnapshot !== undefined && object.offerSnapshot !== null
-        ? RequestOfferSnapshot.fromJSON(object.offerSnapshot)
-        : undefined
-    message.loadSnapshotChunk =
-      object.loadSnapshotChunk !== undefined && object.loadSnapshotChunk !== null
-        ? RequestLoadSnapshotChunk.fromJSON(object.loadSnapshotChunk)
-        : undefined
-    message.applySnapshotChunk =
-      object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null
-        ? RequestApplySnapshotChunk.fromJSON(object.applySnapshotChunk)
-        : undefined
+    if (object.echo !== undefined && object.echo !== null) {
+      message.echo = RequestEcho.fromJSON(object.echo)
+    } else {
+      message.echo = undefined
+    }
+    if (object.flush !== undefined && object.flush !== null) {
+      message.flush = RequestFlush.fromJSON(object.flush)
+    } else {
+      message.flush = undefined
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = RequestInfo.fromJSON(object.info)
+    } else {
+      message.info = undefined
+    }
+    if (object.setOption !== undefined && object.setOption !== null) {
+      message.setOption = RequestSetOption.fromJSON(object.setOption)
+    } else {
+      message.setOption = undefined
+    }
+    if (object.initChain !== undefined && object.initChain !== null) {
+      message.initChain = RequestInitChain.fromJSON(object.initChain)
+    } else {
+      message.initChain = undefined
+    }
+    if (object.query !== undefined && object.query !== null) {
+      message.query = RequestQuery.fromJSON(object.query)
+    } else {
+      message.query = undefined
+    }
+    if (object.beginBlock !== undefined && object.beginBlock !== null) {
+      message.beginBlock = RequestBeginBlock.fromJSON(object.beginBlock)
+    } else {
+      message.beginBlock = undefined
+    }
+    if (object.checkTx !== undefined && object.checkTx !== null) {
+      message.checkTx = RequestCheckTx.fromJSON(object.checkTx)
+    } else {
+      message.checkTx = undefined
+    }
+    if (object.deliverTx !== undefined && object.deliverTx !== null) {
+      message.deliverTx = RequestDeliverTx.fromJSON(object.deliverTx)
+    } else {
+      message.deliverTx = undefined
+    }
+    if (object.endBlock !== undefined && object.endBlock !== null) {
+      message.endBlock = RequestEndBlock.fromJSON(object.endBlock)
+    } else {
+      message.endBlock = undefined
+    }
+    if (object.commit !== undefined && object.commit !== null) {
+      message.commit = RequestCommit.fromJSON(object.commit)
+    } else {
+      message.commit = undefined
+    }
+    if (object.listSnapshots !== undefined && object.listSnapshots !== null) {
+      message.listSnapshots = RequestListSnapshots.fromJSON(object.listSnapshots)
+    } else {
+      message.listSnapshots = undefined
+    }
+    if (object.offerSnapshot !== undefined && object.offerSnapshot !== null) {
+      message.offerSnapshot = RequestOfferSnapshot.fromJSON(object.offerSnapshot)
+    } else {
+      message.offerSnapshot = undefined
+    }
+    if (object.loadSnapshotChunk !== undefined && object.loadSnapshotChunk !== null) {
+      message.loadSnapshotChunk = RequestLoadSnapshotChunk.fromJSON(object.loadSnapshotChunk)
+    } else {
+      message.loadSnapshotChunk = undefined
+    }
+    if (object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null) {
+      message.applySnapshotChunk = RequestApplySnapshotChunk.fromJSON(object.applySnapshotChunk)
+    } else {
+      message.applySnapshotChunk = undefined
+    }
     return message
   },
 
@@ -762,68 +777,83 @@ export const Request = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Request>, I>>(object: I): Request {
+  fromPartial(object: DeepPartial<Request>): Request {
     const message = { ...baseRequest } as Request
-    message.echo =
-      object.echo !== undefined && object.echo !== null
-        ? RequestEcho.fromPartial(object.echo)
-        : undefined
-    message.flush =
-      object.flush !== undefined && object.flush !== null
-        ? RequestFlush.fromPartial(object.flush)
-        : undefined
-    message.info =
-      object.info !== undefined && object.info !== null
-        ? RequestInfo.fromPartial(object.info)
-        : undefined
-    message.setOption =
-      object.setOption !== undefined && object.setOption !== null
-        ? RequestSetOption.fromPartial(object.setOption)
-        : undefined
-    message.initChain =
-      object.initChain !== undefined && object.initChain !== null
-        ? RequestInitChain.fromPartial(object.initChain)
-        : undefined
-    message.query =
-      object.query !== undefined && object.query !== null
-        ? RequestQuery.fromPartial(object.query)
-        : undefined
-    message.beginBlock =
-      object.beginBlock !== undefined && object.beginBlock !== null
-        ? RequestBeginBlock.fromPartial(object.beginBlock)
-        : undefined
-    message.checkTx =
-      object.checkTx !== undefined && object.checkTx !== null
-        ? RequestCheckTx.fromPartial(object.checkTx)
-        : undefined
-    message.deliverTx =
-      object.deliverTx !== undefined && object.deliverTx !== null
-        ? RequestDeliverTx.fromPartial(object.deliverTx)
-        : undefined
-    message.endBlock =
-      object.endBlock !== undefined && object.endBlock !== null
-        ? RequestEndBlock.fromPartial(object.endBlock)
-        : undefined
-    message.commit =
-      object.commit !== undefined && object.commit !== null
-        ? RequestCommit.fromPartial(object.commit)
-        : undefined
-    message.listSnapshots =
-      object.listSnapshots !== undefined && object.listSnapshots !== null
-        ? RequestListSnapshots.fromPartial(object.listSnapshots)
-        : undefined
-    message.offerSnapshot =
-      object.offerSnapshot !== undefined && object.offerSnapshot !== null
-        ? RequestOfferSnapshot.fromPartial(object.offerSnapshot)
-        : undefined
-    message.loadSnapshotChunk =
-      object.loadSnapshotChunk !== undefined && object.loadSnapshotChunk !== null
-        ? RequestLoadSnapshotChunk.fromPartial(object.loadSnapshotChunk)
-        : undefined
-    message.applySnapshotChunk =
-      object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null
-        ? RequestApplySnapshotChunk.fromPartial(object.applySnapshotChunk)
-        : undefined
+    if (object.echo !== undefined && object.echo !== null) {
+      message.echo = RequestEcho.fromPartial(object.echo)
+    } else {
+      message.echo = undefined
+    }
+    if (object.flush !== undefined && object.flush !== null) {
+      message.flush = RequestFlush.fromPartial(object.flush)
+    } else {
+      message.flush = undefined
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = RequestInfo.fromPartial(object.info)
+    } else {
+      message.info = undefined
+    }
+    if (object.setOption !== undefined && object.setOption !== null) {
+      message.setOption = RequestSetOption.fromPartial(object.setOption)
+    } else {
+      message.setOption = undefined
+    }
+    if (object.initChain !== undefined && object.initChain !== null) {
+      message.initChain = RequestInitChain.fromPartial(object.initChain)
+    } else {
+      message.initChain = undefined
+    }
+    if (object.query !== undefined && object.query !== null) {
+      message.query = RequestQuery.fromPartial(object.query)
+    } else {
+      message.query = undefined
+    }
+    if (object.beginBlock !== undefined && object.beginBlock !== null) {
+      message.beginBlock = RequestBeginBlock.fromPartial(object.beginBlock)
+    } else {
+      message.beginBlock = undefined
+    }
+    if (object.checkTx !== undefined && object.checkTx !== null) {
+      message.checkTx = RequestCheckTx.fromPartial(object.checkTx)
+    } else {
+      message.checkTx = undefined
+    }
+    if (object.deliverTx !== undefined && object.deliverTx !== null) {
+      message.deliverTx = RequestDeliverTx.fromPartial(object.deliverTx)
+    } else {
+      message.deliverTx = undefined
+    }
+    if (object.endBlock !== undefined && object.endBlock !== null) {
+      message.endBlock = RequestEndBlock.fromPartial(object.endBlock)
+    } else {
+      message.endBlock = undefined
+    }
+    if (object.commit !== undefined && object.commit !== null) {
+      message.commit = RequestCommit.fromPartial(object.commit)
+    } else {
+      message.commit = undefined
+    }
+    if (object.listSnapshots !== undefined && object.listSnapshots !== null) {
+      message.listSnapshots = RequestListSnapshots.fromPartial(object.listSnapshots)
+    } else {
+      message.listSnapshots = undefined
+    }
+    if (object.offerSnapshot !== undefined && object.offerSnapshot !== null) {
+      message.offerSnapshot = RequestOfferSnapshot.fromPartial(object.offerSnapshot)
+    } else {
+      message.offerSnapshot = undefined
+    }
+    if (object.loadSnapshotChunk !== undefined && object.loadSnapshotChunk !== null) {
+      message.loadSnapshotChunk = RequestLoadSnapshotChunk.fromPartial(object.loadSnapshotChunk)
+    } else {
+      message.loadSnapshotChunk = undefined
+    }
+    if (object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null) {
+      message.applySnapshotChunk = RequestApplySnapshotChunk.fromPartial(object.applySnapshotChunk)
+    } else {
+      message.applySnapshotChunk = undefined
+    }
     return message
   }
 }
@@ -831,15 +861,15 @@ export const Request = {
 const baseRequestEcho: object = { message: '' }
 
 export const RequestEcho = {
-  encode(message: RequestEcho, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestEcho, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.message !== '') {
       writer.uint32(10).string(message.message)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestEcho {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestEcho {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestEcho } as RequestEcho
     while (reader.pos < end) {
@@ -858,8 +888,11 @@ export const RequestEcho = {
 
   fromJSON(object: any): RequestEcho {
     const message = { ...baseRequestEcho } as RequestEcho
-    message.message =
-      object.message !== undefined && object.message !== null ? String(object.message) : ''
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message)
+    } else {
+      message.message = ''
+    }
     return message
   },
 
@@ -869,7 +902,7 @@ export const RequestEcho = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestEcho>, I>>(object: I): RequestEcho {
+  fromPartial(object: DeepPartial<RequestEcho>): RequestEcho {
     const message = { ...baseRequestEcho } as RequestEcho
     message.message = object.message ?? ''
     return message
@@ -879,12 +912,12 @@ export const RequestEcho = {
 const baseRequestFlush: object = {}
 
 export const RequestFlush = {
-  encode(_: RequestFlush, writer: Writer = Writer.create()): Writer {
+  encode(_: RequestFlush, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestFlush {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestFlush {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestFlush } as RequestFlush
     while (reader.pos < end) {
@@ -908,7 +941,7 @@ export const RequestFlush = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestFlush>, I>>(_: I): RequestFlush {
+  fromPartial(_: DeepPartial<RequestFlush>): RequestFlush {
     const message = { ...baseRequestFlush } as RequestFlush
     return message
   }
@@ -921,7 +954,7 @@ const baseRequestInfo: object = {
 }
 
 export const RequestInfo = {
-  encode(message: RequestInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.version !== '') {
       writer.uint32(10).string(message.version)
     }
@@ -934,8 +967,8 @@ export const RequestInfo = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestInfo } as RequestInfo
     while (reader.pos < end) {
@@ -960,16 +993,21 @@ export const RequestInfo = {
 
   fromJSON(object: any): RequestInfo {
     const message = { ...baseRequestInfo } as RequestInfo
-    message.version =
-      object.version !== undefined && object.version !== null ? String(object.version) : ''
-    message.blockVersion =
-      object.blockVersion !== undefined && object.blockVersion !== null
-        ? Long.fromString(object.blockVersion)
-        : Long.UZERO
-    message.p2pVersion =
-      object.p2pVersion !== undefined && object.p2pVersion !== null
-        ? Long.fromString(object.p2pVersion)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = String(object.version)
+    } else {
+      message.version = ''
+    }
+    if (object.blockVersion !== undefined && object.blockVersion !== null) {
+      message.blockVersion = Long.fromString(object.blockVersion)
+    } else {
+      message.blockVersion = Long.UZERO
+    }
+    if (object.p2pVersion !== undefined && object.p2pVersion !== null) {
+      message.p2pVersion = Long.fromString(object.p2pVersion)
+    } else {
+      message.p2pVersion = Long.UZERO
+    }
     return message
   },
 
@@ -983,17 +1021,19 @@ export const RequestInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestInfo>, I>>(object: I): RequestInfo {
+  fromPartial(object: DeepPartial<RequestInfo>): RequestInfo {
     const message = { ...baseRequestInfo } as RequestInfo
     message.version = object.version ?? ''
-    message.blockVersion =
-      object.blockVersion !== undefined && object.blockVersion !== null
-        ? Long.fromValue(object.blockVersion)
-        : Long.UZERO
-    message.p2pVersion =
-      object.p2pVersion !== undefined && object.p2pVersion !== null
-        ? Long.fromValue(object.p2pVersion)
-        : Long.UZERO
+    if (object.blockVersion !== undefined && object.blockVersion !== null) {
+      message.blockVersion = object.blockVersion as Long
+    } else {
+      message.blockVersion = Long.UZERO
+    }
+    if (object.p2pVersion !== undefined && object.p2pVersion !== null) {
+      message.p2pVersion = object.p2pVersion as Long
+    } else {
+      message.p2pVersion = Long.UZERO
+    }
     return message
   }
 }
@@ -1001,7 +1041,7 @@ export const RequestInfo = {
 const baseRequestSetOption: object = { key: '', value: '' }
 
 export const RequestSetOption = {
-  encode(message: RequestSetOption, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestSetOption, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== '') {
       writer.uint32(10).string(message.key)
     }
@@ -1011,8 +1051,8 @@ export const RequestSetOption = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestSetOption {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestSetOption {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestSetOption } as RequestSetOption
     while (reader.pos < end) {
@@ -1034,8 +1074,16 @@ export const RequestSetOption = {
 
   fromJSON(object: any): RequestSetOption {
     const message = { ...baseRequestSetOption } as RequestSetOption
-    message.key = object.key !== undefined && object.key !== null ? String(object.key) : ''
-    message.value = object.value !== undefined && object.value !== null ? String(object.value) : ''
+    if (object.key !== undefined && object.key !== null) {
+      message.key = String(object.key)
+    } else {
+      message.key = ''
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = String(object.value)
+    } else {
+      message.value = ''
+    }
     return message
   },
 
@@ -1046,7 +1094,7 @@ export const RequestSetOption = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestSetOption>, I>>(object: I): RequestSetOption {
+  fromPartial(object: DeepPartial<RequestSetOption>): RequestSetOption {
     const message = { ...baseRequestSetOption } as RequestSetOption
     message.key = object.key ?? ''
     message.value = object.value ?? ''
@@ -1057,7 +1105,7 @@ export const RequestSetOption = {
 const baseRequestInitChain: object = { chainId: '', initialHeight: Long.ZERO }
 
 export const RequestInitChain = {
-  encode(message: RequestInitChain, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestInitChain, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.time !== undefined) {
       Timestamp.encode(toTimestamp(message.time), writer.uint32(10).fork()).ldelim()
     }
@@ -1079,8 +1127,8 @@ export const RequestInitChain = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestInitChain {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestInitChain {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestInitChain } as RequestInitChain
     message.validators = []
@@ -1116,23 +1164,36 @@ export const RequestInitChain = {
 
   fromJSON(object: any): RequestInitChain {
     const message = { ...baseRequestInitChain } as RequestInitChain
-    message.time =
-      object.time !== undefined && object.time !== null ? fromJsonTimestamp(object.time) : undefined
-    message.chainId =
-      object.chainId !== undefined && object.chainId !== null ? String(object.chainId) : ''
-    message.consensusParams =
-      object.consensusParams !== undefined && object.consensusParams !== null
-        ? ConsensusParams.fromJSON(object.consensusParams)
-        : undefined
-    message.validators = (object.validators ?? []).map((e: any) => ValidatorUpdate.fromJSON(e))
-    message.appStateBytes =
-      object.appStateBytes !== undefined && object.appStateBytes !== null
-        ? bytesFromBase64(object.appStateBytes)
-        : new Uint8Array()
-    message.initialHeight =
-      object.initialHeight !== undefined && object.initialHeight !== null
-        ? Long.fromString(object.initialHeight)
-        : Long.ZERO
+    message.validators = []
+    message.appStateBytes = new Uint8Array()
+    if (object.time !== undefined && object.time !== null) {
+      message.time = fromJsonTimestamp(object.time)
+    } else {
+      message.time = undefined
+    }
+    if (object.chainId !== undefined && object.chainId !== null) {
+      message.chainId = String(object.chainId)
+    } else {
+      message.chainId = ''
+    }
+    if (object.consensusParams !== undefined && object.consensusParams !== null) {
+      message.consensusParams = ConsensusParams.fromJSON(object.consensusParams)
+    } else {
+      message.consensusParams = undefined
+    }
+    if (object.validators !== undefined && object.validators !== null) {
+      for (const e of object.validators) {
+        message.validators.push(ValidatorUpdate.fromJSON(e))
+      }
+    }
+    if (object.appStateBytes !== undefined && object.appStateBytes !== null) {
+      message.appStateBytes = bytesFromBase64(object.appStateBytes)
+    }
+    if (object.initialHeight !== undefined && object.initialHeight !== null) {
+      message.initialHeight = Long.fromString(object.initialHeight)
+    } else {
+      message.initialHeight = Long.ZERO
+    }
     return message
   },
 
@@ -1158,20 +1219,27 @@ export const RequestInitChain = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestInitChain>, I>>(object: I): RequestInitChain {
+  fromPartial(object: DeepPartial<RequestInitChain>): RequestInitChain {
     const message = { ...baseRequestInitChain } as RequestInitChain
     message.time = object.time ?? undefined
     message.chainId = object.chainId ?? ''
-    message.consensusParams =
-      object.consensusParams !== undefined && object.consensusParams !== null
-        ? ConsensusParams.fromPartial(object.consensusParams)
-        : undefined
-    message.validators = object.validators?.map(e => ValidatorUpdate.fromPartial(e)) || []
+    if (object.consensusParams !== undefined && object.consensusParams !== null) {
+      message.consensusParams = ConsensusParams.fromPartial(object.consensusParams)
+    } else {
+      message.consensusParams = undefined
+    }
+    message.validators = []
+    if (object.validators !== undefined && object.validators !== null) {
+      for (const e of object.validators) {
+        message.validators.push(ValidatorUpdate.fromPartial(e))
+      }
+    }
     message.appStateBytes = object.appStateBytes ?? new Uint8Array()
-    message.initialHeight =
-      object.initialHeight !== undefined && object.initialHeight !== null
-        ? Long.fromValue(object.initialHeight)
-        : Long.ZERO
+    if (object.initialHeight !== undefined && object.initialHeight !== null) {
+      message.initialHeight = object.initialHeight as Long
+    } else {
+      message.initialHeight = Long.ZERO
+    }
     return message
   }
 }
@@ -1179,7 +1247,7 @@ export const RequestInitChain = {
 const baseRequestQuery: object = { path: '', height: Long.ZERO, prove: false }
 
 export const RequestQuery = {
-  encode(message: RequestQuery, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestQuery, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.data.length !== 0) {
       writer.uint32(10).bytes(message.data)
     }
@@ -1195,8 +1263,8 @@ export const RequestQuery = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestQuery {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestQuery {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestQuery } as RequestQuery
     message.data = new Uint8Array()
@@ -1225,17 +1293,25 @@ export const RequestQuery = {
 
   fromJSON(object: any): RequestQuery {
     const message = { ...baseRequestQuery } as RequestQuery
-    message.data =
-      object.data !== undefined && object.data !== null
-        ? bytesFromBase64(object.data)
-        : new Uint8Array()
-    message.path = object.path !== undefined && object.path !== null ? String(object.path) : ''
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromString(object.height)
-        : Long.ZERO
-    message.prove =
-      object.prove !== undefined && object.prove !== null ? Boolean(object.prove) : false
+    message.data = new Uint8Array()
+    if (object.data !== undefined && object.data !== null) {
+      message.data = bytesFromBase64(object.data)
+    }
+    if (object.path !== undefined && object.path !== null) {
+      message.path = String(object.path)
+    } else {
+      message.path = ''
+    }
+    if (object.height !== undefined && object.height !== null) {
+      message.height = Long.fromString(object.height)
+    } else {
+      message.height = Long.ZERO
+    }
+    if (object.prove !== undefined && object.prove !== null) {
+      message.prove = Boolean(object.prove)
+    } else {
+      message.prove = false
+    }
     return message
   },
 
@@ -1249,14 +1325,15 @@ export const RequestQuery = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestQuery>, I>>(object: I): RequestQuery {
+  fromPartial(object: DeepPartial<RequestQuery>): RequestQuery {
     const message = { ...baseRequestQuery } as RequestQuery
     message.data = object.data ?? new Uint8Array()
     message.path = object.path ?? ''
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromValue(object.height)
-        : Long.ZERO
+    if (object.height !== undefined && object.height !== null) {
+      message.height = object.height as Long
+    } else {
+      message.height = Long.ZERO
+    }
     message.prove = object.prove ?? false
     return message
   }
@@ -1265,7 +1342,7 @@ export const RequestQuery = {
 const baseRequestBeginBlock: object = {}
 
 export const RequestBeginBlock = {
-  encode(message: RequestBeginBlock, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestBeginBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.hash.length !== 0) {
       writer.uint32(10).bytes(message.hash)
     }
@@ -1281,8 +1358,8 @@ export const RequestBeginBlock = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestBeginBlock {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestBeginBlock {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestBeginBlock } as RequestBeginBlock
     message.byzantineValidators = []
@@ -1312,21 +1389,26 @@ export const RequestBeginBlock = {
 
   fromJSON(object: any): RequestBeginBlock {
     const message = { ...baseRequestBeginBlock } as RequestBeginBlock
-    message.hash =
-      object.hash !== undefined && object.hash !== null
-        ? bytesFromBase64(object.hash)
-        : new Uint8Array()
-    message.header =
-      object.header !== undefined && object.header !== null
-        ? Header.fromJSON(object.header)
-        : undefined
-    message.lastCommitInfo =
-      object.lastCommitInfo !== undefined && object.lastCommitInfo !== null
-        ? LastCommitInfo.fromJSON(object.lastCommitInfo)
-        : undefined
-    message.byzantineValidators = (object.byzantineValidators ?? []).map((e: any) =>
-      Evidence.fromJSON(e)
-    )
+    message.byzantineValidators = []
+    message.hash = new Uint8Array()
+    if (object.hash !== undefined && object.hash !== null) {
+      message.hash = bytesFromBase64(object.hash)
+    }
+    if (object.header !== undefined && object.header !== null) {
+      message.header = Header.fromJSON(object.header)
+    } else {
+      message.header = undefined
+    }
+    if (object.lastCommitInfo !== undefined && object.lastCommitInfo !== null) {
+      message.lastCommitInfo = LastCommitInfo.fromJSON(object.lastCommitInfo)
+    } else {
+      message.lastCommitInfo = undefined
+    }
+    if (object.byzantineValidators !== undefined && object.byzantineValidators !== null) {
+      for (const e of object.byzantineValidators) {
+        message.byzantineValidators.push(Evidence.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -1350,19 +1432,25 @@ export const RequestBeginBlock = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestBeginBlock>, I>>(object: I): RequestBeginBlock {
+  fromPartial(object: DeepPartial<RequestBeginBlock>): RequestBeginBlock {
     const message = { ...baseRequestBeginBlock } as RequestBeginBlock
     message.hash = object.hash ?? new Uint8Array()
-    message.header =
-      object.header !== undefined && object.header !== null
-        ? Header.fromPartial(object.header)
-        : undefined
-    message.lastCommitInfo =
-      object.lastCommitInfo !== undefined && object.lastCommitInfo !== null
-        ? LastCommitInfo.fromPartial(object.lastCommitInfo)
-        : undefined
-    message.byzantineValidators =
-      object.byzantineValidators?.map(e => Evidence.fromPartial(e)) || []
+    if (object.header !== undefined && object.header !== null) {
+      message.header = Header.fromPartial(object.header)
+    } else {
+      message.header = undefined
+    }
+    if (object.lastCommitInfo !== undefined && object.lastCommitInfo !== null) {
+      message.lastCommitInfo = LastCommitInfo.fromPartial(object.lastCommitInfo)
+    } else {
+      message.lastCommitInfo = undefined
+    }
+    message.byzantineValidators = []
+    if (object.byzantineValidators !== undefined && object.byzantineValidators !== null) {
+      for (const e of object.byzantineValidators) {
+        message.byzantineValidators.push(Evidence.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -1370,7 +1458,7 @@ export const RequestBeginBlock = {
 const baseRequestCheckTx: object = { type: 0 }
 
 export const RequestCheckTx = {
-  encode(message: RequestCheckTx, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestCheckTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.tx.length !== 0) {
       writer.uint32(10).bytes(message.tx)
     }
@@ -1380,8 +1468,8 @@ export const RequestCheckTx = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestCheckTx {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestCheckTx {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestCheckTx } as RequestCheckTx
     message.tx = new Uint8Array()
@@ -1404,10 +1492,15 @@ export const RequestCheckTx = {
 
   fromJSON(object: any): RequestCheckTx {
     const message = { ...baseRequestCheckTx } as RequestCheckTx
-    message.tx =
-      object.tx !== undefined && object.tx !== null ? bytesFromBase64(object.tx) : new Uint8Array()
-    message.type =
-      object.type !== undefined && object.type !== null ? checkTxTypeFromJSON(object.type) : 0
+    message.tx = new Uint8Array()
+    if (object.tx !== undefined && object.tx !== null) {
+      message.tx = bytesFromBase64(object.tx)
+    }
+    if (object.type !== undefined && object.type !== null) {
+      message.type = checkTxTypeFromJSON(object.type)
+    } else {
+      message.type = 0
+    }
     return message
   },
 
@@ -1419,7 +1512,7 @@ export const RequestCheckTx = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestCheckTx>, I>>(object: I): RequestCheckTx {
+  fromPartial(object: DeepPartial<RequestCheckTx>): RequestCheckTx {
     const message = { ...baseRequestCheckTx } as RequestCheckTx
     message.tx = object.tx ?? new Uint8Array()
     message.type = object.type ?? 0
@@ -1430,15 +1523,15 @@ export const RequestCheckTx = {
 const baseRequestDeliverTx: object = {}
 
 export const RequestDeliverTx = {
-  encode(message: RequestDeliverTx, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestDeliverTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.tx.length !== 0) {
       writer.uint32(10).bytes(message.tx)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestDeliverTx {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestDeliverTx {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestDeliverTx } as RequestDeliverTx
     message.tx = new Uint8Array()
@@ -1458,8 +1551,10 @@ export const RequestDeliverTx = {
 
   fromJSON(object: any): RequestDeliverTx {
     const message = { ...baseRequestDeliverTx } as RequestDeliverTx
-    message.tx =
-      object.tx !== undefined && object.tx !== null ? bytesFromBase64(object.tx) : new Uint8Array()
+    message.tx = new Uint8Array()
+    if (object.tx !== undefined && object.tx !== null) {
+      message.tx = bytesFromBase64(object.tx)
+    }
     return message
   },
 
@@ -1470,7 +1565,7 @@ export const RequestDeliverTx = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestDeliverTx>, I>>(object: I): RequestDeliverTx {
+  fromPartial(object: DeepPartial<RequestDeliverTx>): RequestDeliverTx {
     const message = { ...baseRequestDeliverTx } as RequestDeliverTx
     message.tx = object.tx ?? new Uint8Array()
     return message
@@ -1480,15 +1575,15 @@ export const RequestDeliverTx = {
 const baseRequestEndBlock: object = { height: Long.ZERO }
 
 export const RequestEndBlock = {
-  encode(message: RequestEndBlock, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestEndBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.height.isZero()) {
       writer.uint32(8).int64(message.height)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestEndBlock {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestEndBlock {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestEndBlock } as RequestEndBlock
     while (reader.pos < end) {
@@ -1507,10 +1602,11 @@ export const RequestEndBlock = {
 
   fromJSON(object: any): RequestEndBlock {
     const message = { ...baseRequestEndBlock } as RequestEndBlock
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromString(object.height)
-        : Long.ZERO
+    if (object.height !== undefined && object.height !== null) {
+      message.height = Long.fromString(object.height)
+    } else {
+      message.height = Long.ZERO
+    }
     return message
   },
 
@@ -1520,12 +1616,13 @@ export const RequestEndBlock = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestEndBlock>, I>>(object: I): RequestEndBlock {
+  fromPartial(object: DeepPartial<RequestEndBlock>): RequestEndBlock {
     const message = { ...baseRequestEndBlock } as RequestEndBlock
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromValue(object.height)
-        : Long.ZERO
+    if (object.height !== undefined && object.height !== null) {
+      message.height = object.height as Long
+    } else {
+      message.height = Long.ZERO
+    }
     return message
   }
 }
@@ -1533,12 +1630,12 @@ export const RequestEndBlock = {
 const baseRequestCommit: object = {}
 
 export const RequestCommit = {
-  encode(_: RequestCommit, writer: Writer = Writer.create()): Writer {
+  encode(_: RequestCommit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestCommit {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestCommit {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestCommit } as RequestCommit
     while (reader.pos < end) {
@@ -1562,7 +1659,7 @@ export const RequestCommit = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestCommit>, I>>(_: I): RequestCommit {
+  fromPartial(_: DeepPartial<RequestCommit>): RequestCommit {
     const message = { ...baseRequestCommit } as RequestCommit
     return message
   }
@@ -1571,12 +1668,12 @@ export const RequestCommit = {
 const baseRequestListSnapshots: object = {}
 
 export const RequestListSnapshots = {
-  encode(_: RequestListSnapshots, writer: Writer = Writer.create()): Writer {
+  encode(_: RequestListSnapshots, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestListSnapshots {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestListSnapshots {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestListSnapshots } as RequestListSnapshots
     while (reader.pos < end) {
@@ -1600,7 +1697,7 @@ export const RequestListSnapshots = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestListSnapshots>, I>>(_: I): RequestListSnapshots {
+  fromPartial(_: DeepPartial<RequestListSnapshots>): RequestListSnapshots {
     const message = { ...baseRequestListSnapshots } as RequestListSnapshots
     return message
   }
@@ -1609,7 +1706,7 @@ export const RequestListSnapshots = {
 const baseRequestOfferSnapshot: object = {}
 
 export const RequestOfferSnapshot = {
-  encode(message: RequestOfferSnapshot, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestOfferSnapshot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.snapshot !== undefined) {
       Snapshot.encode(message.snapshot, writer.uint32(10).fork()).ldelim()
     }
@@ -1619,8 +1716,8 @@ export const RequestOfferSnapshot = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestOfferSnapshot {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestOfferSnapshot {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRequestOfferSnapshot } as RequestOfferSnapshot
     message.appHash = new Uint8Array()
@@ -1643,14 +1740,15 @@ export const RequestOfferSnapshot = {
 
   fromJSON(object: any): RequestOfferSnapshot {
     const message = { ...baseRequestOfferSnapshot } as RequestOfferSnapshot
-    message.snapshot =
-      object.snapshot !== undefined && object.snapshot !== null
-        ? Snapshot.fromJSON(object.snapshot)
-        : undefined
-    message.appHash =
-      object.appHash !== undefined && object.appHash !== null
-        ? bytesFromBase64(object.appHash)
-        : new Uint8Array()
+    message.appHash = new Uint8Array()
+    if (object.snapshot !== undefined && object.snapshot !== null) {
+      message.snapshot = Snapshot.fromJSON(object.snapshot)
+    } else {
+      message.snapshot = undefined
+    }
+    if (object.appHash !== undefined && object.appHash !== null) {
+      message.appHash = bytesFromBase64(object.appHash)
+    }
     return message
   },
 
@@ -1665,14 +1763,13 @@ export const RequestOfferSnapshot = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestOfferSnapshot>, I>>(
-    object: I
-  ): RequestOfferSnapshot {
+  fromPartial(object: DeepPartial<RequestOfferSnapshot>): RequestOfferSnapshot {
     const message = { ...baseRequestOfferSnapshot } as RequestOfferSnapshot
-    message.snapshot =
-      object.snapshot !== undefined && object.snapshot !== null
-        ? Snapshot.fromPartial(object.snapshot)
-        : undefined
+    if (object.snapshot !== undefined && object.snapshot !== null) {
+      message.snapshot = Snapshot.fromPartial(object.snapshot)
+    } else {
+      message.snapshot = undefined
+    }
     message.appHash = object.appHash ?? new Uint8Array()
     return message
   }
@@ -1685,7 +1782,7 @@ const baseRequestLoadSnapshotChunk: object = {
 }
 
 export const RequestLoadSnapshotChunk = {
-  encode(message: RequestLoadSnapshotChunk, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestLoadSnapshotChunk, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.height.isZero()) {
       writer.uint32(8).uint64(message.height)
     }
@@ -1698,8 +1795,8 @@ export const RequestLoadSnapshotChunk = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestLoadSnapshotChunk {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestLoadSnapshotChunk {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseRequestLoadSnapshotChunk
@@ -1728,34 +1825,41 @@ export const RequestLoadSnapshotChunk = {
     const message = {
       ...baseRequestLoadSnapshotChunk
     } as RequestLoadSnapshotChunk
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromString(object.height)
-        : Long.UZERO
-    message.format =
-      object.format !== undefined && object.format !== null ? Number(object.format) : 0
-    message.chunk = object.chunk !== undefined && object.chunk !== null ? Number(object.chunk) : 0
+    if (object.height !== undefined && object.height !== null) {
+      message.height = Long.fromString(object.height)
+    } else {
+      message.height = Long.UZERO
+    }
+    if (object.format !== undefined && object.format !== null) {
+      message.format = Number(object.format)
+    } else {
+      message.format = 0
+    }
+    if (object.chunk !== undefined && object.chunk !== null) {
+      message.chunk = Number(object.chunk)
+    } else {
+      message.chunk = 0
+    }
     return message
   },
 
   toJSON(message: RequestLoadSnapshotChunk): unknown {
     const obj: any = {}
     message.height !== undefined && (obj.height = (message.height || Long.UZERO).toString())
-    message.format !== undefined && (obj.format = Math.round(message.format))
-    message.chunk !== undefined && (obj.chunk = Math.round(message.chunk))
+    message.format !== undefined && (obj.format = message.format)
+    message.chunk !== undefined && (obj.chunk = message.chunk)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestLoadSnapshotChunk>, I>>(
-    object: I
-  ): RequestLoadSnapshotChunk {
+  fromPartial(object: DeepPartial<RequestLoadSnapshotChunk>): RequestLoadSnapshotChunk {
     const message = {
       ...baseRequestLoadSnapshotChunk
     } as RequestLoadSnapshotChunk
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromValue(object.height)
-        : Long.UZERO
+    if (object.height !== undefined && object.height !== null) {
+      message.height = object.height as Long
+    } else {
+      message.height = Long.UZERO
+    }
     message.format = object.format ?? 0
     message.chunk = object.chunk ?? 0
     return message
@@ -1765,7 +1869,7 @@ export const RequestLoadSnapshotChunk = {
 const baseRequestApplySnapshotChunk: object = { index: 0, sender: '' }
 
 export const RequestApplySnapshotChunk = {
-  encode(message: RequestApplySnapshotChunk, writer: Writer = Writer.create()): Writer {
+  encode(message: RequestApplySnapshotChunk, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.index !== 0) {
       writer.uint32(8).uint32(message.index)
     }
@@ -1778,8 +1882,8 @@ export const RequestApplySnapshotChunk = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RequestApplySnapshotChunk {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RequestApplySnapshotChunk {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseRequestApplySnapshotChunk
@@ -1809,28 +1913,33 @@ export const RequestApplySnapshotChunk = {
     const message = {
       ...baseRequestApplySnapshotChunk
     } as RequestApplySnapshotChunk
-    message.index = object.index !== undefined && object.index !== null ? Number(object.index) : 0
-    message.chunk =
-      object.chunk !== undefined && object.chunk !== null
-        ? bytesFromBase64(object.chunk)
-        : new Uint8Array()
-    message.sender =
-      object.sender !== undefined && object.sender !== null ? String(object.sender) : ''
+    message.chunk = new Uint8Array()
+    if (object.index !== undefined && object.index !== null) {
+      message.index = Number(object.index)
+    } else {
+      message.index = 0
+    }
+    if (object.chunk !== undefined && object.chunk !== null) {
+      message.chunk = bytesFromBase64(object.chunk)
+    }
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender)
+    } else {
+      message.sender = ''
+    }
     return message
   },
 
   toJSON(message: RequestApplySnapshotChunk): unknown {
     const obj: any = {}
-    message.index !== undefined && (obj.index = Math.round(message.index))
+    message.index !== undefined && (obj.index = message.index)
     message.chunk !== undefined &&
       (obj.chunk = base64FromBytes(message.chunk !== undefined ? message.chunk : new Uint8Array()))
     message.sender !== undefined && (obj.sender = message.sender)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RequestApplySnapshotChunk>, I>>(
-    object: I
-  ): RequestApplySnapshotChunk {
+  fromPartial(object: DeepPartial<RequestApplySnapshotChunk>): RequestApplySnapshotChunk {
     const message = {
       ...baseRequestApplySnapshotChunk
     } as RequestApplySnapshotChunk
@@ -1844,7 +1953,7 @@ export const RequestApplySnapshotChunk = {
 const baseResponse: object = {}
 
 export const Response = {
-  encode(message: Response, writer: Writer = Writer.create()): Writer {
+  encode(message: Response, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.exception !== undefined) {
       ResponseException.encode(message.exception, writer.uint32(10).fork()).ldelim()
     }
@@ -1902,8 +2011,8 @@ export const Response = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Response {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponse } as Response
     while (reader.pos < end) {
@@ -1967,70 +2076,86 @@ export const Response = {
 
   fromJSON(object: any): Response {
     const message = { ...baseResponse } as Response
-    message.exception =
-      object.exception !== undefined && object.exception !== null
-        ? ResponseException.fromJSON(object.exception)
-        : undefined
-    message.echo =
-      object.echo !== undefined && object.echo !== null
-        ? ResponseEcho.fromJSON(object.echo)
-        : undefined
-    message.flush =
-      object.flush !== undefined && object.flush !== null
-        ? ResponseFlush.fromJSON(object.flush)
-        : undefined
-    message.info =
-      object.info !== undefined && object.info !== null
-        ? ResponseInfo.fromJSON(object.info)
-        : undefined
-    message.setOption =
-      object.setOption !== undefined && object.setOption !== null
-        ? ResponseSetOption.fromJSON(object.setOption)
-        : undefined
-    message.initChain =
-      object.initChain !== undefined && object.initChain !== null
-        ? ResponseInitChain.fromJSON(object.initChain)
-        : undefined
-    message.query =
-      object.query !== undefined && object.query !== null
-        ? ResponseQuery.fromJSON(object.query)
-        : undefined
-    message.beginBlock =
-      object.beginBlock !== undefined && object.beginBlock !== null
-        ? ResponseBeginBlock.fromJSON(object.beginBlock)
-        : undefined
-    message.checkTx =
-      object.checkTx !== undefined && object.checkTx !== null
-        ? ResponseCheckTx.fromJSON(object.checkTx)
-        : undefined
-    message.deliverTx =
-      object.deliverTx !== undefined && object.deliverTx !== null
-        ? ResponseDeliverTx.fromJSON(object.deliverTx)
-        : undefined
-    message.endBlock =
-      object.endBlock !== undefined && object.endBlock !== null
-        ? ResponseEndBlock.fromJSON(object.endBlock)
-        : undefined
-    message.commit =
-      object.commit !== undefined && object.commit !== null
-        ? ResponseCommit.fromJSON(object.commit)
-        : undefined
-    message.listSnapshots =
-      object.listSnapshots !== undefined && object.listSnapshots !== null
-        ? ResponseListSnapshots.fromJSON(object.listSnapshots)
-        : undefined
-    message.offerSnapshot =
-      object.offerSnapshot !== undefined && object.offerSnapshot !== null
-        ? ResponseOfferSnapshot.fromJSON(object.offerSnapshot)
-        : undefined
-    message.loadSnapshotChunk =
-      object.loadSnapshotChunk !== undefined && object.loadSnapshotChunk !== null
-        ? ResponseLoadSnapshotChunk.fromJSON(object.loadSnapshotChunk)
-        : undefined
-    message.applySnapshotChunk =
-      object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null
-        ? ResponseApplySnapshotChunk.fromJSON(object.applySnapshotChunk)
-        : undefined
+    if (object.exception !== undefined && object.exception !== null) {
+      message.exception = ResponseException.fromJSON(object.exception)
+    } else {
+      message.exception = undefined
+    }
+    if (object.echo !== undefined && object.echo !== null) {
+      message.echo = ResponseEcho.fromJSON(object.echo)
+    } else {
+      message.echo = undefined
+    }
+    if (object.flush !== undefined && object.flush !== null) {
+      message.flush = ResponseFlush.fromJSON(object.flush)
+    } else {
+      message.flush = undefined
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = ResponseInfo.fromJSON(object.info)
+    } else {
+      message.info = undefined
+    }
+    if (object.setOption !== undefined && object.setOption !== null) {
+      message.setOption = ResponseSetOption.fromJSON(object.setOption)
+    } else {
+      message.setOption = undefined
+    }
+    if (object.initChain !== undefined && object.initChain !== null) {
+      message.initChain = ResponseInitChain.fromJSON(object.initChain)
+    } else {
+      message.initChain = undefined
+    }
+    if (object.query !== undefined && object.query !== null) {
+      message.query = ResponseQuery.fromJSON(object.query)
+    } else {
+      message.query = undefined
+    }
+    if (object.beginBlock !== undefined && object.beginBlock !== null) {
+      message.beginBlock = ResponseBeginBlock.fromJSON(object.beginBlock)
+    } else {
+      message.beginBlock = undefined
+    }
+    if (object.checkTx !== undefined && object.checkTx !== null) {
+      message.checkTx = ResponseCheckTx.fromJSON(object.checkTx)
+    } else {
+      message.checkTx = undefined
+    }
+    if (object.deliverTx !== undefined && object.deliverTx !== null) {
+      message.deliverTx = ResponseDeliverTx.fromJSON(object.deliverTx)
+    } else {
+      message.deliverTx = undefined
+    }
+    if (object.endBlock !== undefined && object.endBlock !== null) {
+      message.endBlock = ResponseEndBlock.fromJSON(object.endBlock)
+    } else {
+      message.endBlock = undefined
+    }
+    if (object.commit !== undefined && object.commit !== null) {
+      message.commit = ResponseCommit.fromJSON(object.commit)
+    } else {
+      message.commit = undefined
+    }
+    if (object.listSnapshots !== undefined && object.listSnapshots !== null) {
+      message.listSnapshots = ResponseListSnapshots.fromJSON(object.listSnapshots)
+    } else {
+      message.listSnapshots = undefined
+    }
+    if (object.offerSnapshot !== undefined && object.offerSnapshot !== null) {
+      message.offerSnapshot = ResponseOfferSnapshot.fromJSON(object.offerSnapshot)
+    } else {
+      message.offerSnapshot = undefined
+    }
+    if (object.loadSnapshotChunk !== undefined && object.loadSnapshotChunk !== null) {
+      message.loadSnapshotChunk = ResponseLoadSnapshotChunk.fromJSON(object.loadSnapshotChunk)
+    } else {
+      message.loadSnapshotChunk = undefined
+    }
+    if (object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null) {
+      message.applySnapshotChunk = ResponseApplySnapshotChunk.fromJSON(object.applySnapshotChunk)
+    } else {
+      message.applySnapshotChunk = undefined
+    }
     return message
   },
 
@@ -2081,72 +2206,88 @@ export const Response = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Response>, I>>(object: I): Response {
+  fromPartial(object: DeepPartial<Response>): Response {
     const message = { ...baseResponse } as Response
-    message.exception =
-      object.exception !== undefined && object.exception !== null
-        ? ResponseException.fromPartial(object.exception)
-        : undefined
-    message.echo =
-      object.echo !== undefined && object.echo !== null
-        ? ResponseEcho.fromPartial(object.echo)
-        : undefined
-    message.flush =
-      object.flush !== undefined && object.flush !== null
-        ? ResponseFlush.fromPartial(object.flush)
-        : undefined
-    message.info =
-      object.info !== undefined && object.info !== null
-        ? ResponseInfo.fromPartial(object.info)
-        : undefined
-    message.setOption =
-      object.setOption !== undefined && object.setOption !== null
-        ? ResponseSetOption.fromPartial(object.setOption)
-        : undefined
-    message.initChain =
-      object.initChain !== undefined && object.initChain !== null
-        ? ResponseInitChain.fromPartial(object.initChain)
-        : undefined
-    message.query =
-      object.query !== undefined && object.query !== null
-        ? ResponseQuery.fromPartial(object.query)
-        : undefined
-    message.beginBlock =
-      object.beginBlock !== undefined && object.beginBlock !== null
-        ? ResponseBeginBlock.fromPartial(object.beginBlock)
-        : undefined
-    message.checkTx =
-      object.checkTx !== undefined && object.checkTx !== null
-        ? ResponseCheckTx.fromPartial(object.checkTx)
-        : undefined
-    message.deliverTx =
-      object.deliverTx !== undefined && object.deliverTx !== null
-        ? ResponseDeliverTx.fromPartial(object.deliverTx)
-        : undefined
-    message.endBlock =
-      object.endBlock !== undefined && object.endBlock !== null
-        ? ResponseEndBlock.fromPartial(object.endBlock)
-        : undefined
-    message.commit =
-      object.commit !== undefined && object.commit !== null
-        ? ResponseCommit.fromPartial(object.commit)
-        : undefined
-    message.listSnapshots =
-      object.listSnapshots !== undefined && object.listSnapshots !== null
-        ? ResponseListSnapshots.fromPartial(object.listSnapshots)
-        : undefined
-    message.offerSnapshot =
-      object.offerSnapshot !== undefined && object.offerSnapshot !== null
-        ? ResponseOfferSnapshot.fromPartial(object.offerSnapshot)
-        : undefined
-    message.loadSnapshotChunk =
-      object.loadSnapshotChunk !== undefined && object.loadSnapshotChunk !== null
-        ? ResponseLoadSnapshotChunk.fromPartial(object.loadSnapshotChunk)
-        : undefined
-    message.applySnapshotChunk =
-      object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null
-        ? ResponseApplySnapshotChunk.fromPartial(object.applySnapshotChunk)
-        : undefined
+    if (object.exception !== undefined && object.exception !== null) {
+      message.exception = ResponseException.fromPartial(object.exception)
+    } else {
+      message.exception = undefined
+    }
+    if (object.echo !== undefined && object.echo !== null) {
+      message.echo = ResponseEcho.fromPartial(object.echo)
+    } else {
+      message.echo = undefined
+    }
+    if (object.flush !== undefined && object.flush !== null) {
+      message.flush = ResponseFlush.fromPartial(object.flush)
+    } else {
+      message.flush = undefined
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = ResponseInfo.fromPartial(object.info)
+    } else {
+      message.info = undefined
+    }
+    if (object.setOption !== undefined && object.setOption !== null) {
+      message.setOption = ResponseSetOption.fromPartial(object.setOption)
+    } else {
+      message.setOption = undefined
+    }
+    if (object.initChain !== undefined && object.initChain !== null) {
+      message.initChain = ResponseInitChain.fromPartial(object.initChain)
+    } else {
+      message.initChain = undefined
+    }
+    if (object.query !== undefined && object.query !== null) {
+      message.query = ResponseQuery.fromPartial(object.query)
+    } else {
+      message.query = undefined
+    }
+    if (object.beginBlock !== undefined && object.beginBlock !== null) {
+      message.beginBlock = ResponseBeginBlock.fromPartial(object.beginBlock)
+    } else {
+      message.beginBlock = undefined
+    }
+    if (object.checkTx !== undefined && object.checkTx !== null) {
+      message.checkTx = ResponseCheckTx.fromPartial(object.checkTx)
+    } else {
+      message.checkTx = undefined
+    }
+    if (object.deliverTx !== undefined && object.deliverTx !== null) {
+      message.deliverTx = ResponseDeliverTx.fromPartial(object.deliverTx)
+    } else {
+      message.deliverTx = undefined
+    }
+    if (object.endBlock !== undefined && object.endBlock !== null) {
+      message.endBlock = ResponseEndBlock.fromPartial(object.endBlock)
+    } else {
+      message.endBlock = undefined
+    }
+    if (object.commit !== undefined && object.commit !== null) {
+      message.commit = ResponseCommit.fromPartial(object.commit)
+    } else {
+      message.commit = undefined
+    }
+    if (object.listSnapshots !== undefined && object.listSnapshots !== null) {
+      message.listSnapshots = ResponseListSnapshots.fromPartial(object.listSnapshots)
+    } else {
+      message.listSnapshots = undefined
+    }
+    if (object.offerSnapshot !== undefined && object.offerSnapshot !== null) {
+      message.offerSnapshot = ResponseOfferSnapshot.fromPartial(object.offerSnapshot)
+    } else {
+      message.offerSnapshot = undefined
+    }
+    if (object.loadSnapshotChunk !== undefined && object.loadSnapshotChunk !== null) {
+      message.loadSnapshotChunk = ResponseLoadSnapshotChunk.fromPartial(object.loadSnapshotChunk)
+    } else {
+      message.loadSnapshotChunk = undefined
+    }
+    if (object.applySnapshotChunk !== undefined && object.applySnapshotChunk !== null) {
+      message.applySnapshotChunk = ResponseApplySnapshotChunk.fromPartial(object.applySnapshotChunk)
+    } else {
+      message.applySnapshotChunk = undefined
+    }
     return message
   }
 }
@@ -2154,15 +2295,15 @@ export const Response = {
 const baseResponseException: object = { error: '' }
 
 export const ResponseException = {
-  encode(message: ResponseException, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseException, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.error !== '') {
       writer.uint32(10).string(message.error)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseException {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseException {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseException } as ResponseException
     while (reader.pos < end) {
@@ -2181,7 +2322,11 @@ export const ResponseException = {
 
   fromJSON(object: any): ResponseException {
     const message = { ...baseResponseException } as ResponseException
-    message.error = object.error !== undefined && object.error !== null ? String(object.error) : ''
+    if (object.error !== undefined && object.error !== null) {
+      message.error = String(object.error)
+    } else {
+      message.error = ''
+    }
     return message
   },
 
@@ -2191,7 +2336,7 @@ export const ResponseException = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseException>, I>>(object: I): ResponseException {
+  fromPartial(object: DeepPartial<ResponseException>): ResponseException {
     const message = { ...baseResponseException } as ResponseException
     message.error = object.error ?? ''
     return message
@@ -2201,15 +2346,15 @@ export const ResponseException = {
 const baseResponseEcho: object = { message: '' }
 
 export const ResponseEcho = {
-  encode(message: ResponseEcho, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseEcho, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.message !== '') {
       writer.uint32(10).string(message.message)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseEcho {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseEcho {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseEcho } as ResponseEcho
     while (reader.pos < end) {
@@ -2228,8 +2373,11 @@ export const ResponseEcho = {
 
   fromJSON(object: any): ResponseEcho {
     const message = { ...baseResponseEcho } as ResponseEcho
-    message.message =
-      object.message !== undefined && object.message !== null ? String(object.message) : ''
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message)
+    } else {
+      message.message = ''
+    }
     return message
   },
 
@@ -2239,7 +2387,7 @@ export const ResponseEcho = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseEcho>, I>>(object: I): ResponseEcho {
+  fromPartial(object: DeepPartial<ResponseEcho>): ResponseEcho {
     const message = { ...baseResponseEcho } as ResponseEcho
     message.message = object.message ?? ''
     return message
@@ -2249,12 +2397,12 @@ export const ResponseEcho = {
 const baseResponseFlush: object = {}
 
 export const ResponseFlush = {
-  encode(_: ResponseFlush, writer: Writer = Writer.create()): Writer {
+  encode(_: ResponseFlush, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseFlush {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseFlush {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseFlush } as ResponseFlush
     while (reader.pos < end) {
@@ -2278,7 +2426,7 @@ export const ResponseFlush = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseFlush>, I>>(_: I): ResponseFlush {
+  fromPartial(_: DeepPartial<ResponseFlush>): ResponseFlush {
     const message = { ...baseResponseFlush } as ResponseFlush
     return message
   }
@@ -2292,7 +2440,7 @@ const baseResponseInfo: object = {
 }
 
 export const ResponseInfo = {
-  encode(message: ResponseInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.data !== '') {
       writer.uint32(10).string(message.data)
     }
@@ -2311,8 +2459,8 @@ export const ResponseInfo = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseInfo } as ResponseInfo
     message.lastBlockAppHash = new Uint8Array()
@@ -2344,21 +2492,30 @@ export const ResponseInfo = {
 
   fromJSON(object: any): ResponseInfo {
     const message = { ...baseResponseInfo } as ResponseInfo
-    message.data = object.data !== undefined && object.data !== null ? String(object.data) : ''
-    message.version =
-      object.version !== undefined && object.version !== null ? String(object.version) : ''
-    message.appVersion =
-      object.appVersion !== undefined && object.appVersion !== null
-        ? Long.fromString(object.appVersion)
-        : Long.UZERO
-    message.lastBlockHeight =
-      object.lastBlockHeight !== undefined && object.lastBlockHeight !== null
-        ? Long.fromString(object.lastBlockHeight)
-        : Long.ZERO
-    message.lastBlockAppHash =
-      object.lastBlockAppHash !== undefined && object.lastBlockAppHash !== null
-        ? bytesFromBase64(object.lastBlockAppHash)
-        : new Uint8Array()
+    message.lastBlockAppHash = new Uint8Array()
+    if (object.data !== undefined && object.data !== null) {
+      message.data = String(object.data)
+    } else {
+      message.data = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = String(object.version)
+    } else {
+      message.version = ''
+    }
+    if (object.appVersion !== undefined && object.appVersion !== null) {
+      message.appVersion = Long.fromString(object.appVersion)
+    } else {
+      message.appVersion = Long.UZERO
+    }
+    if (object.lastBlockHeight !== undefined && object.lastBlockHeight !== null) {
+      message.lastBlockHeight = Long.fromString(object.lastBlockHeight)
+    } else {
+      message.lastBlockHeight = Long.ZERO
+    }
+    if (object.lastBlockAppHash !== undefined && object.lastBlockAppHash !== null) {
+      message.lastBlockAppHash = bytesFromBase64(object.lastBlockAppHash)
+    }
     return message
   },
 
@@ -2377,18 +2534,20 @@ export const ResponseInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseInfo>, I>>(object: I): ResponseInfo {
+  fromPartial(object: DeepPartial<ResponseInfo>): ResponseInfo {
     const message = { ...baseResponseInfo } as ResponseInfo
     message.data = object.data ?? ''
     message.version = object.version ?? ''
-    message.appVersion =
-      object.appVersion !== undefined && object.appVersion !== null
-        ? Long.fromValue(object.appVersion)
-        : Long.UZERO
-    message.lastBlockHeight =
-      object.lastBlockHeight !== undefined && object.lastBlockHeight !== null
-        ? Long.fromValue(object.lastBlockHeight)
-        : Long.ZERO
+    if (object.appVersion !== undefined && object.appVersion !== null) {
+      message.appVersion = object.appVersion as Long
+    } else {
+      message.appVersion = Long.UZERO
+    }
+    if (object.lastBlockHeight !== undefined && object.lastBlockHeight !== null) {
+      message.lastBlockHeight = object.lastBlockHeight as Long
+    } else {
+      message.lastBlockHeight = Long.ZERO
+    }
     message.lastBlockAppHash = object.lastBlockAppHash ?? new Uint8Array()
     return message
   }
@@ -2397,7 +2556,7 @@ export const ResponseInfo = {
 const baseResponseSetOption: object = { code: 0, log: '', info: '' }
 
 export const ResponseSetOption = {
-  encode(message: ResponseSetOption, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseSetOption, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).uint32(message.code)
     }
@@ -2410,8 +2569,8 @@ export const ResponseSetOption = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseSetOption {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseSetOption {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseSetOption } as ResponseSetOption
     while (reader.pos < end) {
@@ -2436,21 +2595,33 @@ export const ResponseSetOption = {
 
   fromJSON(object: any): ResponseSetOption {
     const message = { ...baseResponseSetOption } as ResponseSetOption
-    message.code = object.code !== undefined && object.code !== null ? Number(object.code) : 0
-    message.log = object.log !== undefined && object.log !== null ? String(object.log) : ''
-    message.info = object.info !== undefined && object.info !== null ? String(object.info) : ''
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code)
+    } else {
+      message.code = 0
+    }
+    if (object.log !== undefined && object.log !== null) {
+      message.log = String(object.log)
+    } else {
+      message.log = ''
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = String(object.info)
+    } else {
+      message.info = ''
+    }
     return message
   },
 
   toJSON(message: ResponseSetOption): unknown {
     const obj: any = {}
-    message.code !== undefined && (obj.code = Math.round(message.code))
+    message.code !== undefined && (obj.code = message.code)
     message.log !== undefined && (obj.log = message.log)
     message.info !== undefined && (obj.info = message.info)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseSetOption>, I>>(object: I): ResponseSetOption {
+  fromPartial(object: DeepPartial<ResponseSetOption>): ResponseSetOption {
     const message = { ...baseResponseSetOption } as ResponseSetOption
     message.code = object.code ?? 0
     message.log = object.log ?? ''
@@ -2462,7 +2633,7 @@ export const ResponseSetOption = {
 const baseResponseInitChain: object = {}
 
 export const ResponseInitChain = {
-  encode(message: ResponseInitChain, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseInitChain, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.consensusParams !== undefined) {
       ConsensusParams.encode(message.consensusParams, writer.uint32(10).fork()).ldelim()
     }
@@ -2475,8 +2646,8 @@ export const ResponseInitChain = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseInitChain {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseInitChain {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseInitChain } as ResponseInitChain
     message.validators = []
@@ -2503,15 +2674,21 @@ export const ResponseInitChain = {
 
   fromJSON(object: any): ResponseInitChain {
     const message = { ...baseResponseInitChain } as ResponseInitChain
-    message.consensusParams =
-      object.consensusParams !== undefined && object.consensusParams !== null
-        ? ConsensusParams.fromJSON(object.consensusParams)
-        : undefined
-    message.validators = (object.validators ?? []).map((e: any) => ValidatorUpdate.fromJSON(e))
-    message.appHash =
-      object.appHash !== undefined && object.appHash !== null
-        ? bytesFromBase64(object.appHash)
-        : new Uint8Array()
+    message.validators = []
+    message.appHash = new Uint8Array()
+    if (object.consensusParams !== undefined && object.consensusParams !== null) {
+      message.consensusParams = ConsensusParams.fromJSON(object.consensusParams)
+    } else {
+      message.consensusParams = undefined
+    }
+    if (object.validators !== undefined && object.validators !== null) {
+      for (const e of object.validators) {
+        message.validators.push(ValidatorUpdate.fromJSON(e))
+      }
+    }
+    if (object.appHash !== undefined && object.appHash !== null) {
+      message.appHash = bytesFromBase64(object.appHash)
+    }
     return message
   },
 
@@ -2533,13 +2710,19 @@ export const ResponseInitChain = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseInitChain>, I>>(object: I): ResponseInitChain {
+  fromPartial(object: DeepPartial<ResponseInitChain>): ResponseInitChain {
     const message = { ...baseResponseInitChain } as ResponseInitChain
-    message.consensusParams =
-      object.consensusParams !== undefined && object.consensusParams !== null
-        ? ConsensusParams.fromPartial(object.consensusParams)
-        : undefined
-    message.validators = object.validators?.map(e => ValidatorUpdate.fromPartial(e)) || []
+    if (object.consensusParams !== undefined && object.consensusParams !== null) {
+      message.consensusParams = ConsensusParams.fromPartial(object.consensusParams)
+    } else {
+      message.consensusParams = undefined
+    }
+    message.validators = []
+    if (object.validators !== undefined && object.validators !== null) {
+      for (const e of object.validators) {
+        message.validators.push(ValidatorUpdate.fromPartial(e))
+      }
+    }
     message.appHash = object.appHash ?? new Uint8Array()
     return message
   }
@@ -2555,7 +2738,7 @@ const baseResponseQuery: object = {
 }
 
 export const ResponseQuery = {
-  encode(message: ResponseQuery, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseQuery, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).uint32(message.code)
     }
@@ -2586,8 +2769,8 @@ export const ResponseQuery = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseQuery {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseQuery {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseQuery } as ResponseQuery
     message.key = new Uint8Array()
@@ -2632,37 +2815,55 @@ export const ResponseQuery = {
 
   fromJSON(object: any): ResponseQuery {
     const message = { ...baseResponseQuery } as ResponseQuery
-    message.code = object.code !== undefined && object.code !== null ? Number(object.code) : 0
-    message.log = object.log !== undefined && object.log !== null ? String(object.log) : ''
-    message.info = object.info !== undefined && object.info !== null ? String(object.info) : ''
-    message.index =
-      object.index !== undefined && object.index !== null
-        ? Long.fromString(object.index)
-        : Long.ZERO
-    message.key =
-      object.key !== undefined && object.key !== null
-        ? bytesFromBase64(object.key)
-        : new Uint8Array()
-    message.value =
-      object.value !== undefined && object.value !== null
-        ? bytesFromBase64(object.value)
-        : new Uint8Array()
-    message.proofOps =
-      object.proofOps !== undefined && object.proofOps !== null
-        ? ProofOps.fromJSON(object.proofOps)
-        : undefined
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromString(object.height)
-        : Long.ZERO
-    message.codespace =
-      object.codespace !== undefined && object.codespace !== null ? String(object.codespace) : ''
+    message.key = new Uint8Array()
+    message.value = new Uint8Array()
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code)
+    } else {
+      message.code = 0
+    }
+    if (object.log !== undefined && object.log !== null) {
+      message.log = String(object.log)
+    } else {
+      message.log = ''
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = String(object.info)
+    } else {
+      message.info = ''
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = Long.fromString(object.index)
+    } else {
+      message.index = Long.ZERO
+    }
+    if (object.key !== undefined && object.key !== null) {
+      message.key = bytesFromBase64(object.key)
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = bytesFromBase64(object.value)
+    }
+    if (object.proofOps !== undefined && object.proofOps !== null) {
+      message.proofOps = ProofOps.fromJSON(object.proofOps)
+    } else {
+      message.proofOps = undefined
+    }
+    if (object.height !== undefined && object.height !== null) {
+      message.height = Long.fromString(object.height)
+    } else {
+      message.height = Long.ZERO
+    }
+    if (object.codespace !== undefined && object.codespace !== null) {
+      message.codespace = String(object.codespace)
+    } else {
+      message.codespace = ''
+    }
     return message
   },
 
   toJSON(message: ResponseQuery): unknown {
     const obj: any = {}
-    message.code !== undefined && (obj.code = Math.round(message.code))
+    message.code !== undefined && (obj.code = message.code)
     message.log !== undefined && (obj.log = message.log)
     message.info !== undefined && (obj.info = message.info)
     message.index !== undefined && (obj.index = (message.index || Long.ZERO).toString())
@@ -2677,23 +2878,28 @@ export const ResponseQuery = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseQuery>, I>>(object: I): ResponseQuery {
+  fromPartial(object: DeepPartial<ResponseQuery>): ResponseQuery {
     const message = { ...baseResponseQuery } as ResponseQuery
     message.code = object.code ?? 0
     message.log = object.log ?? ''
     message.info = object.info ?? ''
-    message.index =
-      object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index as Long
+    } else {
+      message.index = Long.ZERO
+    }
     message.key = object.key ?? new Uint8Array()
     message.value = object.value ?? new Uint8Array()
-    message.proofOps =
-      object.proofOps !== undefined && object.proofOps !== null
-        ? ProofOps.fromPartial(object.proofOps)
-        : undefined
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromValue(object.height)
-        : Long.ZERO
+    if (object.proofOps !== undefined && object.proofOps !== null) {
+      message.proofOps = ProofOps.fromPartial(object.proofOps)
+    } else {
+      message.proofOps = undefined
+    }
+    if (object.height !== undefined && object.height !== null) {
+      message.height = object.height as Long
+    } else {
+      message.height = Long.ZERO
+    }
     message.codespace = object.codespace ?? ''
     return message
   }
@@ -2702,15 +2908,15 @@ export const ResponseQuery = {
 const baseResponseBeginBlock: object = {}
 
 export const ResponseBeginBlock = {
-  encode(message: ResponseBeginBlock, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseBeginBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.events) {
       Event.encode(v!, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseBeginBlock {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseBeginBlock {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseBeginBlock } as ResponseBeginBlock
     message.events = []
@@ -2730,7 +2936,12 @@ export const ResponseBeginBlock = {
 
   fromJSON(object: any): ResponseBeginBlock {
     const message = { ...baseResponseBeginBlock } as ResponseBeginBlock
-    message.events = (object.events ?? []).map((e: any) => Event.fromJSON(e))
+    message.events = []
+    if (object.events !== undefined && object.events !== null) {
+      for (const e of object.events) {
+        message.events.push(Event.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -2744,9 +2955,14 @@ export const ResponseBeginBlock = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseBeginBlock>, I>>(object: I): ResponseBeginBlock {
+  fromPartial(object: DeepPartial<ResponseBeginBlock>): ResponseBeginBlock {
     const message = { ...baseResponseBeginBlock } as ResponseBeginBlock
-    message.events = object.events?.map(e => Event.fromPartial(e)) || []
+    message.events = []
+    if (object.events !== undefined && object.events !== null) {
+      for (const e of object.events) {
+        message.events.push(Event.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -2761,7 +2977,7 @@ const baseResponseCheckTx: object = {
 }
 
 export const ResponseCheckTx = {
-  encode(message: ResponseCheckTx, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseCheckTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).uint32(message.code)
     }
@@ -2789,8 +3005,8 @@ export const ResponseCheckTx = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseCheckTx {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseCheckTx {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseCheckTx } as ResponseCheckTx
     message.events = []
@@ -2832,37 +3048,58 @@ export const ResponseCheckTx = {
 
   fromJSON(object: any): ResponseCheckTx {
     const message = { ...baseResponseCheckTx } as ResponseCheckTx
-    message.code = object.code !== undefined && object.code !== null ? Number(object.code) : 0
-    message.data =
-      object.data !== undefined && object.data !== null
-        ? bytesFromBase64(object.data)
-        : new Uint8Array()
-    message.log = object.log !== undefined && object.log !== null ? String(object.log) : ''
-    message.info = object.info !== undefined && object.info !== null ? String(object.info) : ''
-    message.gasWanted =
-      object.gas_wanted !== undefined && object.gas_wanted !== null
-        ? Long.fromString(object.gas_wanted)
-        : Long.ZERO
-    message.gasUsed =
-      object.gas_used !== undefined && object.gas_used !== null
-        ? Long.fromString(object.gas_used)
-        : Long.ZERO
-    message.events = (object.events ?? []).map((e: any) => Event.fromJSON(e))
-    message.codespace =
-      object.codespace !== undefined && object.codespace !== null ? String(object.codespace) : ''
+    message.events = []
+    message.data = new Uint8Array()
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code)
+    } else {
+      message.code = 0
+    }
+    if (object.data !== undefined && object.data !== null) {
+      message.data = bytesFromBase64(object.data)
+    }
+    if (object.log !== undefined && object.log !== null) {
+      message.log = String(object.log)
+    } else {
+      message.log = ''
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = String(object.info)
+    } else {
+      message.info = ''
+    }
+    if (object.gasWanted !== undefined && object.gasWanted !== null) {
+      message.gasWanted = Long.fromString(object.gasWanted)
+    } else {
+      message.gasWanted = Long.ZERO
+    }
+    if (object.gasUsed !== undefined && object.gasUsed !== null) {
+      message.gasUsed = Long.fromString(object.gasUsed)
+    } else {
+      message.gasUsed = Long.ZERO
+    }
+    if (object.events !== undefined && object.events !== null) {
+      for (const e of object.events) {
+        message.events.push(Event.fromJSON(e))
+      }
+    }
+    if (object.codespace !== undefined && object.codespace !== null) {
+      message.codespace = String(object.codespace)
+    } else {
+      message.codespace = ''
+    }
     return message
   },
 
   toJSON(message: ResponseCheckTx): unknown {
     const obj: any = {}
-    message.code !== undefined && (obj.code = Math.round(message.code))
+    message.code !== undefined && (obj.code = message.code)
     message.data !== undefined &&
       (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()))
     message.log !== undefined && (obj.log = message.log)
     message.info !== undefined && (obj.info = message.info)
-    message.gasWanted !== undefined &&
-      (obj.gas_wanted = (message.gasWanted || Long.ZERO).toString())
-    message.gasUsed !== undefined && (obj.gas_used = (message.gasUsed || Long.ZERO).toString())
+    message.gasWanted !== undefined && (obj.gasWanted = (message.gasWanted || Long.ZERO).toString())
+    message.gasUsed !== undefined && (obj.gasUsed = (message.gasUsed || Long.ZERO).toString())
     if (message.events) {
       obj.events = message.events.map(e => (e ? Event.toJSON(e) : undefined))
     } else {
@@ -2872,21 +3109,28 @@ export const ResponseCheckTx = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseCheckTx>, I>>(object: I): ResponseCheckTx {
+  fromPartial(object: DeepPartial<ResponseCheckTx>): ResponseCheckTx {
     const message = { ...baseResponseCheckTx } as ResponseCheckTx
     message.code = object.code ?? 0
     message.data = object.data ?? new Uint8Array()
     message.log = object.log ?? ''
     message.info = object.info ?? ''
-    message.gasWanted =
-      object.gasWanted !== undefined && object.gasWanted !== null
-        ? Long.fromValue(object.gasWanted)
-        : Long.ZERO
-    message.gasUsed =
-      object.gasUsed !== undefined && object.gasUsed !== null
-        ? Long.fromValue(object.gasUsed)
-        : Long.ZERO
-    message.events = object.events?.map(e => Event.fromPartial(e)) || []
+    if (object.gasWanted !== undefined && object.gasWanted !== null) {
+      message.gasWanted = object.gasWanted as Long
+    } else {
+      message.gasWanted = Long.ZERO
+    }
+    if (object.gasUsed !== undefined && object.gasUsed !== null) {
+      message.gasUsed = object.gasUsed as Long
+    } else {
+      message.gasUsed = Long.ZERO
+    }
+    message.events = []
+    if (object.events !== undefined && object.events !== null) {
+      for (const e of object.events) {
+        message.events.push(Event.fromPartial(e))
+      }
+    }
     message.codespace = object.codespace ?? ''
     return message
   }
@@ -2902,7 +3146,7 @@ const baseResponseDeliverTx: object = {
 }
 
 export const ResponseDeliverTx = {
-  encode(message: ResponseDeliverTx, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseDeliverTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.code !== 0) {
       writer.uint32(8).uint32(message.code)
     }
@@ -2930,8 +3174,8 @@ export const ResponseDeliverTx = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseDeliverTx {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseDeliverTx {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseDeliverTx } as ResponseDeliverTx
     message.events = []
@@ -2973,37 +3217,58 @@ export const ResponseDeliverTx = {
 
   fromJSON(object: any): ResponseDeliverTx {
     const message = { ...baseResponseDeliverTx } as ResponseDeliverTx
-    message.code = object.code !== undefined && object.code !== null ? Number(object.code) : 0
-    message.data =
-      object.data !== undefined && object.data !== null
-        ? bytesFromBase64(object.data)
-        : new Uint8Array()
-    message.log = object.log !== undefined && object.log !== null ? String(object.log) : ''
-    message.info = object.info !== undefined && object.info !== null ? String(object.info) : ''
-    message.gasWanted =
-      object.gas_wanted !== undefined && object.gas_wanted !== null
-        ? Long.fromString(object.gas_wanted)
-        : Long.ZERO
-    message.gasUsed =
-      object.gas_used !== undefined && object.gas_used !== null
-        ? Long.fromString(object.gas_used)
-        : Long.ZERO
-    message.events = (object.events ?? []).map((e: any) => Event.fromJSON(e))
-    message.codespace =
-      object.codespace !== undefined && object.codespace !== null ? String(object.codespace) : ''
+    message.events = []
+    message.data = new Uint8Array()
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code)
+    } else {
+      message.code = 0
+    }
+    if (object.data !== undefined && object.data !== null) {
+      message.data = bytesFromBase64(object.data)
+    }
+    if (object.log !== undefined && object.log !== null) {
+      message.log = String(object.log)
+    } else {
+      message.log = ''
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = String(object.info)
+    } else {
+      message.info = ''
+    }
+    if (object.gasWanted !== undefined && object.gasWanted !== null) {
+      message.gasWanted = Long.fromString(object.gasWanted)
+    } else {
+      message.gasWanted = Long.ZERO
+    }
+    if (object.gasUsed !== undefined && object.gasUsed !== null) {
+      message.gasUsed = Long.fromString(object.gasUsed)
+    } else {
+      message.gasUsed = Long.ZERO
+    }
+    if (object.events !== undefined && object.events !== null) {
+      for (const e of object.events) {
+        message.events.push(Event.fromJSON(e))
+      }
+    }
+    if (object.codespace !== undefined && object.codespace !== null) {
+      message.codespace = String(object.codespace)
+    } else {
+      message.codespace = ''
+    }
     return message
   },
 
   toJSON(message: ResponseDeliverTx): unknown {
     const obj: any = {}
-    message.code !== undefined && (obj.code = Math.round(message.code))
+    message.code !== undefined && (obj.code = message.code)
     message.data !== undefined &&
       (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()))
     message.log !== undefined && (obj.log = message.log)
     message.info !== undefined && (obj.info = message.info)
-    message.gasWanted !== undefined &&
-      (obj.gas_wanted = (message.gasWanted || Long.ZERO).toString())
-    message.gasUsed !== undefined && (obj.gas_used = (message.gasUsed || Long.ZERO).toString())
+    message.gasWanted !== undefined && (obj.gasWanted = (message.gasWanted || Long.ZERO).toString())
+    message.gasUsed !== undefined && (obj.gasUsed = (message.gasUsed || Long.ZERO).toString())
     if (message.events) {
       obj.events = message.events.map(e => (e ? Event.toJSON(e) : undefined))
     } else {
@@ -3013,21 +3278,28 @@ export const ResponseDeliverTx = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseDeliverTx>, I>>(object: I): ResponseDeliverTx {
+  fromPartial(object: DeepPartial<ResponseDeliverTx>): ResponseDeliverTx {
     const message = { ...baseResponseDeliverTx } as ResponseDeliverTx
     message.code = object.code ?? 0
     message.data = object.data ?? new Uint8Array()
     message.log = object.log ?? ''
     message.info = object.info ?? ''
-    message.gasWanted =
-      object.gasWanted !== undefined && object.gasWanted !== null
-        ? Long.fromValue(object.gasWanted)
-        : Long.ZERO
-    message.gasUsed =
-      object.gasUsed !== undefined && object.gasUsed !== null
-        ? Long.fromValue(object.gasUsed)
-        : Long.ZERO
-    message.events = object.events?.map(e => Event.fromPartial(e)) || []
+    if (object.gasWanted !== undefined && object.gasWanted !== null) {
+      message.gasWanted = object.gasWanted as Long
+    } else {
+      message.gasWanted = Long.ZERO
+    }
+    if (object.gasUsed !== undefined && object.gasUsed !== null) {
+      message.gasUsed = object.gasUsed as Long
+    } else {
+      message.gasUsed = Long.ZERO
+    }
+    message.events = []
+    if (object.events !== undefined && object.events !== null) {
+      for (const e of object.events) {
+        message.events.push(Event.fromPartial(e))
+      }
+    }
     message.codespace = object.codespace ?? ''
     return message
   }
@@ -3036,7 +3308,7 @@ export const ResponseDeliverTx = {
 const baseResponseEndBlock: object = {}
 
 export const ResponseEndBlock = {
-  encode(message: ResponseEndBlock, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseEndBlock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.validatorUpdates) {
       ValidatorUpdate.encode(v!, writer.uint32(10).fork()).ldelim()
     }
@@ -3049,8 +3321,8 @@ export const ResponseEndBlock = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseEndBlock {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseEndBlock {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseEndBlock } as ResponseEndBlock
     message.validatorUpdates = []
@@ -3077,14 +3349,23 @@ export const ResponseEndBlock = {
 
   fromJSON(object: any): ResponseEndBlock {
     const message = { ...baseResponseEndBlock } as ResponseEndBlock
-    message.validatorUpdates = (object.validatorUpdates ?? []).map((e: any) =>
-      ValidatorUpdate.fromJSON(e)
-    )
-    message.consensusParamUpdates =
-      object.consensusParamUpdates !== undefined && object.consensusParamUpdates !== null
-        ? ConsensusParams.fromJSON(object.consensusParamUpdates)
-        : undefined
-    message.events = (object.events ?? []).map((e: any) => Event.fromJSON(e))
+    message.validatorUpdates = []
+    message.events = []
+    if (object.validatorUpdates !== undefined && object.validatorUpdates !== null) {
+      for (const e of object.validatorUpdates) {
+        message.validatorUpdates.push(ValidatorUpdate.fromJSON(e))
+      }
+    }
+    if (object.consensusParamUpdates !== undefined && object.consensusParamUpdates !== null) {
+      message.consensusParamUpdates = ConsensusParams.fromJSON(object.consensusParamUpdates)
+    } else {
+      message.consensusParamUpdates = undefined
+    }
+    if (object.events !== undefined && object.events !== null) {
+      for (const e of object.events) {
+        message.events.push(Event.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3109,15 +3390,25 @@ export const ResponseEndBlock = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseEndBlock>, I>>(object: I): ResponseEndBlock {
+  fromPartial(object: DeepPartial<ResponseEndBlock>): ResponseEndBlock {
     const message = { ...baseResponseEndBlock } as ResponseEndBlock
-    message.validatorUpdates =
-      object.validatorUpdates?.map(e => ValidatorUpdate.fromPartial(e)) || []
-    message.consensusParamUpdates =
-      object.consensusParamUpdates !== undefined && object.consensusParamUpdates !== null
-        ? ConsensusParams.fromPartial(object.consensusParamUpdates)
-        : undefined
-    message.events = object.events?.map(e => Event.fromPartial(e)) || []
+    message.validatorUpdates = []
+    if (object.validatorUpdates !== undefined && object.validatorUpdates !== null) {
+      for (const e of object.validatorUpdates) {
+        message.validatorUpdates.push(ValidatorUpdate.fromPartial(e))
+      }
+    }
+    if (object.consensusParamUpdates !== undefined && object.consensusParamUpdates !== null) {
+      message.consensusParamUpdates = ConsensusParams.fromPartial(object.consensusParamUpdates)
+    } else {
+      message.consensusParamUpdates = undefined
+    }
+    message.events = []
+    if (object.events !== undefined && object.events !== null) {
+      for (const e of object.events) {
+        message.events.push(Event.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3125,7 +3416,7 @@ export const ResponseEndBlock = {
 const baseResponseCommit: object = { retainHeight: Long.ZERO }
 
 export const ResponseCommit = {
-  encode(message: ResponseCommit, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseCommit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.data.length !== 0) {
       writer.uint32(18).bytes(message.data)
     }
@@ -3135,8 +3426,8 @@ export const ResponseCommit = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseCommit {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseCommit {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseCommit } as ResponseCommit
     message.data = new Uint8Array()
@@ -3159,14 +3450,15 @@ export const ResponseCommit = {
 
   fromJSON(object: any): ResponseCommit {
     const message = { ...baseResponseCommit } as ResponseCommit
-    message.data =
-      object.data !== undefined && object.data !== null
-        ? bytesFromBase64(object.data)
-        : new Uint8Array()
-    message.retainHeight =
-      object.retainHeight !== undefined && object.retainHeight !== null
-        ? Long.fromString(object.retainHeight)
-        : Long.ZERO
+    message.data = new Uint8Array()
+    if (object.data !== undefined && object.data !== null) {
+      message.data = bytesFromBase64(object.data)
+    }
+    if (object.retainHeight !== undefined && object.retainHeight !== null) {
+      message.retainHeight = Long.fromString(object.retainHeight)
+    } else {
+      message.retainHeight = Long.ZERO
+    }
     return message
   },
 
@@ -3179,13 +3471,14 @@ export const ResponseCommit = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseCommit>, I>>(object: I): ResponseCommit {
+  fromPartial(object: DeepPartial<ResponseCommit>): ResponseCommit {
     const message = { ...baseResponseCommit } as ResponseCommit
     message.data = object.data ?? new Uint8Array()
-    message.retainHeight =
-      object.retainHeight !== undefined && object.retainHeight !== null
-        ? Long.fromValue(object.retainHeight)
-        : Long.ZERO
+    if (object.retainHeight !== undefined && object.retainHeight !== null) {
+      message.retainHeight = object.retainHeight as Long
+    } else {
+      message.retainHeight = Long.ZERO
+    }
     return message
   }
 }
@@ -3193,15 +3486,15 @@ export const ResponseCommit = {
 const baseResponseListSnapshots: object = {}
 
 export const ResponseListSnapshots = {
-  encode(message: ResponseListSnapshots, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseListSnapshots, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.snapshots) {
       Snapshot.encode(v!, writer.uint32(10).fork()).ldelim()
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseListSnapshots {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseListSnapshots {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseListSnapshots } as ResponseListSnapshots
     message.snapshots = []
@@ -3221,7 +3514,12 @@ export const ResponseListSnapshots = {
 
   fromJSON(object: any): ResponseListSnapshots {
     const message = { ...baseResponseListSnapshots } as ResponseListSnapshots
-    message.snapshots = (object.snapshots ?? []).map((e: any) => Snapshot.fromJSON(e))
+    message.snapshots = []
+    if (object.snapshots !== undefined && object.snapshots !== null) {
+      for (const e of object.snapshots) {
+        message.snapshots.push(Snapshot.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3235,11 +3533,14 @@ export const ResponseListSnapshots = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseListSnapshots>, I>>(
-    object: I
-  ): ResponseListSnapshots {
+  fromPartial(object: DeepPartial<ResponseListSnapshots>): ResponseListSnapshots {
     const message = { ...baseResponseListSnapshots } as ResponseListSnapshots
-    message.snapshots = object.snapshots?.map(e => Snapshot.fromPartial(e)) || []
+    message.snapshots = []
+    if (object.snapshots !== undefined && object.snapshots !== null) {
+      for (const e of object.snapshots) {
+        message.snapshots.push(Snapshot.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3247,15 +3548,15 @@ export const ResponseListSnapshots = {
 const baseResponseOfferSnapshot: object = { result: 0 }
 
 export const ResponseOfferSnapshot = {
-  encode(message: ResponseOfferSnapshot, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseOfferSnapshot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.result !== 0) {
       writer.uint32(8).int32(message.result)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseOfferSnapshot {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseOfferSnapshot {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseResponseOfferSnapshot } as ResponseOfferSnapshot
     while (reader.pos < end) {
@@ -3274,10 +3575,11 @@ export const ResponseOfferSnapshot = {
 
   fromJSON(object: any): ResponseOfferSnapshot {
     const message = { ...baseResponseOfferSnapshot } as ResponseOfferSnapshot
-    message.result =
-      object.result !== undefined && object.result !== null
-        ? responseOfferSnapshot_ResultFromJSON(object.result)
-        : 0
+    if (object.result !== undefined && object.result !== null) {
+      message.result = responseOfferSnapshot_ResultFromJSON(object.result)
+    } else {
+      message.result = 0
+    }
     return message
   },
 
@@ -3288,9 +3590,7 @@ export const ResponseOfferSnapshot = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseOfferSnapshot>, I>>(
-    object: I
-  ): ResponseOfferSnapshot {
+  fromPartial(object: DeepPartial<ResponseOfferSnapshot>): ResponseOfferSnapshot {
     const message = { ...baseResponseOfferSnapshot } as ResponseOfferSnapshot
     message.result = object.result ?? 0
     return message
@@ -3300,15 +3600,15 @@ export const ResponseOfferSnapshot = {
 const baseResponseLoadSnapshotChunk: object = {}
 
 export const ResponseLoadSnapshotChunk = {
-  encode(message: ResponseLoadSnapshotChunk, writer: Writer = Writer.create()): Writer {
+  encode(message: ResponseLoadSnapshotChunk, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.chunk.length !== 0) {
       writer.uint32(10).bytes(message.chunk)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseLoadSnapshotChunk {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseLoadSnapshotChunk {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseResponseLoadSnapshotChunk
@@ -3332,10 +3632,10 @@ export const ResponseLoadSnapshotChunk = {
     const message = {
       ...baseResponseLoadSnapshotChunk
     } as ResponseLoadSnapshotChunk
-    message.chunk =
-      object.chunk !== undefined && object.chunk !== null
-        ? bytesFromBase64(object.chunk)
-        : new Uint8Array()
+    message.chunk = new Uint8Array()
+    if (object.chunk !== undefined && object.chunk !== null) {
+      message.chunk = bytesFromBase64(object.chunk)
+    }
     return message
   },
 
@@ -3346,9 +3646,7 @@ export const ResponseLoadSnapshotChunk = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseLoadSnapshotChunk>, I>>(
-    object: I
-  ): ResponseLoadSnapshotChunk {
+  fromPartial(object: DeepPartial<ResponseLoadSnapshotChunk>): ResponseLoadSnapshotChunk {
     const message = {
       ...baseResponseLoadSnapshotChunk
     } as ResponseLoadSnapshotChunk
@@ -3364,7 +3662,10 @@ const baseResponseApplySnapshotChunk: object = {
 }
 
 export const ResponseApplySnapshotChunk = {
-  encode(message: ResponseApplySnapshotChunk, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: ResponseApplySnapshotChunk,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.result !== 0) {
       writer.uint32(8).int32(message.result)
     }
@@ -3379,8 +3680,8 @@ export const ResponseApplySnapshotChunk = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ResponseApplySnapshotChunk {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ResponseApplySnapshotChunk {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseResponseApplySnapshotChunk
@@ -3418,12 +3719,23 @@ export const ResponseApplySnapshotChunk = {
     const message = {
       ...baseResponseApplySnapshotChunk
     } as ResponseApplySnapshotChunk
-    message.result =
-      object.result !== undefined && object.result !== null
-        ? responseApplySnapshotChunk_ResultFromJSON(object.result)
-        : 0
-    message.refetchChunks = (object.refetchChunks ?? []).map((e: any) => Number(e))
-    message.rejectSenders = (object.rejectSenders ?? []).map((e: any) => String(e))
+    message.refetchChunks = []
+    message.rejectSenders = []
+    if (object.result !== undefined && object.result !== null) {
+      message.result = responseApplySnapshotChunk_ResultFromJSON(object.result)
+    } else {
+      message.result = 0
+    }
+    if (object.refetchChunks !== undefined && object.refetchChunks !== null) {
+      for (const e of object.refetchChunks) {
+        message.refetchChunks.push(Number(e))
+      }
+    }
+    if (object.rejectSenders !== undefined && object.rejectSenders !== null) {
+      for (const e of object.rejectSenders) {
+        message.rejectSenders.push(String(e))
+      }
+    }
     return message
   },
 
@@ -3432,7 +3744,7 @@ export const ResponseApplySnapshotChunk = {
     message.result !== undefined &&
       (obj.result = responseApplySnapshotChunk_ResultToJSON(message.result))
     if (message.refetchChunks) {
-      obj.refetchChunks = message.refetchChunks.map(e => Math.round(e))
+      obj.refetchChunks = message.refetchChunks.map(e => e)
     } else {
       obj.refetchChunks = []
     }
@@ -3444,15 +3756,23 @@ export const ResponseApplySnapshotChunk = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ResponseApplySnapshotChunk>, I>>(
-    object: I
-  ): ResponseApplySnapshotChunk {
+  fromPartial(object: DeepPartial<ResponseApplySnapshotChunk>): ResponseApplySnapshotChunk {
     const message = {
       ...baseResponseApplySnapshotChunk
     } as ResponseApplySnapshotChunk
     message.result = object.result ?? 0
-    message.refetchChunks = object.refetchChunks?.map(e => e) || []
-    message.rejectSenders = object.rejectSenders?.map(e => e) || []
+    message.refetchChunks = []
+    if (object.refetchChunks !== undefined && object.refetchChunks !== null) {
+      for (const e of object.refetchChunks) {
+        message.refetchChunks.push(e)
+      }
+    }
+    message.rejectSenders = []
+    if (object.rejectSenders !== undefined && object.rejectSenders !== null) {
+      for (const e of object.rejectSenders) {
+        message.rejectSenders.push(e)
+      }
+    }
     return message
   }
 }
@@ -3460,7 +3780,7 @@ export const ResponseApplySnapshotChunk = {
 const baseConsensusParams: object = {}
 
 export const ConsensusParams = {
-  encode(message: ConsensusParams, writer: Writer = Writer.create()): Writer {
+  encode(message: ConsensusParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.block !== undefined) {
       BlockParams.encode(message.block, writer.uint32(10).fork()).ldelim()
     }
@@ -3476,8 +3796,8 @@ export const ConsensusParams = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ConsensusParams {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ConsensusParams {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseConsensusParams } as ConsensusParams
     while (reader.pos < end) {
@@ -3505,22 +3825,26 @@ export const ConsensusParams = {
 
   fromJSON(object: any): ConsensusParams {
     const message = { ...baseConsensusParams } as ConsensusParams
-    message.block =
-      object.block !== undefined && object.block !== null
-        ? BlockParams.fromJSON(object.block)
-        : undefined
-    message.evidence =
-      object.evidence !== undefined && object.evidence !== null
-        ? EvidenceParams.fromJSON(object.evidence)
-        : undefined
-    message.validator =
-      object.validator !== undefined && object.validator !== null
-        ? ValidatorParams.fromJSON(object.validator)
-        : undefined
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? VersionParams.fromJSON(object.version)
-        : undefined
+    if (object.block !== undefined && object.block !== null) {
+      message.block = BlockParams.fromJSON(object.block)
+    } else {
+      message.block = undefined
+    }
+    if (object.evidence !== undefined && object.evidence !== null) {
+      message.evidence = EvidenceParams.fromJSON(object.evidence)
+    } else {
+      message.evidence = undefined
+    }
+    if (object.validator !== undefined && object.validator !== null) {
+      message.validator = ValidatorParams.fromJSON(object.validator)
+    } else {
+      message.validator = undefined
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = VersionParams.fromJSON(object.version)
+    } else {
+      message.version = undefined
+    }
     return message
   },
 
@@ -3537,24 +3861,28 @@ export const ConsensusParams = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ConsensusParams>, I>>(object: I): ConsensusParams {
+  fromPartial(object: DeepPartial<ConsensusParams>): ConsensusParams {
     const message = { ...baseConsensusParams } as ConsensusParams
-    message.block =
-      object.block !== undefined && object.block !== null
-        ? BlockParams.fromPartial(object.block)
-        : undefined
-    message.evidence =
-      object.evidence !== undefined && object.evidence !== null
-        ? EvidenceParams.fromPartial(object.evidence)
-        : undefined
-    message.validator =
-      object.validator !== undefined && object.validator !== null
-        ? ValidatorParams.fromPartial(object.validator)
-        : undefined
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? VersionParams.fromPartial(object.version)
-        : undefined
+    if (object.block !== undefined && object.block !== null) {
+      message.block = BlockParams.fromPartial(object.block)
+    } else {
+      message.block = undefined
+    }
+    if (object.evidence !== undefined && object.evidence !== null) {
+      message.evidence = EvidenceParams.fromPartial(object.evidence)
+    } else {
+      message.evidence = undefined
+    }
+    if (object.validator !== undefined && object.validator !== null) {
+      message.validator = ValidatorParams.fromPartial(object.validator)
+    } else {
+      message.validator = undefined
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = VersionParams.fromPartial(object.version)
+    } else {
+      message.version = undefined
+    }
     return message
   }
 }
@@ -3562,7 +3890,7 @@ export const ConsensusParams = {
 const baseBlockParams: object = { maxBytes: Long.ZERO, maxGas: Long.ZERO }
 
 export const BlockParams = {
-  encode(message: BlockParams, writer: Writer = Writer.create()): Writer {
+  encode(message: BlockParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.maxBytes.isZero()) {
       writer.uint32(8).int64(message.maxBytes)
     }
@@ -3572,8 +3900,8 @@ export const BlockParams = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): BlockParams {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): BlockParams {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseBlockParams } as BlockParams
     while (reader.pos < end) {
@@ -3595,14 +3923,16 @@ export const BlockParams = {
 
   fromJSON(object: any): BlockParams {
     const message = { ...baseBlockParams } as BlockParams
-    message.maxBytes =
-      object.maxBytes !== undefined && object.maxBytes !== null
-        ? Long.fromString(object.maxBytes)
-        : Long.ZERO
-    message.maxGas =
-      object.maxGas !== undefined && object.maxGas !== null
-        ? Long.fromString(object.maxGas)
-        : Long.ZERO
+    if (object.maxBytes !== undefined && object.maxBytes !== null) {
+      message.maxBytes = Long.fromString(object.maxBytes)
+    } else {
+      message.maxBytes = Long.ZERO
+    }
+    if (object.maxGas !== undefined && object.maxGas !== null) {
+      message.maxGas = Long.fromString(object.maxGas)
+    } else {
+      message.maxGas = Long.ZERO
+    }
     return message
   },
 
@@ -3613,16 +3943,18 @@ export const BlockParams = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<BlockParams>, I>>(object: I): BlockParams {
+  fromPartial(object: DeepPartial<BlockParams>): BlockParams {
     const message = { ...baseBlockParams } as BlockParams
-    message.maxBytes =
-      object.maxBytes !== undefined && object.maxBytes !== null
-        ? Long.fromValue(object.maxBytes)
-        : Long.ZERO
-    message.maxGas =
-      object.maxGas !== undefined && object.maxGas !== null
-        ? Long.fromValue(object.maxGas)
-        : Long.ZERO
+    if (object.maxBytes !== undefined && object.maxBytes !== null) {
+      message.maxBytes = object.maxBytes as Long
+    } else {
+      message.maxBytes = Long.ZERO
+    }
+    if (object.maxGas !== undefined && object.maxGas !== null) {
+      message.maxGas = object.maxGas as Long
+    } else {
+      message.maxGas = Long.ZERO
+    }
     return message
   }
 }
@@ -3630,7 +3962,7 @@ export const BlockParams = {
 const baseLastCommitInfo: object = { round: 0 }
 
 export const LastCommitInfo = {
-  encode(message: LastCommitInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: LastCommitInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.round !== 0) {
       writer.uint32(8).int32(message.round)
     }
@@ -3640,8 +3972,8 @@ export const LastCommitInfo = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): LastCommitInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): LastCommitInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseLastCommitInfo } as LastCommitInfo
     message.votes = []
@@ -3664,14 +3996,23 @@ export const LastCommitInfo = {
 
   fromJSON(object: any): LastCommitInfo {
     const message = { ...baseLastCommitInfo } as LastCommitInfo
-    message.round = object.round !== undefined && object.round !== null ? Number(object.round) : 0
-    message.votes = (object.votes ?? []).map((e: any) => VoteInfo.fromJSON(e))
+    message.votes = []
+    if (object.round !== undefined && object.round !== null) {
+      message.round = Number(object.round)
+    } else {
+      message.round = 0
+    }
+    if (object.votes !== undefined && object.votes !== null) {
+      for (const e of object.votes) {
+        message.votes.push(VoteInfo.fromJSON(e))
+      }
+    }
     return message
   },
 
   toJSON(message: LastCommitInfo): unknown {
     const obj: any = {}
-    message.round !== undefined && (obj.round = Math.round(message.round))
+    message.round !== undefined && (obj.round = message.round)
     if (message.votes) {
       obj.votes = message.votes.map(e => (e ? VoteInfo.toJSON(e) : undefined))
     } else {
@@ -3680,10 +4021,15 @@ export const LastCommitInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<LastCommitInfo>, I>>(object: I): LastCommitInfo {
+  fromPartial(object: DeepPartial<LastCommitInfo>): LastCommitInfo {
     const message = { ...baseLastCommitInfo } as LastCommitInfo
     message.round = object.round ?? 0
-    message.votes = object.votes?.map(e => VoteInfo.fromPartial(e)) || []
+    message.votes = []
+    if (object.votes !== undefined && object.votes !== null) {
+      for (const e of object.votes) {
+        message.votes.push(VoteInfo.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3691,7 +4037,7 @@ export const LastCommitInfo = {
 const baseEvent: object = { type: '' }
 
 export const Event = {
-  encode(message: Event, writer: Writer = Writer.create()): Writer {
+  encode(message: Event, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.type !== '') {
       writer.uint32(10).string(message.type)
     }
@@ -3701,8 +4047,8 @@ export const Event = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Event {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): Event {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseEvent } as Event
     message.attributes = []
@@ -3725,8 +4071,17 @@ export const Event = {
 
   fromJSON(object: any): Event {
     const message = { ...baseEvent } as Event
-    message.type = object.type !== undefined && object.type !== null ? String(object.type) : ''
-    message.attributes = (object.attributes ?? []).map((e: any) => EventAttribute.fromJSON(e))
+    message.attributes = []
+    if (object.type !== undefined && object.type !== null) {
+      message.type = String(object.type)
+    } else {
+      message.type = ''
+    }
+    if (object.attributes !== undefined && object.attributes !== null) {
+      for (const e of object.attributes) {
+        message.attributes.push(EventAttribute.fromJSON(e))
+      }
+    }
     return message
   },
 
@@ -3741,10 +4096,15 @@ export const Event = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Event>, I>>(object: I): Event {
+  fromPartial(object: DeepPartial<Event>): Event {
     const message = { ...baseEvent } as Event
     message.type = object.type ?? ''
-    message.attributes = object.attributes?.map(e => EventAttribute.fromPartial(e)) || []
+    message.attributes = []
+    if (object.attributes !== undefined && object.attributes !== null) {
+      for (const e of object.attributes) {
+        message.attributes.push(EventAttribute.fromPartial(e))
+      }
+    }
     return message
   }
 }
@@ -3752,7 +4112,7 @@ export const Event = {
 const baseEventAttribute: object = { index: false }
 
 export const EventAttribute = {
-  encode(message: EventAttribute, writer: Writer = Writer.create()): Writer {
+  encode(message: EventAttribute, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key)
     }
@@ -3765,8 +4125,8 @@ export const EventAttribute = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): EventAttribute {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): EventAttribute {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseEventAttribute } as EventAttribute
     message.key = new Uint8Array()
@@ -3793,16 +4153,19 @@ export const EventAttribute = {
 
   fromJSON(object: any): EventAttribute {
     const message = { ...baseEventAttribute } as EventAttribute
-    message.key =
-      object.key !== undefined && object.key !== null
-        ? bytesFromBase64(object.key)
-        : new Uint8Array()
-    message.value =
-      object.value !== undefined && object.value !== null
-        ? bytesFromBase64(object.value)
-        : new Uint8Array()
-    message.index =
-      object.index !== undefined && object.index !== null ? Boolean(object.index) : false
+    message.key = new Uint8Array()
+    message.value = new Uint8Array()
+    if (object.key !== undefined && object.key !== null) {
+      message.key = bytesFromBase64(object.key)
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = bytesFromBase64(object.value)
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = Boolean(object.index)
+    } else {
+      message.index = false
+    }
     return message
   },
 
@@ -3816,7 +4179,7 @@ export const EventAttribute = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<EventAttribute>, I>>(object: I): EventAttribute {
+  fromPartial(object: DeepPartial<EventAttribute>): EventAttribute {
     const message = { ...baseEventAttribute } as EventAttribute
     message.key = object.key ?? new Uint8Array()
     message.value = object.value ?? new Uint8Array()
@@ -3828,7 +4191,7 @@ export const EventAttribute = {
 const baseTxResult: object = { height: Long.ZERO, index: 0 }
 
 export const TxResult = {
-  encode(message: TxResult, writer: Writer = Writer.create()): Writer {
+  encode(message: TxResult, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.height.isZero()) {
       writer.uint32(8).int64(message.height)
     }
@@ -3844,8 +4207,8 @@ export const TxResult = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): TxResult {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): TxResult {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseTxResult } as TxResult
     message.tx = new Uint8Array()
@@ -3874,24 +4237,32 @@ export const TxResult = {
 
   fromJSON(object: any): TxResult {
     const message = { ...baseTxResult } as TxResult
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromString(object.height)
-        : Long.ZERO
-    message.index = object.index !== undefined && object.index !== null ? Number(object.index) : 0
-    message.tx =
-      object.tx !== undefined && object.tx !== null ? bytesFromBase64(object.tx) : new Uint8Array()
-    message.result =
-      object.result !== undefined && object.result !== null
-        ? ResponseDeliverTx.fromJSON(object.result)
-        : undefined
+    message.tx = new Uint8Array()
+    if (object.height !== undefined && object.height !== null) {
+      message.height = Long.fromString(object.height)
+    } else {
+      message.height = Long.ZERO
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = Number(object.index)
+    } else {
+      message.index = 0
+    }
+    if (object.tx !== undefined && object.tx !== null) {
+      message.tx = bytesFromBase64(object.tx)
+    }
+    if (object.result !== undefined && object.result !== null) {
+      message.result = ResponseDeliverTx.fromJSON(object.result)
+    } else {
+      message.result = undefined
+    }
     return message
   },
 
   toJSON(message: TxResult): unknown {
     const obj: any = {}
     message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString())
-    message.index !== undefined && (obj.index = Math.round(message.index))
+    message.index !== undefined && (obj.index = message.index)
     message.tx !== undefined &&
       (obj.tx = base64FromBytes(message.tx !== undefined ? message.tx : new Uint8Array()))
     message.result !== undefined &&
@@ -3899,18 +4270,20 @@ export const TxResult = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<TxResult>, I>>(object: I): TxResult {
+  fromPartial(object: DeepPartial<TxResult>): TxResult {
     const message = { ...baseTxResult } as TxResult
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromValue(object.height)
-        : Long.ZERO
+    if (object.height !== undefined && object.height !== null) {
+      message.height = object.height as Long
+    } else {
+      message.height = Long.ZERO
+    }
     message.index = object.index ?? 0
     message.tx = object.tx ?? new Uint8Array()
-    message.result =
-      object.result !== undefined && object.result !== null
-        ? ResponseDeliverTx.fromPartial(object.result)
-        : undefined
+    if (object.result !== undefined && object.result !== null) {
+      message.result = ResponseDeliverTx.fromPartial(object.result)
+    } else {
+      message.result = undefined
+    }
     return message
   }
 }
@@ -3918,7 +4291,7 @@ export const TxResult = {
 const baseValidator: object = { power: Long.ZERO }
 
 export const Validator = {
-  encode(message: Validator, writer: Writer = Writer.create()): Writer {
+  encode(message: Validator, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.address.length !== 0) {
       writer.uint32(10).bytes(message.address)
     }
@@ -3928,8 +4301,8 @@ export const Validator = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Validator {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): Validator {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseValidator } as Validator
     message.address = new Uint8Array()
@@ -3952,14 +4325,15 @@ export const Validator = {
 
   fromJSON(object: any): Validator {
     const message = { ...baseValidator } as Validator
-    message.address =
-      object.address !== undefined && object.address !== null
-        ? bytesFromBase64(object.address)
-        : new Uint8Array()
-    message.power =
-      object.power !== undefined && object.power !== null
-        ? Long.fromString(object.power)
-        : Long.ZERO
+    message.address = new Uint8Array()
+    if (object.address !== undefined && object.address !== null) {
+      message.address = bytesFromBase64(object.address)
+    }
+    if (object.power !== undefined && object.power !== null) {
+      message.power = Long.fromString(object.power)
+    } else {
+      message.power = Long.ZERO
+    }
     return message
   },
 
@@ -3973,11 +4347,14 @@ export const Validator = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Validator>, I>>(object: I): Validator {
+  fromPartial(object: DeepPartial<Validator>): Validator {
     const message = { ...baseValidator } as Validator
     message.address = object.address ?? new Uint8Array()
-    message.power =
-      object.power !== undefined && object.power !== null ? Long.fromValue(object.power) : Long.ZERO
+    if (object.power !== undefined && object.power !== null) {
+      message.power = object.power as Long
+    } else {
+      message.power = Long.ZERO
+    }
     return message
   }
 }
@@ -3985,7 +4362,7 @@ export const Validator = {
 const baseValidatorUpdate: object = { power: Long.ZERO }
 
 export const ValidatorUpdate = {
-  encode(message: ValidatorUpdate, writer: Writer = Writer.create()): Writer {
+  encode(message: ValidatorUpdate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.pubKey !== undefined) {
       PublicKey.encode(message.pubKey, writer.uint32(10).fork()).ldelim()
     }
@@ -3995,8 +4372,8 @@ export const ValidatorUpdate = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): ValidatorUpdate {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorUpdate {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseValidatorUpdate } as ValidatorUpdate
     while (reader.pos < end) {
@@ -4018,14 +4395,16 @@ export const ValidatorUpdate = {
 
   fromJSON(object: any): ValidatorUpdate {
     const message = { ...baseValidatorUpdate } as ValidatorUpdate
-    message.pubKey =
-      object.pubKey !== undefined && object.pubKey !== null
-        ? PublicKey.fromJSON(object.pubKey)
-        : undefined
-    message.power =
-      object.power !== undefined && object.power !== null
-        ? Long.fromString(object.power)
-        : Long.ZERO
+    if (object.pubKey !== undefined && object.pubKey !== null) {
+      message.pubKey = PublicKey.fromJSON(object.pubKey)
+    } else {
+      message.pubKey = undefined
+    }
+    if (object.power !== undefined && object.power !== null) {
+      message.power = Long.fromString(object.power)
+    } else {
+      message.power = Long.ZERO
+    }
     return message
   },
 
@@ -4037,14 +4416,18 @@ export const ValidatorUpdate = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ValidatorUpdate>, I>>(object: I): ValidatorUpdate {
+  fromPartial(object: DeepPartial<ValidatorUpdate>): ValidatorUpdate {
     const message = { ...baseValidatorUpdate } as ValidatorUpdate
-    message.pubKey =
-      object.pubKey !== undefined && object.pubKey !== null
-        ? PublicKey.fromPartial(object.pubKey)
-        : undefined
-    message.power =
-      object.power !== undefined && object.power !== null ? Long.fromValue(object.power) : Long.ZERO
+    if (object.pubKey !== undefined && object.pubKey !== null) {
+      message.pubKey = PublicKey.fromPartial(object.pubKey)
+    } else {
+      message.pubKey = undefined
+    }
+    if (object.power !== undefined && object.power !== null) {
+      message.power = object.power as Long
+    } else {
+      message.power = Long.ZERO
+    }
     return message
   }
 }
@@ -4052,7 +4435,7 @@ export const ValidatorUpdate = {
 const baseVoteInfo: object = { signedLastBlock: false }
 
 export const VoteInfo = {
-  encode(message: VoteInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: VoteInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.validator !== undefined) {
       Validator.encode(message.validator, writer.uint32(10).fork()).ldelim()
     }
@@ -4062,8 +4445,8 @@ export const VoteInfo = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): VoteInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): VoteInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseVoteInfo } as VoteInfo
     while (reader.pos < end) {
@@ -4085,14 +4468,16 @@ export const VoteInfo = {
 
   fromJSON(object: any): VoteInfo {
     const message = { ...baseVoteInfo } as VoteInfo
-    message.validator =
-      object.validator !== undefined && object.validator !== null
-        ? Validator.fromJSON(object.validator)
-        : undefined
-    message.signedLastBlock =
-      object.signedLastBlock !== undefined && object.signedLastBlock !== null
-        ? Boolean(object.signedLastBlock)
-        : false
+    if (object.validator !== undefined && object.validator !== null) {
+      message.validator = Validator.fromJSON(object.validator)
+    } else {
+      message.validator = undefined
+    }
+    if (object.signedLastBlock !== undefined && object.signedLastBlock !== null) {
+      message.signedLastBlock = Boolean(object.signedLastBlock)
+    } else {
+      message.signedLastBlock = false
+    }
     return message
   },
 
@@ -4104,12 +4489,13 @@ export const VoteInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<VoteInfo>, I>>(object: I): VoteInfo {
+  fromPartial(object: DeepPartial<VoteInfo>): VoteInfo {
     const message = { ...baseVoteInfo } as VoteInfo
-    message.validator =
-      object.validator !== undefined && object.validator !== null
-        ? Validator.fromPartial(object.validator)
-        : undefined
+    if (object.validator !== undefined && object.validator !== null) {
+      message.validator = Validator.fromPartial(object.validator)
+    } else {
+      message.validator = undefined
+    }
     message.signedLastBlock = object.signedLastBlock ?? false
     return message
   }
@@ -4122,7 +4508,7 @@ const baseEvidence: object = {
 }
 
 export const Evidence = {
-  encode(message: Evidence, writer: Writer = Writer.create()): Writer {
+  encode(message: Evidence, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.type !== 0) {
       writer.uint32(8).int32(message.type)
     }
@@ -4141,8 +4527,8 @@ export const Evidence = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Evidence {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): Evidence {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseEvidence } as Evidence
     while (reader.pos < end) {
@@ -4173,22 +4559,31 @@ export const Evidence = {
 
   fromJSON(object: any): Evidence {
     const message = { ...baseEvidence } as Evidence
-    message.type =
-      object.type !== undefined && object.type !== null ? evidenceTypeFromJSON(object.type) : 0
-    message.validator =
-      object.validator !== undefined && object.validator !== null
-        ? Validator.fromJSON(object.validator)
-        : undefined
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromString(object.height)
-        : Long.ZERO
-    message.time =
-      object.time !== undefined && object.time !== null ? fromJsonTimestamp(object.time) : undefined
-    message.totalVotingPower =
-      object.totalVotingPower !== undefined && object.totalVotingPower !== null
-        ? Long.fromString(object.totalVotingPower)
-        : Long.ZERO
+    if (object.type !== undefined && object.type !== null) {
+      message.type = evidenceTypeFromJSON(object.type)
+    } else {
+      message.type = 0
+    }
+    if (object.validator !== undefined && object.validator !== null) {
+      message.validator = Validator.fromJSON(object.validator)
+    } else {
+      message.validator = undefined
+    }
+    if (object.height !== undefined && object.height !== null) {
+      message.height = Long.fromString(object.height)
+    } else {
+      message.height = Long.ZERO
+    }
+    if (object.time !== undefined && object.time !== null) {
+      message.time = fromJsonTimestamp(object.time)
+    } else {
+      message.time = undefined
+    }
+    if (object.totalVotingPower !== undefined && object.totalVotingPower !== null) {
+      message.totalVotingPower = Long.fromString(object.totalVotingPower)
+    } else {
+      message.totalVotingPower = Long.ZERO
+    }
     return message
   },
 
@@ -4204,22 +4599,25 @@ export const Evidence = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Evidence>, I>>(object: I): Evidence {
+  fromPartial(object: DeepPartial<Evidence>): Evidence {
     const message = { ...baseEvidence } as Evidence
     message.type = object.type ?? 0
-    message.validator =
-      object.validator !== undefined && object.validator !== null
-        ? Validator.fromPartial(object.validator)
-        : undefined
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromValue(object.height)
-        : Long.ZERO
+    if (object.validator !== undefined && object.validator !== null) {
+      message.validator = Validator.fromPartial(object.validator)
+    } else {
+      message.validator = undefined
+    }
+    if (object.height !== undefined && object.height !== null) {
+      message.height = object.height as Long
+    } else {
+      message.height = Long.ZERO
+    }
     message.time = object.time ?? undefined
-    message.totalVotingPower =
-      object.totalVotingPower !== undefined && object.totalVotingPower !== null
-        ? Long.fromValue(object.totalVotingPower)
-        : Long.ZERO
+    if (object.totalVotingPower !== undefined && object.totalVotingPower !== null) {
+      message.totalVotingPower = object.totalVotingPower as Long
+    } else {
+      message.totalVotingPower = Long.ZERO
+    }
     return message
   }
 }
@@ -4227,7 +4625,7 @@ export const Evidence = {
 const baseSnapshot: object = { height: Long.UZERO, format: 0, chunks: 0 }
 
 export const Snapshot = {
-  encode(message: Snapshot, writer: Writer = Writer.create()): Writer {
+  encode(message: Snapshot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.height.isZero()) {
       writer.uint32(8).uint64(message.height)
     }
@@ -4246,8 +4644,8 @@ export const Snapshot = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Snapshot {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): Snapshot {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseSnapshot } as Snapshot
     message.hash = new Uint8Array()
@@ -4280,30 +4678,37 @@ export const Snapshot = {
 
   fromJSON(object: any): Snapshot {
     const message = { ...baseSnapshot } as Snapshot
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromString(object.height)
-        : Long.UZERO
-    message.format =
-      object.format !== undefined && object.format !== null ? Number(object.format) : 0
-    message.chunks =
-      object.chunks !== undefined && object.chunks !== null ? Number(object.chunks) : 0
-    message.hash =
-      object.hash !== undefined && object.hash !== null
-        ? bytesFromBase64(object.hash)
-        : new Uint8Array()
-    message.metadata =
-      object.metadata !== undefined && object.metadata !== null
-        ? bytesFromBase64(object.metadata)
-        : new Uint8Array()
+    message.hash = new Uint8Array()
+    message.metadata = new Uint8Array()
+    if (object.height !== undefined && object.height !== null) {
+      message.height = Long.fromString(object.height)
+    } else {
+      message.height = Long.UZERO
+    }
+    if (object.format !== undefined && object.format !== null) {
+      message.format = Number(object.format)
+    } else {
+      message.format = 0
+    }
+    if (object.chunks !== undefined && object.chunks !== null) {
+      message.chunks = Number(object.chunks)
+    } else {
+      message.chunks = 0
+    }
+    if (object.hash !== undefined && object.hash !== null) {
+      message.hash = bytesFromBase64(object.hash)
+    }
+    if (object.metadata !== undefined && object.metadata !== null) {
+      message.metadata = bytesFromBase64(object.metadata)
+    }
     return message
   },
 
   toJSON(message: Snapshot): unknown {
     const obj: any = {}
     message.height !== undefined && (obj.height = (message.height || Long.UZERO).toString())
-    message.format !== undefined && (obj.format = Math.round(message.format))
-    message.chunks !== undefined && (obj.chunks = Math.round(message.chunks))
+    message.format !== undefined && (obj.format = message.format)
+    message.chunks !== undefined && (obj.chunks = message.chunks)
     message.hash !== undefined &&
       (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()))
     message.metadata !== undefined &&
@@ -4313,12 +4718,13 @@ export const Snapshot = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Snapshot>, I>>(object: I): Snapshot {
+  fromPartial(object: DeepPartial<Snapshot>): Snapshot {
     const message = { ...baseSnapshot } as Snapshot
-    message.height =
-      object.height !== undefined && object.height !== null
-        ? Long.fromValue(object.height)
-        : Long.UZERO
+    if (object.height !== undefined && object.height !== null) {
+      message.height = object.height as Long
+    } else {
+      message.height = Long.UZERO
+    }
     message.format = object.format ?? 0
     message.chunks = object.chunks ?? 0
     message.hash = object.hash ?? new Uint8Array()
@@ -4368,91 +4774,91 @@ export class ABCIApplicationClientImpl implements ABCIApplication {
   Echo(request: RequestEcho): Promise<ResponseEcho> {
     const data = RequestEcho.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'Echo', data)
-    return promise.then(data => ResponseEcho.decode(new Reader(data)))
+    return promise.then(data => ResponseEcho.decode(new _m0.Reader(data)))
   }
 
   Flush(request: RequestFlush): Promise<ResponseFlush> {
     const data = RequestFlush.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'Flush', data)
-    return promise.then(data => ResponseFlush.decode(new Reader(data)))
+    return promise.then(data => ResponseFlush.decode(new _m0.Reader(data)))
   }
 
   Info(request: RequestInfo): Promise<ResponseInfo> {
     const data = RequestInfo.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'Info', data)
-    return promise.then(data => ResponseInfo.decode(new Reader(data)))
+    return promise.then(data => ResponseInfo.decode(new _m0.Reader(data)))
   }
 
   SetOption(request: RequestSetOption): Promise<ResponseSetOption> {
     const data = RequestSetOption.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'SetOption', data)
-    return promise.then(data => ResponseSetOption.decode(new Reader(data)))
+    return promise.then(data => ResponseSetOption.decode(new _m0.Reader(data)))
   }
 
   DeliverTx(request: RequestDeliverTx): Promise<ResponseDeliverTx> {
     const data = RequestDeliverTx.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'DeliverTx', data)
-    return promise.then(data => ResponseDeliverTx.decode(new Reader(data)))
+    return promise.then(data => ResponseDeliverTx.decode(new _m0.Reader(data)))
   }
 
   CheckTx(request: RequestCheckTx): Promise<ResponseCheckTx> {
     const data = RequestCheckTx.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'CheckTx', data)
-    return promise.then(data => ResponseCheckTx.decode(new Reader(data)))
+    return promise.then(data => ResponseCheckTx.decode(new _m0.Reader(data)))
   }
 
   Query(request: RequestQuery): Promise<ResponseQuery> {
     const data = RequestQuery.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'Query', data)
-    return promise.then(data => ResponseQuery.decode(new Reader(data)))
+    return promise.then(data => ResponseQuery.decode(new _m0.Reader(data)))
   }
 
   Commit(request: RequestCommit): Promise<ResponseCommit> {
     const data = RequestCommit.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'Commit', data)
-    return promise.then(data => ResponseCommit.decode(new Reader(data)))
+    return promise.then(data => ResponseCommit.decode(new _m0.Reader(data)))
   }
 
   InitChain(request: RequestInitChain): Promise<ResponseInitChain> {
     const data = RequestInitChain.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'InitChain', data)
-    return promise.then(data => ResponseInitChain.decode(new Reader(data)))
+    return promise.then(data => ResponseInitChain.decode(new _m0.Reader(data)))
   }
 
   BeginBlock(request: RequestBeginBlock): Promise<ResponseBeginBlock> {
     const data = RequestBeginBlock.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'BeginBlock', data)
-    return promise.then(data => ResponseBeginBlock.decode(new Reader(data)))
+    return promise.then(data => ResponseBeginBlock.decode(new _m0.Reader(data)))
   }
 
   EndBlock(request: RequestEndBlock): Promise<ResponseEndBlock> {
     const data = RequestEndBlock.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'EndBlock', data)
-    return promise.then(data => ResponseEndBlock.decode(new Reader(data)))
+    return promise.then(data => ResponseEndBlock.decode(new _m0.Reader(data)))
   }
 
   ListSnapshots(request: RequestListSnapshots): Promise<ResponseListSnapshots> {
     const data = RequestListSnapshots.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'ListSnapshots', data)
-    return promise.then(data => ResponseListSnapshots.decode(new Reader(data)))
+    return promise.then(data => ResponseListSnapshots.decode(new _m0.Reader(data)))
   }
 
   OfferSnapshot(request: RequestOfferSnapshot): Promise<ResponseOfferSnapshot> {
     const data = RequestOfferSnapshot.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'OfferSnapshot', data)
-    return promise.then(data => ResponseOfferSnapshot.decode(new Reader(data)))
+    return promise.then(data => ResponseOfferSnapshot.decode(new _m0.Reader(data)))
   }
 
   LoadSnapshotChunk(request: RequestLoadSnapshotChunk): Promise<ResponseLoadSnapshotChunk> {
     const data = RequestLoadSnapshotChunk.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'LoadSnapshotChunk', data)
-    return promise.then(data => ResponseLoadSnapshotChunk.decode(new Reader(data)))
+    return promise.then(data => ResponseLoadSnapshotChunk.decode(new _m0.Reader(data)))
   }
 
   ApplySnapshotChunk(request: RequestApplySnapshotChunk): Promise<ResponseApplySnapshotChunk> {
     const data = RequestApplySnapshotChunk.encode(request).finish()
     const promise = this.rpc.request('tendermint.abci.ABCIApplication', 'ApplySnapshotChunk', data)
-    return promise.then(data => ResponseApplySnapshotChunk.decode(new Reader(data)))
+    return promise.then(data => ResponseApplySnapshotChunk.decode(new _m0.Reader(data)))
   }
 }
 
@@ -4492,12 +4898,9 @@ function base64FromBytes(arr: Uint8Array): string {
   return btoa(bin.join(''))
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -4505,11 +4908,6 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
-
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 function toTimestamp(date: Date): Timestamp {
   const seconds = numberToLong(date.getTime() / 1_000)
@@ -4537,9 +4935,7 @@ function numberToLong(number: number) {
   return Long.fromNumber(number)
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }

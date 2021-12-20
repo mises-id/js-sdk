@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 import { TxResponse } from '../../cosmos/base/abci/v1beta1/abci'
 import { Coin } from '../../cosmos/base/v1beta1/coin'
 import { Duration } from '../../google/protobuf/duration'
@@ -87,7 +87,7 @@ const baseRestCreateDidRequest: object = {
 }
 
 export const RestCreateDidRequest = {
-  encode(message: RestCreateDidRequest, writer: Writer = Writer.create()): Writer {
+  encode(message: RestCreateDidRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.misesAppid !== '') {
       writer.uint32(10).string(message.misesAppid)
     }
@@ -100,8 +100,8 @@ export const RestCreateDidRequest = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RestCreateDidRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RestCreateDidRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRestCreateDidRequest } as RestCreateDidRequest
     while (reader.pos < end) {
@@ -126,12 +126,21 @@ export const RestCreateDidRequest = {
 
   fromJSON(object: any): RestCreateDidRequest {
     const message = { ...baseRestCreateDidRequest } as RestCreateDidRequest
-    message.misesAppid =
-      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
-    message.misesId =
-      object.misesId !== undefined && object.misesId !== null ? String(object.misesId) : ''
-    message.pubKey =
-      object.pubKey !== undefined && object.pubKey !== null ? String(object.pubKey) : ''
+    if (object.misesAppid !== undefined && object.misesAppid !== null) {
+      message.misesAppid = String(object.misesAppid)
+    } else {
+      message.misesAppid = ''
+    }
+    if (object.misesId !== undefined && object.misesId !== null) {
+      message.misesId = String(object.misesId)
+    } else {
+      message.misesId = ''
+    }
+    if (object.pubKey !== undefined && object.pubKey !== null) {
+      message.pubKey = String(object.pubKey)
+    } else {
+      message.pubKey = ''
+    }
     return message
   },
 
@@ -143,9 +152,7 @@ export const RestCreateDidRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RestCreateDidRequest>, I>>(
-    object: I
-  ): RestCreateDidRequest {
+  fromPartial(object: DeepPartial<RestCreateDidRequest>): RestCreateDidRequest {
     const message = { ...baseRestCreateDidRequest } as RestCreateDidRequest
     message.misesAppid = object.misesAppid ?? ''
     message.misesId = object.misesId ?? ''
@@ -157,7 +164,7 @@ export const RestCreateDidRequest = {
 const basePrivateUserInfo: object = { encData: '', iv: '' }
 
 export const PrivateUserInfo = {
-  encode(message: PrivateUserInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: PrivateUserInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.encData !== '') {
       writer.uint32(10).string(message.encData)
     }
@@ -167,8 +174,8 @@ export const PrivateUserInfo = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): PrivateUserInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): PrivateUserInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...basePrivateUserInfo } as PrivateUserInfo
     while (reader.pos < end) {
@@ -190,9 +197,16 @@ export const PrivateUserInfo = {
 
   fromJSON(object: any): PrivateUserInfo {
     const message = { ...basePrivateUserInfo } as PrivateUserInfo
-    message.encData =
-      object.encData !== undefined && object.encData !== null ? String(object.encData) : ''
-    message.iv = object.iv !== undefined && object.iv !== null ? String(object.iv) : ''
+    if (object.encData !== undefined && object.encData !== null) {
+      message.encData = String(object.encData)
+    } else {
+      message.encData = ''
+    }
+    if (object.iv !== undefined && object.iv !== null) {
+      message.iv = String(object.iv)
+    } else {
+      message.iv = ''
+    }
     return message
   },
 
@@ -203,7 +217,7 @@ export const PrivateUserInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<PrivateUserInfo>, I>>(object: I): PrivateUserInfo {
+  fromPartial(object: DeepPartial<PrivateUserInfo>): PrivateUserInfo {
     const message = { ...basePrivateUserInfo } as PrivateUserInfo
     message.encData = object.encData ?? ''
     message.iv = object.iv ?? ''
@@ -222,7 +236,7 @@ const basePublicUserInfo: object = {
 }
 
 export const PublicUserInfo = {
-  encode(message: PublicUserInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: PublicUserInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -247,8 +261,8 @@ export const PublicUserInfo = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): PublicUserInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): PublicUserInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...basePublicUserInfo } as PublicUserInfo
     message.emails = []
@@ -287,18 +301,43 @@ export const PublicUserInfo = {
 
   fromJSON(object: any): PublicUserInfo {
     const message = { ...basePublicUserInfo } as PublicUserInfo
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.gender =
-      object.gender !== undefined && object.gender !== null ? String(object.gender) : ''
-    message.avatarUrl =
-      object.avatarUrl !== undefined && object.avatarUrl !== null ? String(object.avatarUrl) : ''
-    message.homePageUrl =
-      object.homePageUrl !== undefined && object.homePageUrl !== null
-        ? String(object.homePageUrl)
-        : ''
-    message.emails = (object.emails ?? []).map((e: any) => String(e))
-    message.telephones = (object.telephones ?? []).map((e: any) => String(e))
-    message.intro = object.intro !== undefined && object.intro !== null ? String(object.intro) : ''
+    message.emails = []
+    message.telephones = []
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.gender !== undefined && object.gender !== null) {
+      message.gender = String(object.gender)
+    } else {
+      message.gender = ''
+    }
+    if (object.avatarUrl !== undefined && object.avatarUrl !== null) {
+      message.avatarUrl = String(object.avatarUrl)
+    } else {
+      message.avatarUrl = ''
+    }
+    if (object.homePageUrl !== undefined && object.homePageUrl !== null) {
+      message.homePageUrl = String(object.homePageUrl)
+    } else {
+      message.homePageUrl = ''
+    }
+    if (object.emails !== undefined && object.emails !== null) {
+      for (const e of object.emails) {
+        message.emails.push(String(e))
+      }
+    }
+    if (object.telephones !== undefined && object.telephones !== null) {
+      for (const e of object.telephones) {
+        message.telephones.push(String(e))
+      }
+    }
+    if (object.intro !== undefined && object.intro !== null) {
+      message.intro = String(object.intro)
+    } else {
+      message.intro = ''
+    }
     return message
   },
 
@@ -322,14 +361,24 @@ export const PublicUserInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<PublicUserInfo>, I>>(object: I): PublicUserInfo {
+  fromPartial(object: DeepPartial<PublicUserInfo>): PublicUserInfo {
     const message = { ...basePublicUserInfo } as PublicUserInfo
     message.name = object.name ?? ''
     message.gender = object.gender ?? ''
     message.avatarUrl = object.avatarUrl ?? ''
     message.homePageUrl = object.homePageUrl ?? ''
-    message.emails = object.emails?.map(e => e) || []
-    message.telephones = object.telephones?.map(e => e) || []
+    message.emails = []
+    if (object.emails !== undefined && object.emails !== null) {
+      for (const e of object.emails) {
+        message.emails.push(e)
+      }
+    }
+    message.telephones = []
+    if (object.telephones !== undefined && object.telephones !== null) {
+      for (const e of object.telephones) {
+        message.telephones.push(e)
+      }
+    }
     message.intro = object.intro ?? ''
     return message
   }
@@ -338,7 +387,7 @@ export const PublicUserInfo = {
 const baseRestUpdateUserInfoRequest: object = { misesAppid: '', misesUid: '' }
 
 export const RestUpdateUserInfoRequest = {
-  encode(message: RestUpdateUserInfoRequest, writer: Writer = Writer.create()): Writer {
+  encode(message: RestUpdateUserInfoRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.misesAppid !== '') {
       writer.uint32(10).string(message.misesAppid)
     }
@@ -354,8 +403,8 @@ export const RestUpdateUserInfoRequest = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RestUpdateUserInfoRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RestUpdateUserInfoRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseRestUpdateUserInfoRequest
@@ -387,18 +436,26 @@ export const RestUpdateUserInfoRequest = {
     const message = {
       ...baseRestUpdateUserInfoRequest
     } as RestUpdateUserInfoRequest
-    message.misesAppid =
-      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
-    message.misesUid =
-      object.misesUid !== undefined && object.misesUid !== null ? String(object.misesUid) : ''
-    message.pubInfo =
-      object.pubInfo !== undefined && object.pubInfo !== null
-        ? PublicUserInfo.fromJSON(object.pubInfo)
-        : undefined
-    message.priInfo =
-      object.priInfo !== undefined && object.priInfo !== null
-        ? PrivateUserInfo.fromJSON(object.priInfo)
-        : undefined
+    if (object.misesAppid !== undefined && object.misesAppid !== null) {
+      message.misesAppid = String(object.misesAppid)
+    } else {
+      message.misesAppid = ''
+    }
+    if (object.misesUid !== undefined && object.misesUid !== null) {
+      message.misesUid = String(object.misesUid)
+    } else {
+      message.misesUid = ''
+    }
+    if (object.pubInfo !== undefined && object.pubInfo !== null) {
+      message.pubInfo = PublicUserInfo.fromJSON(object.pubInfo)
+    } else {
+      message.pubInfo = undefined
+    }
+    if (object.priInfo !== undefined && object.priInfo !== null) {
+      message.priInfo = PrivateUserInfo.fromJSON(object.priInfo)
+    } else {
+      message.priInfo = undefined
+    }
     return message
   },
 
@@ -413,22 +470,22 @@ export const RestUpdateUserInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RestUpdateUserInfoRequest>, I>>(
-    object: I
-  ): RestUpdateUserInfoRequest {
+  fromPartial(object: DeepPartial<RestUpdateUserInfoRequest>): RestUpdateUserInfoRequest {
     const message = {
       ...baseRestUpdateUserInfoRequest
     } as RestUpdateUserInfoRequest
     message.misesAppid = object.misesAppid ?? ''
     message.misesUid = object.misesUid ?? ''
-    message.pubInfo =
-      object.pubInfo !== undefined && object.pubInfo !== null
-        ? PublicUserInfo.fromPartial(object.pubInfo)
-        : undefined
-    message.priInfo =
-      object.priInfo !== undefined && object.priInfo !== null
-        ? PrivateUserInfo.fromPartial(object.priInfo)
-        : undefined
+    if (object.pubInfo !== undefined && object.pubInfo !== null) {
+      message.pubInfo = PublicUserInfo.fromPartial(object.pubInfo)
+    } else {
+      message.pubInfo = undefined
+    }
+    if (object.priInfo !== undefined && object.priInfo !== null) {
+      message.priInfo = PrivateUserInfo.fromPartial(object.priInfo)
+    } else {
+      message.priInfo = undefined
+    }
     return message
   }
 }
@@ -441,7 +498,10 @@ const baseRestUpdateUserRelationRequest: object = {
 }
 
 export const RestUpdateUserRelationRequest = {
-  encode(message: RestUpdateUserRelationRequest, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: RestUpdateUserRelationRequest,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.misesAppid !== '') {
       writer.uint32(10).string(message.misesAppid)
     }
@@ -457,8 +517,8 @@ export const RestUpdateUserRelationRequest = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RestUpdateUserRelationRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RestUpdateUserRelationRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseRestUpdateUserRelationRequest
@@ -490,14 +550,26 @@ export const RestUpdateUserRelationRequest = {
     const message = {
       ...baseRestUpdateUserRelationRequest
     } as RestUpdateUserRelationRequest
-    message.misesAppid =
-      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
-    message.misesUid =
-      object.misesUid !== undefined && object.misesUid !== null ? String(object.misesUid) : ''
-    message.targetId =
-      object.targetId !== undefined && object.targetId !== null ? String(object.targetId) : ''
-    message.action =
-      object.action !== undefined && object.action !== null ? String(object.action) : ''
+    if (object.misesAppid !== undefined && object.misesAppid !== null) {
+      message.misesAppid = String(object.misesAppid)
+    } else {
+      message.misesAppid = ''
+    }
+    if (object.misesUid !== undefined && object.misesUid !== null) {
+      message.misesUid = String(object.misesUid)
+    } else {
+      message.misesUid = ''
+    }
+    if (object.targetId !== undefined && object.targetId !== null) {
+      message.targetId = String(object.targetId)
+    } else {
+      message.targetId = ''
+    }
+    if (object.action !== undefined && object.action !== null) {
+      message.action = String(object.action)
+    } else {
+      message.action = ''
+    }
     return message
   },
 
@@ -510,9 +582,7 @@ export const RestUpdateUserRelationRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RestUpdateUserRelationRequest>, I>>(
-    object: I
-  ): RestUpdateUserRelationRequest {
+  fromPartial(object: DeepPartial<RestUpdateUserRelationRequest>): RestUpdateUserRelationRequest {
     const message = {
       ...baseRestUpdateUserRelationRequest
     } as RestUpdateUserRelationRequest
@@ -527,15 +597,15 @@ export const RestUpdateUserRelationRequest = {
 const baseRestQueryTxRequest: object = { txhash: '' }
 
 export const RestQueryTxRequest = {
-  encode(message: RestQueryTxRequest, writer: Writer = Writer.create()): Writer {
+  encode(message: RestQueryTxRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.txhash !== '') {
       writer.uint32(10).string(message.txhash)
     }
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RestQueryTxRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RestQueryTxRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRestQueryTxRequest } as RestQueryTxRequest
     while (reader.pos < end) {
@@ -554,8 +624,11 @@ export const RestQueryTxRequest = {
 
   fromJSON(object: any): RestQueryTxRequest {
     const message = { ...baseRestQueryTxRequest } as RestQueryTxRequest
-    message.txhash =
-      object.txhash !== undefined && object.txhash !== null ? String(object.txhash) : ''
+    if (object.txhash !== undefined && object.txhash !== null) {
+      message.txhash = String(object.txhash)
+    } else {
+      message.txhash = ''
+    }
     return message
   },
 
@@ -565,7 +638,7 @@ export const RestQueryTxRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RestQueryTxRequest>, I>>(object: I): RestQueryTxRequest {
+  fromPartial(object: DeepPartial<RestQueryTxRequest>): RestQueryTxRequest {
     const message = { ...baseRestQueryTxRequest } as RestQueryTxRequest
     message.txhash = object.txhash ?? ''
     return message
@@ -575,7 +648,7 @@ export const RestQueryTxRequest = {
 const baseRestTxResponse: object = { code: 0 }
 
 export const RestTxResponse = {
-  encode(message: RestTxResponse, writer: Writer = Writer.create()): Writer {
+  encode(message: RestTxResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.txResponse !== undefined) {
       TxResponse.encode(message.txResponse, writer.uint32(10).fork()).ldelim()
     }
@@ -585,8 +658,8 @@ export const RestTxResponse = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RestTxResponse {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RestTxResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseRestTxResponse } as RestTxResponse
     while (reader.pos < end) {
@@ -608,11 +681,16 @@ export const RestTxResponse = {
 
   fromJSON(object: any): RestTxResponse {
     const message = { ...baseRestTxResponse } as RestTxResponse
-    message.txResponse =
-      object.txResponse !== undefined && object.txResponse !== null
-        ? TxResponse.fromJSON(object.txResponse)
-        : undefined
-    message.code = object.code !== undefined && object.code !== null ? Number(object.code) : 0
+    if (object.txResponse !== undefined && object.txResponse !== null) {
+      message.txResponse = TxResponse.fromJSON(object.txResponse)
+    } else {
+      message.txResponse = undefined
+    }
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code)
+    } else {
+      message.code = 0
+    }
     return message
   },
 
@@ -620,16 +698,17 @@ export const RestTxResponse = {
     const obj: any = {}
     message.txResponse !== undefined &&
       (obj.txResponse = message.txResponse ? TxResponse.toJSON(message.txResponse) : undefined)
-    message.code !== undefined && (obj.code = Math.round(message.code))
+    message.code !== undefined && (obj.code = message.code)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RestTxResponse>, I>>(object: I): RestTxResponse {
+  fromPartial(object: DeepPartial<RestTxResponse>): RestTxResponse {
     const message = { ...baseRestTxResponse } as RestTxResponse
-    message.txResponse =
-      object.txResponse !== undefined && object.txResponse !== null
-        ? TxResponse.fromPartial(object.txResponse)
-        : undefined
+    if (object.txResponse !== undefined && object.txResponse !== null) {
+      message.txResponse = TxResponse.fromPartial(object.txResponse)
+    } else {
+      message.txResponse = undefined
+    }
     message.code = object.code ?? 0
     return message
   }
@@ -645,7 +724,7 @@ const basePublicAppInfo: object = {
 }
 
 export const PublicAppInfo = {
-  encode(message: PublicAppInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: PublicAppInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.name !== '') {
       writer.uint32(10).string(message.name)
     }
@@ -667,8 +746,8 @@ export const PublicAppInfo = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): PublicAppInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): PublicAppInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...basePublicAppInfo } as PublicAppInfo
     message.domains = []
@@ -703,18 +782,37 @@ export const PublicAppInfo = {
 
   fromJSON(object: any): PublicAppInfo {
     const message = { ...basePublicAppInfo } as PublicAppInfo
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.domains = (object.domains ?? []).map((e: any) => String(e))
-    message.developer =
-      object.developer !== undefined && object.developer !== null ? String(object.developer) : ''
-    message.homeUrl =
-      object.homeUrl !== undefined && object.homeUrl !== null ? String(object.homeUrl) : ''
-    message.iconUrl =
-      object.iconUrl !== undefined && object.iconUrl !== null ? String(object.iconUrl) : ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    message.domains = []
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.domains !== undefined && object.domains !== null) {
+      for (const e of object.domains) {
+        message.domains.push(String(e))
+      }
+    }
+    if (object.developer !== undefined && object.developer !== null) {
+      message.developer = String(object.developer)
+    } else {
+      message.developer = ''
+    }
+    if (object.homeUrl !== undefined && object.homeUrl !== null) {
+      message.homeUrl = String(object.homeUrl)
+    } else {
+      message.homeUrl = ''
+    }
+    if (object.iconUrl !== undefined && object.iconUrl !== null) {
+      message.iconUrl = String(object.iconUrl)
+    } else {
+      message.iconUrl = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -733,17 +831,23 @@ export const PublicAppInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<PublicAppInfo>, I>>(object: I): PublicAppInfo {
+  fromPartial(object: DeepPartial<PublicAppInfo>): PublicAppInfo {
     const message = { ...basePublicAppInfo } as PublicAppInfo
     message.name = object.name ?? ''
-    message.domains = object.domains?.map(e => e) || []
+    message.domains = []
+    if (object.domains !== undefined && object.domains !== null) {
+      for (const e of object.domains) {
+        message.domains.push(e)
+      }
+    }
     message.developer = object.developer ?? ''
     message.homeUrl = object.homeUrl ?? ''
     message.iconUrl = object.iconUrl ?? ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
@@ -751,7 +855,7 @@ export const PublicAppInfo = {
 const baseRestUpdateAppInfoRequest: object = { misesAppid: '' }
 
 export const RestUpdateAppInfoRequest = {
-  encode(message: RestUpdateAppInfoRequest, writer: Writer = Writer.create()): Writer {
+  encode(message: RestUpdateAppInfoRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.misesAppid !== '') {
       writer.uint32(10).string(message.misesAppid)
     }
@@ -761,8 +865,8 @@ export const RestUpdateAppInfoRequest = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RestUpdateAppInfoRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RestUpdateAppInfoRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseRestUpdateAppInfoRequest
@@ -788,12 +892,16 @@ export const RestUpdateAppInfoRequest = {
     const message = {
       ...baseRestUpdateAppInfoRequest
     } as RestUpdateAppInfoRequest
-    message.misesAppid =
-      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
-    message.pubInfo =
-      object.pubInfo !== undefined && object.pubInfo !== null
-        ? PublicAppInfo.fromJSON(object.pubInfo)
-        : undefined
+    if (object.misesAppid !== undefined && object.misesAppid !== null) {
+      message.misesAppid = String(object.misesAppid)
+    } else {
+      message.misesAppid = ''
+    }
+    if (object.pubInfo !== undefined && object.pubInfo !== null) {
+      message.pubInfo = PublicAppInfo.fromJSON(object.pubInfo)
+    } else {
+      message.pubInfo = undefined
+    }
     return message
   },
 
@@ -805,17 +913,16 @@ export const RestUpdateAppInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RestUpdateAppInfoRequest>, I>>(
-    object: I
-  ): RestUpdateAppInfoRequest {
+  fromPartial(object: DeepPartial<RestUpdateAppInfoRequest>): RestUpdateAppInfoRequest {
     const message = {
       ...baseRestUpdateAppInfoRequest
     } as RestUpdateAppInfoRequest
     message.misesAppid = object.misesAppid ?? ''
-    message.pubInfo =
-      object.pubInfo !== undefined && object.pubInfo !== null
-        ? PublicAppInfo.fromPartial(object.pubInfo)
-        : undefined
+    if (object.pubInfo !== undefined && object.pubInfo !== null) {
+      message.pubInfo = PublicAppInfo.fromPartial(object.pubInfo)
+    } else {
+      message.pubInfo = undefined
+    }
     return message
   }
 }
@@ -823,7 +930,7 @@ export const RestUpdateAppInfoRequest = {
 const baseAppFeeGrant: object = {}
 
 export const AppFeeGrant = {
-  encode(message: AppFeeGrant, writer: Writer = Writer.create()): Writer {
+  encode(message: AppFeeGrant, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.spendLimit !== undefined) {
       Coin.encode(message.spendLimit, writer.uint32(10).fork()).ldelim()
     }
@@ -836,8 +943,8 @@ export const AppFeeGrant = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): AppFeeGrant {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): AppFeeGrant {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseAppFeeGrant } as AppFeeGrant
     while (reader.pos < end) {
@@ -862,18 +969,21 @@ export const AppFeeGrant = {
 
   fromJSON(object: any): AppFeeGrant {
     const message = { ...baseAppFeeGrant } as AppFeeGrant
-    message.spendLimit =
-      object.spendLimit !== undefined && object.spendLimit !== null
-        ? Coin.fromJSON(object.spendLimit)
-        : undefined
-    message.period =
-      object.period !== undefined && object.period !== null
-        ? Duration.fromJSON(object.period)
-        : undefined
-    message.expiration =
-      object.expiration !== undefined && object.expiration !== null
-        ? fromJsonTimestamp(object.expiration)
-        : undefined
+    if (object.spendLimit !== undefined && object.spendLimit !== null) {
+      message.spendLimit = Coin.fromJSON(object.spendLimit)
+    } else {
+      message.spendLimit = undefined
+    }
+    if (object.period !== undefined && object.period !== null) {
+      message.period = Duration.fromJSON(object.period)
+    } else {
+      message.period = undefined
+    }
+    if (object.expiration !== undefined && object.expiration !== null) {
+      message.expiration = fromJsonTimestamp(object.expiration)
+    } else {
+      message.expiration = undefined
+    }
     return message
   },
 
@@ -887,16 +997,18 @@ export const AppFeeGrant = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<AppFeeGrant>, I>>(object: I): AppFeeGrant {
+  fromPartial(object: DeepPartial<AppFeeGrant>): AppFeeGrant {
     const message = { ...baseAppFeeGrant } as AppFeeGrant
-    message.spendLimit =
-      object.spendLimit !== undefined && object.spendLimit !== null
-        ? Coin.fromPartial(object.spendLimit)
-        : undefined
-    message.period =
-      object.period !== undefined && object.period !== null
-        ? Duration.fromPartial(object.period)
-        : undefined
+    if (object.spendLimit !== undefined && object.spendLimit !== null) {
+      message.spendLimit = Coin.fromPartial(object.spendLimit)
+    } else {
+      message.spendLimit = undefined
+    }
+    if (object.period !== undefined && object.period !== null) {
+      message.period = Duration.fromPartial(object.period)
+    } else {
+      message.period = undefined
+    }
     message.expiration = object.expiration ?? undefined
     return message
   }
@@ -909,7 +1021,10 @@ const baseRestUpdateAppFeeGrantRequest: object = {
 }
 
 export const RestUpdateAppFeeGrantRequest = {
-  encode(message: RestUpdateAppFeeGrantRequest, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: RestUpdateAppFeeGrantRequest,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
     if (message.misesAppid !== '') {
       writer.uint32(10).string(message.misesAppid)
     }
@@ -925,8 +1040,8 @@ export const RestUpdateAppFeeGrantRequest = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): RestUpdateAppFeeGrantRequest {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): RestUpdateAppFeeGrantRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = {
       ...baseRestUpdateAppFeeGrantRequest
@@ -958,16 +1073,26 @@ export const RestUpdateAppFeeGrantRequest = {
     const message = {
       ...baseRestUpdateAppFeeGrantRequest
     } as RestUpdateAppFeeGrantRequest
-    message.misesAppid =
-      object.misesAppid !== undefined && object.misesAppid !== null ? String(object.misesAppid) : ''
-    message.misesUid =
-      object.misesUid !== undefined && object.misesUid !== null ? String(object.misesUid) : ''
-    message.grant =
-      object.grant !== undefined && object.grant !== null
-        ? AppFeeGrant.fromJSON(object.grant)
-        : undefined
-    message.revoke =
-      object.revoke !== undefined && object.revoke !== null ? Boolean(object.revoke) : false
+    if (object.misesAppid !== undefined && object.misesAppid !== null) {
+      message.misesAppid = String(object.misesAppid)
+    } else {
+      message.misesAppid = ''
+    }
+    if (object.misesUid !== undefined && object.misesUid !== null) {
+      message.misesUid = String(object.misesUid)
+    } else {
+      message.misesUid = ''
+    }
+    if (object.grant !== undefined && object.grant !== null) {
+      message.grant = AppFeeGrant.fromJSON(object.grant)
+    } else {
+      message.grant = undefined
+    }
+    if (object.revoke !== undefined && object.revoke !== null) {
+      message.revoke = Boolean(object.revoke)
+    } else {
+      message.revoke = false
+    }
     return message
   },
 
@@ -981,18 +1106,17 @@ export const RestUpdateAppFeeGrantRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<RestUpdateAppFeeGrantRequest>, I>>(
-    object: I
-  ): RestUpdateAppFeeGrantRequest {
+  fromPartial(object: DeepPartial<RestUpdateAppFeeGrantRequest>): RestUpdateAppFeeGrantRequest {
     const message = {
       ...baseRestUpdateAppFeeGrantRequest
     } as RestUpdateAppFeeGrantRequest
     message.misesAppid = object.misesAppid ?? ''
     message.misesUid = object.misesUid ?? ''
-    message.grant =
-      object.grant !== undefined && object.grant !== null
-        ? AppFeeGrant.fromPartial(object.grant)
-        : undefined
+    if (object.grant !== undefined && object.grant !== null) {
+      message.grant = AppFeeGrant.fromPartial(object.grant)
+    } else {
+      message.grant = undefined
+    }
     message.revoke = object.revoke ?? false
     return message
   }
@@ -1028,37 +1152,37 @@ export class RestTxClientImpl implements RestTx {
   CreateDid(request: RestCreateDidRequest): Promise<RestTxResponse> {
     const data = RestCreateDidRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.RestTx', 'CreateDid', data)
-    return promise.then(data => RestTxResponse.decode(new Reader(data)))
+    return promise.then(data => RestTxResponse.decode(new _m0.Reader(data)))
   }
 
   UpdateUserInfo(request: RestUpdateUserInfoRequest): Promise<RestTxResponse> {
     const data = RestUpdateUserInfoRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.RestTx', 'UpdateUserInfo', data)
-    return promise.then(data => RestTxResponse.decode(new Reader(data)))
+    return promise.then(data => RestTxResponse.decode(new _m0.Reader(data)))
   }
 
   UpdateUserRelation(request: RestUpdateUserRelationRequest): Promise<RestTxResponse> {
     const data = RestUpdateUserRelationRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.RestTx', 'UpdateUserRelation', data)
-    return promise.then(data => RestTxResponse.decode(new Reader(data)))
+    return promise.then(data => RestTxResponse.decode(new _m0.Reader(data)))
   }
 
   QueryTx(request: RestQueryTxRequest): Promise<RestTxResponse> {
     const data = RestQueryTxRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.RestTx', 'QueryTx', data)
-    return promise.then(data => RestTxResponse.decode(new Reader(data)))
+    return promise.then(data => RestTxResponse.decode(new _m0.Reader(data)))
   }
 
   UpdateAppInfo(request: RestUpdateAppInfoRequest): Promise<RestTxResponse> {
     const data = RestUpdateAppInfoRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.RestTx', 'UpdateAppInfo', data)
-    return promise.then(data => RestTxResponse.decode(new Reader(data)))
+    return promise.then(data => RestTxResponse.decode(new _m0.Reader(data)))
   }
 
   UpdateAppFeeGrant(request: RestUpdateAppFeeGrantRequest): Promise<RestTxResponse> {
     const data = RestUpdateAppFeeGrantRequest.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.RestTx', 'UpdateAppFeeGrant', data)
-    return promise.then(data => RestTxResponse.decode(new Reader(data)))
+    return promise.then(data => RestTxResponse.decode(new _m0.Reader(data)))
   }
 }
 
@@ -1066,12 +1190,9 @@ interface Rpc {
   request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -1079,11 +1200,6 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
-
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 function toTimestamp(date: Date): Timestamp {
   const seconds = numberToLong(date.getTime() / 1_000)
@@ -1111,9 +1227,7 @@ function numberToLong(number: number) {
   return Long.fromNumber(number)
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }

@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal'
-import * as Long from 'long'
+import Long from 'long'
+import _m0 from 'protobufjs/minimal'
 
 export const protobufPackage = 'misesid.misestm.v1beta1'
 
@@ -29,7 +29,7 @@ const baseAppInfo: object = {
 }
 
 export const AppInfo = {
-  encode(message: AppInfo, writer: Writer = Writer.create()): Writer {
+  encode(message: AppInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.creator !== '') {
       writer.uint32(10).string(message.creator)
     }
@@ -60,8 +60,8 @@ export const AppInfo = {
     return writer
   },
 
-  decode(input: Reader | Uint8Array, length?: number): AppInfo {
-    const reader = input instanceof Reader ? input : new Reader(input)
+  decode(input: _m0.Reader | Uint8Array, length?: number): AppInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseAppInfo } as AppInfo
     message.domains = []
@@ -105,23 +105,52 @@ export const AppInfo = {
 
   fromJSON(object: any): AppInfo {
     const message = { ...baseAppInfo } as AppInfo
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
-    message.appid = object.appid !== undefined && object.appid !== null ? String(object.appid) : ''
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.domains = (object.domains ?? []).map((e: any) => String(e))
-    message.developer =
-      object.developer !== undefined && object.developer !== null ? String(object.developer) : ''
-    message.homeUrl =
-      object.homeUrl !== undefined && object.homeUrl !== null ? String(object.homeUrl) : ''
-    message.iconUrl =
-      object.iconUrl !== undefined && object.iconUrl !== null ? String(object.iconUrl) : ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    message.domains = []
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
+    if (object.appid !== undefined && object.appid !== null) {
+      message.appid = String(object.appid)
+    } else {
+      message.appid = ''
+    }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.domains !== undefined && object.domains !== null) {
+      for (const e of object.domains) {
+        message.domains.push(String(e))
+      }
+    }
+    if (object.developer !== undefined && object.developer !== null) {
+      message.developer = String(object.developer)
+    } else {
+      message.developer = ''
+    }
+    if (object.homeUrl !== undefined && object.homeUrl !== null) {
+      message.homeUrl = String(object.homeUrl)
+    } else {
+      message.homeUrl = ''
+    }
+    if (object.iconUrl !== undefined && object.iconUrl !== null) {
+      message.iconUrl = String(object.iconUrl)
+    } else {
+      message.iconUrl = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -143,31 +172,37 @@ export const AppInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<AppInfo>, I>>(object: I): AppInfo {
+  fromPartial(object: DeepPartial<AppInfo>): AppInfo {
     const message = { ...baseAppInfo } as AppInfo
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     message.appid = object.appid ?? ''
     message.name = object.name ?? ''
-    message.domains = object.domains?.map(e => e) || []
+    message.domains = []
+    if (object.domains !== undefined && object.domains !== null) {
+      for (const e of object.domains) {
+        message.domains.push(e)
+      }
+    }
     message.developer = object.developer ?? ''
     message.homeUrl = object.homeUrl ?? ''
     message.iconUrl = object.iconUrl ?? ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -176,14 +211,7 @@ export type DeepPartial<T> = T extends Builtin
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
 
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
-
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-  util.Long = Long as any
-  configure()
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any
+  _m0.configure()
 }
