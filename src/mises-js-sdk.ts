@@ -1,7 +1,7 @@
 // Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
 // import "core-js/fn/array.find"
 // ...
-import { fromBase64, toBase64 } from '@cosmjs/encoding'
+import { fromBase64, toBase64, fromHex } from '@cosmjs/encoding'
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import {
   coins,
@@ -131,7 +131,7 @@ class LCDConnection {
 }
 
 export class MUser {
-  private _connectedAppID: string | null = null
+  private _connectedApps: string[] = []
 
   private _wallet: DirectSecp256k1Wallet
   private _address: string
@@ -254,45 +254,55 @@ export class MUser {
     }
     return lcd.broadcast(msg, this._wallet)
   }
+
+  public connect(appid: string, permissions: string[]): string {
+    return ''
+  }
+  public disconnect(appid: string): boolean {
+    return false
+  }
+
+  public connectedApps(): string[] {
+    return []
+  }
 }
 export class MUserMgr {
-  private _users: MUser[] = []
-  private _activeUserAddress: string | null = null
-  public activeUser(): MUser | null {
-    if (this._activeUserAddress == null) {
-      return null
+  private _users: Map<string, MUser> = new Map()
+  private _activeUid: string | null = null
+  public activeUser(): MUser | undefined {
+    if (this._activeUid == null) {
+      return
     }
-    return this.findUser(this._activeUserAddress)
+    return this.findUser(this._activeUid)
   }
 
-  public findUser(address: string): MUser | null {
-    var found: MUser | null = null
-    this._users.forEach(u => {
-      if (u.address() == address) {
-        found = u
-      }
-    })
-    return found
+  public findUser(uid: string): MUser | undefined {
+    return this._users.get(uid)
   }
 
-  public async activateUser(priKey: Uint8Array): Promise<MUser> {
+  public async activateUser(priKeyHex: string): Promise<MUser> {
+    const priKey = fromHex(priKeyHex)
     const wallet = await DirectSecp256k1Wallet.fromKey(priKey, 'mises')
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
-    this._activeUserAddress = address
+
     const oldUser = this.findUser(address)
     if (oldUser != null) {
+      this._activeUid = oldUser.misesID()
       return oldUser
     }
     const newUser = new MUser(wallet, address, pubkeyBytes)
+    this._activeUid = newUser.misesID()
     return newUser
   }
 
   public lockAll() {
-    this._users = []
+    this._users = new Map()
+    this._activeUid = null
   }
 }
 
 export class MApp {
+  private _connectedUsers: string[] = []
   private _address: string
   private _info: MAppInfo | null = null
   constructor(address: string) {
@@ -334,27 +344,28 @@ export class MApp {
   public disconnect(uid: string): boolean {
     return false
   }
+  public connectedUsers(): string[] {
+    return []
+  }
 }
 export class MAppMgr {
-  private _apps: MApp[] = []
+  private _apps: Map<string, MApp> = new Map()
 
-  public async addApp(appid: string, domain: string): Promise<MApp> {
+  public async ensureApp(appid: string, domain: string): Promise<MApp> {
+    const oldApp = this.findApp(appid)
+    if (oldApp) {
+      return oldApp
+    }
     const app = MApp.appFromID(appid)
     const appinfo = await app.info()
     if (appinfo.domains.indexOf(domain) >= 0) {
-      this._apps.push(app)
+      this._apps.set(appid, app)
     }
 
     return app
   }
-  public findApp(appid: string): MApp | null {
-    var found: MApp | null = null
-    this._apps.forEach(u => {
-      if (u.misesID() == appid) {
-        found = u
-      }
-    })
-    return found
+  public findApp(appid: string): MApp | undefined {
+    return this._apps.get(appid)
   }
 }
 
@@ -381,17 +392,34 @@ export default class MSdk {
     return this._appMgr
   }
 
-  public async connect(domain: string, appid: string, permissions: string[]): Promise<boolean> {
+  public async connect(domain: string, appid: string, permissions: string[]): Promise<string> {
     const user = this._userMgr.activeUser()
     if (user == null) {
-      return false
+      return ''
     }
-    const app = await this._appMgr.findApp(appid)
+    const app = this._appMgr.findApp(appid)
     if (app) {
-      return app.connect(user.misesID(), permissions)
+      app.connect(user.misesID(), permissions)
+      return user.connect(app.misesID(), permissions)
     } else {
-      const app = await this._appMgr.addApp(appid, domain)
-      return app.connect(user.misesID(), permissions)
+      const app = await this._appMgr.ensureApp(appid, domain)
+      app.connect(user.misesID(), permissions)
+      return user.connect(app.misesID(), permissions)
     }
+  }
+
+  public connectedUsers(appid: string): string[] {
+    const app = this._appMgr.findApp(appid)
+    if (!app) {
+      return []
+    }
+    return app.connectedUsers()
+  }
+  public connectedApps(uid: string): string[] {
+    const user = this._userMgr.findUser(uid)
+    if (!user) {
+      return []
+    }
+    return user.connectedApps()
   }
 }
