@@ -34,6 +34,7 @@
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
     "travis-deploy-once": "travis-deploy-once",
+    "postinstall": "yarn build",
     "proto-compile": "protoc --plugin='./node_modules/.bin/protoc-gen-ts_proto' --ts_proto_out=./src/proto --proto_path=./proto --ts_proto_opt=esModuleInterop=true,forceLong=long,useOptionals=true ./proto/misestm/v1beta1/rest_query.proto ./proto/misestm/v1beta1/query.proto ./proto/misestm/v1beta1/tx.proto"
   },
   "lint-staged": {
