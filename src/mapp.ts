@@ -63,13 +63,14 @@ export class MApp {
     return this._info
   }
   public connect(uid: string, permissions: string[]): boolean {
-    return false
+    this._connectedUsers.push(uid)
+    return true
   }
   public disconnect(uid: string): boolean {
     return false
   }
   public connectedUsers(): string[] {
-    return []
+    return this._connectedUsers
   }
 }
 export class MAppMgr {

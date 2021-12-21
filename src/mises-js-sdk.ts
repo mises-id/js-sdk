@@ -31,8 +31,13 @@ export default class MSdk {
     return this._appMgr
   }
 
-  public async connect(domain: string, appid: string, permissions: string[]): Promise<string> {
-    const user = this._userMgr.activeUser()
+  public async connect(
+    domain: string,
+    appid: string,
+    uid: string,
+    permissions: string[]
+  ): Promise<string> {
+    const user = this._userMgr.findUser(uid)
     if (user === undefined) {
       return ''
     }

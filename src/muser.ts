@@ -161,6 +161,7 @@ export class MUser {
   }
 
   public connect(appid: string, permissions: string[]): string {
+    this._connectedApps.push(appid)
     return ''
   }
   public disconnect(appid: string): boolean {
@@ -168,7 +169,7 @@ export class MUser {
   }
 
   public connectedApps(): string[] {
-    return []
+    return this._connectedApps
   }
 }
 export class MUserMgr {
