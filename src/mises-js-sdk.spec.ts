@@ -12,9 +12,4 @@ describe('MSdk test', () => {
     const sdk = await MSdk.newSdk()
     expect(sdk).toBeInstanceOf(MSdk)
   })
-
-  it('test lcd', async () => {
-    const sdk = await MSdk.newSdk()
-    await sdk.testLCDConnection()
-  })
 })
