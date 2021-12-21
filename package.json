@@ -36,10 +36,14 @@
     "proto-compile": "protoc --plugin='./node_modules/.bin/protoc-gen-ts_proto' --ts_proto_out=./src/proto --proto_path=./proto --ts_proto_opt=esModuleInterop=true,forceLong=long,useOptionals=true ./proto/misestm/v1beta1/rest_query.proto ./proto/misestm/v1beta1/query.proto ./proto/misestm/v1beta1/tx.proto"
   },
   "lint-staged": {
-    "{src,test}/**/*.ts": [
-      "prettier --write",
-      "git add"
-    ]
+    "linters": {
+      "{src,test}/**/*.ts": [
+        "prettier --write",
+        "git add"
+      ]
+    },
+    "ignore": ["node_modules", "dist", "package-lock.json", "src/proto"]  
+
   },
   "config": {
     "commitizen": {

@@ -63,7 +63,7 @@ export class LCDConnection {
       }
     }
     const txBodyBytes = registry.encode(txBodyFields)
-    const { accountNumber, sequence } = (await client.getSequence(address))!
+    const { accountNumber, sequence } = await client.getSequence(address)
     const feeAmount = coins(2000, 'umis')
     const gasLimit = 200000
     const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit)

@@ -56,9 +56,6 @@ export class MUser {
     return this._address
   }
   public misesID(): string {
-    if (this._wallet == null) {
-      return ''
-    }
     return 'did:mises:' + this._address
   }
 
@@ -104,7 +101,7 @@ export class MUser {
       requestData
     )
     const response = RestQueryUserRelationResponse.decode(respData)
-    var ids: string[] = []
+    let ids: string[] = []
     response.misesList.forEach(u => {
       ids.push(u.misesId)
     })
@@ -145,7 +142,7 @@ export class MUser {
     )
     const respData = await lcd.query(`/misesid.misestm.v1beta1.RestQuery/QueryDid`, requestData)
     const response = RestQueryDidResponse.decode(respData)
-    return response.didRegistry!.did == this.misesID()
+    return response.didRegistry!.did === this.misesID()
   }
   public register(): Promise<BroadcastTxResponse> {
     const lcd = this.makeLCDConnection()
@@ -178,7 +175,7 @@ export class MUserMgr {
   private _users: Map<string, MUser> = new Map()
   private _activeUid: string | null = null
   public activeUser(): MUser | undefined {
-    if (this._activeUid == null) {
+    if (this._activeUid === null) {
       return
     }
     return this.findUser(this._activeUid)
@@ -194,7 +191,7 @@ export class MUserMgr {
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
 
     const oldUser = this.findUser(address)
-    if (oldUser != null) {
+    if (oldUser) {
       this._activeUid = oldUser.misesID()
       return oldUser
     }

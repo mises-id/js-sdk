@@ -48,7 +48,7 @@ export class MApp {
   }
 
   public async info(): Promise<MAppInfo> {
-    if (this._info != null) {
+    if (this._info !== null) {
       return this._info
     }
     const lcd = this.makeLCDConnection()

@@ -21,7 +21,9 @@ export default class MSdk {
     const client = await StargateClient.connect(this._lcdEndpoint)
     client.disconnect()
   }
-  public setLogLevel(level: number): void {}
+  public setLogLevel(level: number): void {
+    return
+  }
   public UserMgr(): MUserMgr {
     return this._userMgr
   }
@@ -31,7 +33,7 @@ export default class MSdk {
 
   public async connect(domain: string, appid: string, permissions: string[]): Promise<string> {
     const user = this._userMgr.activeUser()
-    if (user == null) {
+    if (user === undefined) {
       return ''
     }
     const app = this._appMgr.findApp(appid)
