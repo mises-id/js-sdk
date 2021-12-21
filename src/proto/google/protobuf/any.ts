@@ -157,12 +157,15 @@ export const Any = {
 
   fromJSON(object: any): Any {
     const message = { ...baseAny } as Any
-    message.typeUrl =
-      object.typeUrl !== undefined && object.typeUrl !== null ? String(object.typeUrl) : ''
-    message.value =
-      object.value !== undefined && object.value !== null
-        ? bytesFromBase64(object.value)
-        : new Uint8Array()
+    message.value = new Uint8Array()
+    if (object.typeUrl !== undefined && object.typeUrl !== null) {
+      message.typeUrl = String(object.typeUrl)
+    } else {
+      message.typeUrl = ''
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = bytesFromBase64(object.value)
+    }
     return message
   },
 
@@ -174,7 +177,7 @@ export const Any = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Any>, I>>(object: I): Any {
+  fromPartial(object: DeepPartial<Any>): Any {
     const message = { ...baseAny } as Any
     message.typeUrl = object.typeUrl ?? ''
     message.value = object.value ?? new Uint8Array()
@@ -214,12 +217,9 @@ function base64FromBytes(arr: Uint8Array): string {
   return btoa(bin.join(''))
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -227,11 +227,6 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
-
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any

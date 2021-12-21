@@ -274,16 +274,31 @@ export const MsgCreateUserInfo = {
 
   fromJSON(object: any): MsgCreateUserInfo {
     const message = { ...baseMsgCreateUserInfo } as MsgCreateUserInfo
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.uid = object.uid !== undefined && object.uid !== null ? String(object.uid) : ''
-    message.encData =
-      object.encData !== undefined && object.encData !== null ? String(object.encData) : ''
-    message.iv = object.iv !== undefined && object.iv !== null ? String(object.iv) : ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.uid !== undefined && object.uid !== null) {
+      message.uid = String(object.uid)
+    } else {
+      message.uid = ''
+    }
+    if (object.encData !== undefined && object.encData !== null) {
+      message.encData = String(object.encData)
+    } else {
+      message.encData = ''
+    }
+    if (object.iv !== undefined && object.iv !== null) {
+      message.iv = String(object.iv)
+    } else {
+      message.iv = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -297,16 +312,17 @@ export const MsgCreateUserInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgCreateUserInfo>, I>>(object: I): MsgCreateUserInfo {
+  fromPartial(object: DeepPartial<MsgCreateUserInfo>): MsgCreateUserInfo {
     const message = { ...baseMsgCreateUserInfo } as MsgCreateUserInfo
     message.creator = object.creator ?? ''
     message.uid = object.uid ?? ''
     message.encData = object.encData ?? ''
     message.iv = object.iv ?? ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
@@ -345,8 +361,11 @@ export const MsgCreateUserInfoResponse = {
     const message = {
       ...baseMsgCreateUserInfoResponse
     } as MsgCreateUserInfoResponse
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -356,14 +375,15 @@ export const MsgCreateUserInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgCreateUserInfoResponse>, I>>(
-    object: I
-  ): MsgCreateUserInfoResponse {
+  fromPartial(object: DeepPartial<MsgCreateUserInfoResponse>): MsgCreateUserInfoResponse {
     const message = {
       ...baseMsgCreateUserInfoResponse
     } as MsgCreateUserInfoResponse
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -435,18 +455,36 @@ export const MsgUpdateUserInfo = {
 
   fromJSON(object: any): MsgUpdateUserInfo {
     const message = { ...baseMsgUpdateUserInfo } as MsgUpdateUserInfo
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
-    message.uid = object.uid !== undefined && object.uid !== null ? String(object.uid) : ''
-    message.encData =
-      object.encData !== undefined && object.encData !== null ? String(object.encData) : ''
-    message.iv = object.iv !== undefined && object.iv !== null ? String(object.iv) : ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
+    if (object.uid !== undefined && object.uid !== null) {
+      message.uid = String(object.uid)
+    } else {
+      message.uid = ''
+    }
+    if (object.encData !== undefined && object.encData !== null) {
+      message.encData = String(object.encData)
+    } else {
+      message.encData = ''
+    }
+    if (object.iv !== undefined && object.iv !== null) {
+      message.iv = String(object.iv)
+    } else {
+      message.iv = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -461,18 +499,22 @@ export const MsgUpdateUserInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateUserInfo>, I>>(object: I): MsgUpdateUserInfo {
+  fromPartial(object: DeepPartial<MsgUpdateUserInfo>): MsgUpdateUserInfo {
     const message = { ...baseMsgUpdateUserInfo } as MsgUpdateUserInfo
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     message.uid = object.uid ?? ''
     message.encData = object.encData ?? ''
     message.iv = object.iv ?? ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
@@ -513,9 +555,7 @@ export const MsgUpdateUserInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateUserInfoResponse>, I>>(
-    _: I
-  ): MsgUpdateUserInfoResponse {
+  fromPartial(_: DeepPartial<MsgUpdateUserInfoResponse>): MsgUpdateUserInfoResponse {
     const message = {
       ...baseMsgUpdateUserInfoResponse
     } as MsgUpdateUserInfoResponse
@@ -559,10 +599,16 @@ export const MsgDeleteUserInfo = {
 
   fromJSON(object: any): MsgDeleteUserInfo {
     const message = { ...baseMsgDeleteUserInfo } as MsgDeleteUserInfo
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -573,11 +619,14 @@ export const MsgDeleteUserInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteUserInfo>, I>>(object: I): MsgDeleteUserInfo {
+  fromPartial(object: DeepPartial<MsgDeleteUserInfo>): MsgDeleteUserInfo {
     const message = { ...baseMsgDeleteUserInfo } as MsgDeleteUserInfo
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -618,9 +667,7 @@ export const MsgDeleteUserInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteUserInfoResponse>, I>>(
-    _: I
-  ): MsgDeleteUserInfoResponse {
+  fromPartial(_: DeepPartial<MsgDeleteUserInfoResponse>): MsgDeleteUserInfoResponse {
     const message = {
       ...baseMsgDeleteUserInfoResponse
     } as MsgDeleteUserInfoResponse
@@ -702,27 +749,41 @@ export const MsgCreateUserRelation = {
 
   fromJSON(object: any): MsgCreateUserRelation {
     const message = { ...baseMsgCreateUserRelation } as MsgCreateUserRelation
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.uidFrom =
-      object.uidFrom !== undefined && object.uidFrom !== null ? String(object.uidFrom) : ''
-    message.uidTo = object.uidTo !== undefined && object.uidTo !== null ? String(object.uidTo) : ''
-    message.isFollowing =
-      object.isFollowing !== undefined && object.isFollowing !== null
-        ? Boolean(object.isFollowing)
-        : false
-    message.isBlocking =
-      object.isBlocking !== undefined && object.isBlocking !== null
-        ? Boolean(object.isBlocking)
-        : false
-    message.isReferredBy =
-      object.isReferredBy !== undefined && object.isReferredBy !== null
-        ? Boolean(object.isReferredBy)
-        : false
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.uidFrom !== undefined && object.uidFrom !== null) {
+      message.uidFrom = String(object.uidFrom)
+    } else {
+      message.uidFrom = ''
+    }
+    if (object.uidTo !== undefined && object.uidTo !== null) {
+      message.uidTo = String(object.uidTo)
+    } else {
+      message.uidTo = ''
+    }
+    if (object.isFollowing !== undefined && object.isFollowing !== null) {
+      message.isFollowing = Boolean(object.isFollowing)
+    } else {
+      message.isFollowing = false
+    }
+    if (object.isBlocking !== undefined && object.isBlocking !== null) {
+      message.isBlocking = Boolean(object.isBlocking)
+    } else {
+      message.isBlocking = false
+    }
+    if (object.isReferredBy !== undefined && object.isReferredBy !== null) {
+      message.isReferredBy = Boolean(object.isReferredBy)
+    } else {
+      message.isReferredBy = false
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -738,9 +799,7 @@ export const MsgCreateUserRelation = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgCreateUserRelation>, I>>(
-    object: I
-  ): MsgCreateUserRelation {
+  fromPartial(object: DeepPartial<MsgCreateUserRelation>): MsgCreateUserRelation {
     const message = { ...baseMsgCreateUserRelation } as MsgCreateUserRelation
     message.creator = object.creator ?? ''
     message.uidFrom = object.uidFrom ?? ''
@@ -748,10 +807,11 @@ export const MsgCreateUserRelation = {
     message.isFollowing = object.isFollowing ?? false
     message.isBlocking = object.isBlocking ?? false
     message.isReferredBy = object.isReferredBy ?? false
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
@@ -793,8 +853,11 @@ export const MsgCreateUserRelationResponse = {
     const message = {
       ...baseMsgCreateUserRelationResponse
     } as MsgCreateUserRelationResponse
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -804,14 +867,15 @@ export const MsgCreateUserRelationResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgCreateUserRelationResponse>, I>>(
-    object: I
-  ): MsgCreateUserRelationResponse {
+  fromPartial(object: DeepPartial<MsgCreateUserRelationResponse>): MsgCreateUserRelationResponse {
     const message = {
       ...baseMsgCreateUserRelationResponse
     } as MsgCreateUserRelationResponse
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -897,29 +961,46 @@ export const MsgUpdateUserRelation = {
 
   fromJSON(object: any): MsgUpdateUserRelation {
     const message = { ...baseMsgUpdateUserRelation } as MsgUpdateUserRelation
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
-    message.uidFrom =
-      object.uidFrom !== undefined && object.uidFrom !== null ? String(object.uidFrom) : ''
-    message.uidTo = object.uidTo !== undefined && object.uidTo !== null ? String(object.uidTo) : ''
-    message.isFollowing =
-      object.isFollowing !== undefined && object.isFollowing !== null
-        ? Boolean(object.isFollowing)
-        : false
-    message.isBlocking =
-      object.isBlocking !== undefined && object.isBlocking !== null
-        ? Boolean(object.isBlocking)
-        : false
-    message.isReferredBy =
-      object.isReferredBy !== undefined && object.isReferredBy !== null
-        ? Boolean(object.isReferredBy)
-        : false
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
+    if (object.uidFrom !== undefined && object.uidFrom !== null) {
+      message.uidFrom = String(object.uidFrom)
+    } else {
+      message.uidFrom = ''
+    }
+    if (object.uidTo !== undefined && object.uidTo !== null) {
+      message.uidTo = String(object.uidTo)
+    } else {
+      message.uidTo = ''
+    }
+    if (object.isFollowing !== undefined && object.isFollowing !== null) {
+      message.isFollowing = Boolean(object.isFollowing)
+    } else {
+      message.isFollowing = false
+    }
+    if (object.isBlocking !== undefined && object.isBlocking !== null) {
+      message.isBlocking = Boolean(object.isBlocking)
+    } else {
+      message.isBlocking = false
+    }
+    if (object.isReferredBy !== undefined && object.isReferredBy !== null) {
+      message.isReferredBy = Boolean(object.isReferredBy)
+    } else {
+      message.isReferredBy = false
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -936,22 +1017,24 @@ export const MsgUpdateUserRelation = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateUserRelation>, I>>(
-    object: I
-  ): MsgUpdateUserRelation {
+  fromPartial(object: DeepPartial<MsgUpdateUserRelation>): MsgUpdateUserRelation {
     const message = { ...baseMsgUpdateUserRelation } as MsgUpdateUserRelation
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     message.uidFrom = object.uidFrom ?? ''
     message.uidTo = object.uidTo ?? ''
     message.isFollowing = object.isFollowing ?? false
     message.isBlocking = object.isBlocking ?? false
     message.isReferredBy = object.isReferredBy ?? false
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
@@ -992,9 +1075,7 @@ export const MsgUpdateUserRelationResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateUserRelationResponse>, I>>(
-    _: I
-  ): MsgUpdateUserRelationResponse {
+  fromPartial(_: DeepPartial<MsgUpdateUserRelationResponse>): MsgUpdateUserRelationResponse {
     const message = {
       ...baseMsgUpdateUserRelationResponse
     } as MsgUpdateUserRelationResponse
@@ -1038,10 +1119,16 @@ export const MsgDeleteUserRelation = {
 
   fromJSON(object: any): MsgDeleteUserRelation {
     const message = { ...baseMsgDeleteUserRelation } as MsgDeleteUserRelation
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -1052,13 +1139,14 @@ export const MsgDeleteUserRelation = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteUserRelation>, I>>(
-    object: I
-  ): MsgDeleteUserRelation {
+  fromPartial(object: DeepPartial<MsgDeleteUserRelation>): MsgDeleteUserRelation {
     const message = { ...baseMsgDeleteUserRelation } as MsgDeleteUserRelation
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -1099,9 +1187,7 @@ export const MsgDeleteUserRelationResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteUserRelationResponse>, I>>(
-    _: I
-  ): MsgDeleteUserRelationResponse {
+  fromPartial(_: DeepPartial<MsgDeleteUserRelationResponse>): MsgDeleteUserRelationResponse {
     const message = {
       ...baseMsgDeleteUserRelationResponse
     } as MsgDeleteUserRelationResponse
@@ -1191,21 +1277,47 @@ export const MsgCreateAppInfo = {
 
   fromJSON(object: any): MsgCreateAppInfo {
     const message = { ...baseMsgCreateAppInfo } as MsgCreateAppInfo
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.appid = object.appid !== undefined && object.appid !== null ? String(object.appid) : ''
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.domains = (object.domains ?? []).map((e: any) => String(e))
-    message.developer =
-      object.developer !== undefined && object.developer !== null ? String(object.developer) : ''
-    message.homeUrl =
-      object.homeUrl !== undefined && object.homeUrl !== null ? String(object.homeUrl) : ''
-    message.iconUrl =
-      object.iconUrl !== undefined && object.iconUrl !== null ? String(object.iconUrl) : ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    message.domains = []
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.appid !== undefined && object.appid !== null) {
+      message.appid = String(object.appid)
+    } else {
+      message.appid = ''
+    }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.domains !== undefined && object.domains !== null) {
+      for (const e of object.domains) {
+        message.domains.push(String(e))
+      }
+    }
+    if (object.developer !== undefined && object.developer !== null) {
+      message.developer = String(object.developer)
+    } else {
+      message.developer = ''
+    }
+    if (object.homeUrl !== undefined && object.homeUrl !== null) {
+      message.homeUrl = String(object.homeUrl)
+    } else {
+      message.homeUrl = ''
+    }
+    if (object.iconUrl !== undefined && object.iconUrl !== null) {
+      message.iconUrl = String(object.iconUrl)
+    } else {
+      message.iconUrl = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -1226,19 +1338,25 @@ export const MsgCreateAppInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgCreateAppInfo>, I>>(object: I): MsgCreateAppInfo {
+  fromPartial(object: DeepPartial<MsgCreateAppInfo>): MsgCreateAppInfo {
     const message = { ...baseMsgCreateAppInfo } as MsgCreateAppInfo
     message.creator = object.creator ?? ''
     message.appid = object.appid ?? ''
     message.name = object.name ?? ''
-    message.domains = object.domains?.map(e => e) || []
+    message.domains = []
+    if (object.domains !== undefined && object.domains !== null) {
+      for (const e of object.domains) {
+        message.domains.push(e)
+      }
+    }
     message.developer = object.developer ?? ''
     message.homeUrl = object.homeUrl ?? ''
     message.iconUrl = object.iconUrl ?? ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
@@ -1277,8 +1395,11 @@ export const MsgCreateAppInfoResponse = {
     const message = {
       ...baseMsgCreateAppInfoResponse
     } as MsgCreateAppInfoResponse
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -1288,14 +1409,15 @@ export const MsgCreateAppInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgCreateAppInfoResponse>, I>>(
-    object: I
-  ): MsgCreateAppInfoResponse {
+  fromPartial(object: DeepPartial<MsgCreateAppInfoResponse>): MsgCreateAppInfoResponse {
     const message = {
       ...baseMsgCreateAppInfoResponse
     } as MsgCreateAppInfoResponse
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -1389,23 +1511,52 @@ export const MsgUpdateAppInfo = {
 
   fromJSON(object: any): MsgUpdateAppInfo {
     const message = { ...baseMsgUpdateAppInfo } as MsgUpdateAppInfo
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
-    message.appid = object.appid !== undefined && object.appid !== null ? String(object.appid) : ''
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.domains = (object.domains ?? []).map((e: any) => String(e))
-    message.developer =
-      object.developer !== undefined && object.developer !== null ? String(object.developer) : ''
-    message.homeUrl =
-      object.homeUrl !== undefined && object.homeUrl !== null ? String(object.homeUrl) : ''
-    message.iconUrl =
-      object.iconUrl !== undefined && object.iconUrl !== null ? String(object.iconUrl) : ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    message.domains = []
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
+    if (object.appid !== undefined && object.appid !== null) {
+      message.appid = String(object.appid)
+    } else {
+      message.appid = ''
+    }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.domains !== undefined && object.domains !== null) {
+      for (const e of object.domains) {
+        message.domains.push(String(e))
+      }
+    }
+    if (object.developer !== undefined && object.developer !== null) {
+      message.developer = String(object.developer)
+    } else {
+      message.developer = ''
+    }
+    if (object.homeUrl !== undefined && object.homeUrl !== null) {
+      message.homeUrl = String(object.homeUrl)
+    } else {
+      message.homeUrl = ''
+    }
+    if (object.iconUrl !== undefined && object.iconUrl !== null) {
+      message.iconUrl = String(object.iconUrl)
+    } else {
+      message.iconUrl = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -1427,21 +1578,30 @@ export const MsgUpdateAppInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateAppInfo>, I>>(object: I): MsgUpdateAppInfo {
+  fromPartial(object: DeepPartial<MsgUpdateAppInfo>): MsgUpdateAppInfo {
     const message = { ...baseMsgUpdateAppInfo } as MsgUpdateAppInfo
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     message.appid = object.appid ?? ''
     message.name = object.name ?? ''
-    message.domains = object.domains?.map(e => e) || []
+    message.domains = []
+    if (object.domains !== undefined && object.domains !== null) {
+      for (const e of object.domains) {
+        message.domains.push(e)
+      }
+    }
     message.developer = object.developer ?? ''
     message.homeUrl = object.homeUrl ?? ''
     message.iconUrl = object.iconUrl ?? ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
@@ -1482,9 +1642,7 @@ export const MsgUpdateAppInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateAppInfoResponse>, I>>(
-    _: I
-  ): MsgUpdateAppInfoResponse {
+  fromPartial(_: DeepPartial<MsgUpdateAppInfoResponse>): MsgUpdateAppInfoResponse {
     const message = {
       ...baseMsgUpdateAppInfoResponse
     } as MsgUpdateAppInfoResponse
@@ -1528,10 +1686,16 @@ export const MsgDeleteAppInfo = {
 
   fromJSON(object: any): MsgDeleteAppInfo {
     const message = { ...baseMsgDeleteAppInfo } as MsgDeleteAppInfo
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -1542,11 +1706,14 @@ export const MsgDeleteAppInfo = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteAppInfo>, I>>(object: I): MsgDeleteAppInfo {
+  fromPartial(object: DeepPartial<MsgDeleteAppInfo>): MsgDeleteAppInfo {
     const message = { ...baseMsgDeleteAppInfo } as MsgDeleteAppInfo
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -1587,9 +1754,7 @@ export const MsgDeleteAppInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteAppInfoResponse>, I>>(
-    _: I
-  ): MsgDeleteAppInfoResponse {
+  fromPartial(_: DeepPartial<MsgDeleteAppInfoResponse>): MsgDeleteAppInfoResponse {
     const message = {
       ...baseMsgDeleteAppInfoResponse
     } as MsgDeleteAppInfoResponse
@@ -1664,21 +1829,36 @@ export const MsgCreateDidRegistry = {
 
   fromJSON(object: any): MsgCreateDidRegistry {
     const message = { ...baseMsgCreateDidRegistry } as MsgCreateDidRegistry
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.did = object.did !== undefined && object.did !== null ? String(object.did) : ''
-    message.pkeyDid =
-      object.pkeyDid !== undefined && object.pkeyDid !== null ? String(object.pkeyDid) : ''
-    message.pkeyType =
-      object.pkeyType !== undefined && object.pkeyType !== null ? String(object.pkeyType) : ''
-    message.pkeyMultibase =
-      object.pkeyMultibase !== undefined && object.pkeyMultibase !== null
-        ? String(object.pkeyMultibase)
-        : ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.did !== undefined && object.did !== null) {
+      message.did = String(object.did)
+    } else {
+      message.did = ''
+    }
+    if (object.pkeyDid !== undefined && object.pkeyDid !== null) {
+      message.pkeyDid = String(object.pkeyDid)
+    } else {
+      message.pkeyDid = ''
+    }
+    if (object.pkeyType !== undefined && object.pkeyType !== null) {
+      message.pkeyType = String(object.pkeyType)
+    } else {
+      message.pkeyType = ''
+    }
+    if (object.pkeyMultibase !== undefined && object.pkeyMultibase !== null) {
+      message.pkeyMultibase = String(object.pkeyMultibase)
+    } else {
+      message.pkeyMultibase = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -1693,19 +1873,18 @@ export const MsgCreateDidRegistry = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgCreateDidRegistry>, I>>(
-    object: I
-  ): MsgCreateDidRegistry {
+  fromPartial(object: DeepPartial<MsgCreateDidRegistry>): MsgCreateDidRegistry {
     const message = { ...baseMsgCreateDidRegistry } as MsgCreateDidRegistry
     message.creator = object.creator ?? ''
     message.did = object.did ?? ''
     message.pkeyDid = object.pkeyDid ?? ''
     message.pkeyType = object.pkeyType ?? ''
     message.pkeyMultibase = object.pkeyMultibase ?? ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
@@ -1747,8 +1926,11 @@ export const MsgCreateDidRegistryResponse = {
     const message = {
       ...baseMsgCreateDidRegistryResponse
     } as MsgCreateDidRegistryResponse
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -1758,14 +1940,15 @@ export const MsgCreateDidRegistryResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgCreateDidRegistryResponse>, I>>(
-    object: I
-  ): MsgCreateDidRegistryResponse {
+  fromPartial(object: DeepPartial<MsgCreateDidRegistryResponse>): MsgCreateDidRegistryResponse {
     const message = {
       ...baseMsgCreateDidRegistryResponse
     } as MsgCreateDidRegistryResponse
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -1844,23 +2027,41 @@ export const MsgUpdateDidRegistry = {
 
   fromJSON(object: any): MsgUpdateDidRegistry {
     const message = { ...baseMsgUpdateDidRegistry } as MsgUpdateDidRegistry
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
-    message.did = object.did !== undefined && object.did !== null ? String(object.did) : ''
-    message.pkeyDid =
-      object.pkeyDid !== undefined && object.pkeyDid !== null ? String(object.pkeyDid) : ''
-    message.pkeyType =
-      object.pkeyType !== undefined && object.pkeyType !== null ? String(object.pkeyType) : ''
-    message.pkeyMultibase =
-      object.pkeyMultibase !== undefined && object.pkeyMultibase !== null
-        ? String(object.pkeyMultibase)
-        : ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromString(object.version)
-        : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
+    if (object.did !== undefined && object.did !== null) {
+      message.did = String(object.did)
+    } else {
+      message.did = ''
+    }
+    if (object.pkeyDid !== undefined && object.pkeyDid !== null) {
+      message.pkeyDid = String(object.pkeyDid)
+    } else {
+      message.pkeyDid = ''
+    }
+    if (object.pkeyType !== undefined && object.pkeyType !== null) {
+      message.pkeyType = String(object.pkeyType)
+    } else {
+      message.pkeyType = ''
+    }
+    if (object.pkeyMultibase !== undefined && object.pkeyMultibase !== null) {
+      message.pkeyMultibase = String(object.pkeyMultibase)
+    } else {
+      message.pkeyMultibase = ''
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -1876,21 +2077,23 @@ export const MsgUpdateDidRegistry = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateDidRegistry>, I>>(
-    object: I
-  ): MsgUpdateDidRegistry {
+  fromPartial(object: DeepPartial<MsgUpdateDidRegistry>): MsgUpdateDidRegistry {
     const message = { ...baseMsgUpdateDidRegistry } as MsgUpdateDidRegistry
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     message.did = object.did ?? ''
     message.pkeyDid = object.pkeyDid ?? ''
     message.pkeyType = object.pkeyType ?? ''
     message.pkeyMultibase = object.pkeyMultibase ?? ''
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? Long.fromValue(object.version)
-        : Long.UZERO
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   }
 }
@@ -1931,9 +2134,7 @@ export const MsgUpdateDidRegistryResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateDidRegistryResponse>, I>>(
-    _: I
-  ): MsgUpdateDidRegistryResponse {
+  fromPartial(_: DeepPartial<MsgUpdateDidRegistryResponse>): MsgUpdateDidRegistryResponse {
     const message = {
       ...baseMsgUpdateDidRegistryResponse
     } as MsgUpdateDidRegistryResponse
@@ -1977,10 +2178,16 @@ export const MsgDeleteDidRegistry = {
 
   fromJSON(object: any): MsgDeleteDidRegistry {
     const message = { ...baseMsgDeleteDidRegistry } as MsgDeleteDidRegistry
-    message.creator =
-      object.creator !== undefined && object.creator !== null ? String(object.creator) : ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -1991,13 +2198,14 @@ export const MsgDeleteDidRegistry = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteDidRegistry>, I>>(
-    object: I
-  ): MsgDeleteDidRegistry {
+  fromPartial(object: DeepPartial<MsgDeleteDidRegistry>): MsgDeleteDidRegistry {
     const message = { ...baseMsgDeleteDidRegistry } as MsgDeleteDidRegistry
     message.creator = object.creator ?? ''
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -2038,9 +2246,7 @@ export const MsgDeleteDidRegistryResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteDidRegistryResponse>, I>>(
-    _: I
-  ): MsgDeleteDidRegistryResponse {
+  fromPartial(_: DeepPartial<MsgDeleteDidRegistryResponse>): MsgDeleteDidRegistryResponse {
     const message = {
       ...baseMsgDeleteDidRegistryResponse
     } as MsgDeleteDidRegistryResponse
@@ -2107,17 +2313,31 @@ export const MsgNewDenom = {
 
   fromJSON(object: any): MsgNewDenom {
     const message = { ...baseMsgNewDenom } as MsgNewDenom
-    message.id = object.id !== undefined && object.id !== null ? String(object.id) : ''
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? String(object.amount) : ''
-    message.denomMeta =
-      object.denomMeta !== undefined && object.denomMeta !== null
-        ? Metadata.fromJSON(object.denomMeta)
-        : undefined
-    message.sender =
-      object.sender !== undefined && object.sender !== null ? String(object.sender) : ''
-    message.recipient =
-      object.recipient !== undefined && object.recipient !== null ? String(object.recipient) : ''
+    if (object.id !== undefined && object.id !== null) {
+      message.id = String(object.id)
+    } else {
+      message.id = ''
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = String(object.amount)
+    } else {
+      message.amount = ''
+    }
+    if (object.denomMeta !== undefined && object.denomMeta !== null) {
+      message.denomMeta = Metadata.fromJSON(object.denomMeta)
+    } else {
+      message.denomMeta = undefined
+    }
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender)
+    } else {
+      message.sender = ''
+    }
+    if (object.recipient !== undefined && object.recipient !== null) {
+      message.recipient = String(object.recipient)
+    } else {
+      message.recipient = ''
+    }
     return message
   },
 
@@ -2132,14 +2352,15 @@ export const MsgNewDenom = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgNewDenom>, I>>(object: I): MsgNewDenom {
+  fromPartial(object: DeepPartial<MsgNewDenom>): MsgNewDenom {
     const message = { ...baseMsgNewDenom } as MsgNewDenom
     message.id = object.id ?? ''
     message.amount = object.amount ?? ''
-    message.denomMeta =
-      object.denomMeta !== undefined && object.denomMeta !== null
-        ? Metadata.fromPartial(object.denomMeta)
-        : undefined
+    if (object.denomMeta !== undefined && object.denomMeta !== null) {
+      message.denomMeta = Metadata.fromPartial(object.denomMeta)
+    } else {
+      message.denomMeta = undefined
+    }
     message.sender = object.sender ?? ''
     message.recipient = object.recipient ?? ''
     return message
@@ -2178,7 +2399,7 @@ export const MsgNewDenomResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgNewDenomResponse>, I>>(_: I): MsgNewDenomResponse {
+  fromPartial(_: DeepPartial<MsgNewDenomResponse>): MsgNewDenomResponse {
     const message = { ...baseMsgNewDenomResponse } as MsgNewDenomResponse
     return message
   }
@@ -2257,17 +2478,41 @@ export const MsgNewNFTClass = {
 
   fromJSON(object: any): MsgNewNFTClass {
     const message = { ...baseMsgNewNFTClass } as MsgNewNFTClass
-    message.id = object.id !== undefined && object.id !== null ? String(object.id) : ''
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.uri = object.uri !== undefined && object.uri !== null ? String(object.uri) : ''
-    message.schema =
-      object.schema !== undefined && object.schema !== null ? String(object.schema) : ''
-    message.symbol =
-      object.symbol !== undefined && object.symbol !== null ? String(object.symbol) : ''
-    message.data =
-      object.data !== undefined && object.data !== null ? Any.fromJSON(object.data) : undefined
-    message.sender =
-      object.sender !== undefined && object.sender !== null ? String(object.sender) : ''
+    if (object.id !== undefined && object.id !== null) {
+      message.id = String(object.id)
+    } else {
+      message.id = ''
+    }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.uri !== undefined && object.uri !== null) {
+      message.uri = String(object.uri)
+    } else {
+      message.uri = ''
+    }
+    if (object.schema !== undefined && object.schema !== null) {
+      message.schema = String(object.schema)
+    } else {
+      message.schema = ''
+    }
+    if (object.symbol !== undefined && object.symbol !== null) {
+      message.symbol = String(object.symbol)
+    } else {
+      message.symbol = ''
+    }
+    if (object.data !== undefined && object.data !== null) {
+      message.data = Any.fromJSON(object.data)
+    } else {
+      message.data = undefined
+    }
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender)
+    } else {
+      message.sender = ''
+    }
     return message
   },
 
@@ -2283,15 +2528,18 @@ export const MsgNewNFTClass = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgNewNFTClass>, I>>(object: I): MsgNewNFTClass {
+  fromPartial(object: DeepPartial<MsgNewNFTClass>): MsgNewNFTClass {
     const message = { ...baseMsgNewNFTClass } as MsgNewNFTClass
     message.id = object.id ?? ''
     message.name = object.name ?? ''
     message.uri = object.uri ?? ''
     message.schema = object.schema ?? ''
     message.symbol = object.symbol ?? ''
-    message.data =
-      object.data !== undefined && object.data !== null ? Any.fromPartial(object.data) : undefined
+    if (object.data !== undefined && object.data !== null) {
+      message.data = Any.fromPartial(object.data)
+    } else {
+      message.data = undefined
+    }
     message.sender = object.sender ?? ''
     return message
   }
@@ -2329,9 +2577,7 @@ export const MsgNewNFTClassResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgNewNFTClassResponse>, I>>(
-    _: I
-  ): MsgNewNFTClassResponse {
+  fromPartial(_: DeepPartial<MsgNewNFTClassResponse>): MsgNewNFTClassResponse {
     const message = { ...baseMsgNewNFTClassResponse } as MsgNewNFTClassResponse
     return message
   }
@@ -2403,15 +2649,36 @@ export const MsgUpdateNFTClass = {
 
   fromJSON(object: any): MsgUpdateNFTClass {
     const message = { ...baseMsgUpdateNFTClass } as MsgUpdateNFTClass
-    message.id = object.id !== undefined && object.id !== null ? String(object.id) : ''
-    message.classId =
-      object.classId !== undefined && object.classId !== null ? String(object.classId) : ''
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.uri = object.uri !== undefined && object.uri !== null ? String(object.uri) : ''
-    message.data =
-      object.data !== undefined && object.data !== null ? Any.fromJSON(object.data) : undefined
-    message.sender =
-      object.sender !== undefined && object.sender !== null ? String(object.sender) : ''
+    if (object.id !== undefined && object.id !== null) {
+      message.id = String(object.id)
+    } else {
+      message.id = ''
+    }
+    if (object.classId !== undefined && object.classId !== null) {
+      message.classId = String(object.classId)
+    } else {
+      message.classId = ''
+    }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.uri !== undefined && object.uri !== null) {
+      message.uri = String(object.uri)
+    } else {
+      message.uri = ''
+    }
+    if (object.data !== undefined && object.data !== null) {
+      message.data = Any.fromJSON(object.data)
+    } else {
+      message.data = undefined
+    }
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender)
+    } else {
+      message.sender = ''
+    }
     return message
   },
 
@@ -2426,14 +2693,17 @@ export const MsgUpdateNFTClass = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateNFTClass>, I>>(object: I): MsgUpdateNFTClass {
+  fromPartial(object: DeepPartial<MsgUpdateNFTClass>): MsgUpdateNFTClass {
     const message = { ...baseMsgUpdateNFTClass } as MsgUpdateNFTClass
     message.id = object.id ?? ''
     message.classId = object.classId ?? ''
     message.name = object.name ?? ''
     message.uri = object.uri ?? ''
-    message.data =
-      object.data !== undefined && object.data !== null ? Any.fromPartial(object.data) : undefined
+    if (object.data !== undefined && object.data !== null) {
+      message.data = Any.fromPartial(object.data)
+    } else {
+      message.data = undefined
+    }
     message.sender = object.sender ?? ''
     return message
   }
@@ -2475,9 +2745,7 @@ export const MsgUpdateNFTClassResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateNFTClassResponse>, I>>(
-    _: I
-  ): MsgUpdateNFTClassResponse {
+  fromPartial(_: DeepPartial<MsgUpdateNFTClassResponse>): MsgUpdateNFTClassResponse {
     const message = {
       ...baseMsgUpdateNFTClassResponse
     } as MsgUpdateNFTClassResponse
@@ -2558,17 +2826,41 @@ export const MsgMintNFT = {
 
   fromJSON(object: any): MsgMintNFT {
     const message = { ...baseMsgMintNFT } as MsgMintNFT
-    message.id = object.id !== undefined && object.id !== null ? String(object.id) : ''
-    message.classId =
-      object.classId !== undefined && object.classId !== null ? String(object.classId) : ''
-    message.name = object.name !== undefined && object.name !== null ? String(object.name) : ''
-    message.uri = object.uri !== undefined && object.uri !== null ? String(object.uri) : ''
-    message.data =
-      object.data !== undefined && object.data !== null ? Any.fromJSON(object.data) : undefined
-    message.sender =
-      object.sender !== undefined && object.sender !== null ? String(object.sender) : ''
-    message.recipient =
-      object.recipient !== undefined && object.recipient !== null ? String(object.recipient) : ''
+    if (object.id !== undefined && object.id !== null) {
+      message.id = String(object.id)
+    } else {
+      message.id = ''
+    }
+    if (object.classId !== undefined && object.classId !== null) {
+      message.classId = String(object.classId)
+    } else {
+      message.classId = ''
+    }
+    if (object.name !== undefined && object.name !== null) {
+      message.name = String(object.name)
+    } else {
+      message.name = ''
+    }
+    if (object.uri !== undefined && object.uri !== null) {
+      message.uri = String(object.uri)
+    } else {
+      message.uri = ''
+    }
+    if (object.data !== undefined && object.data !== null) {
+      message.data = Any.fromJSON(object.data)
+    } else {
+      message.data = undefined
+    }
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender)
+    } else {
+      message.sender = ''
+    }
+    if (object.recipient !== undefined && object.recipient !== null) {
+      message.recipient = String(object.recipient)
+    } else {
+      message.recipient = ''
+    }
     return message
   },
 
@@ -2584,14 +2876,17 @@ export const MsgMintNFT = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgMintNFT>, I>>(object: I): MsgMintNFT {
+  fromPartial(object: DeepPartial<MsgMintNFT>): MsgMintNFT {
     const message = { ...baseMsgMintNFT } as MsgMintNFT
     message.id = object.id ?? ''
     message.classId = object.classId ?? ''
     message.name = object.name ?? ''
     message.uri = object.uri ?? ''
-    message.data =
-      object.data !== undefined && object.data !== null ? Any.fromPartial(object.data) : undefined
+    if (object.data !== undefined && object.data !== null) {
+      message.data = Any.fromPartial(object.data)
+    } else {
+      message.data = undefined
+    }
     message.sender = object.sender ?? ''
     message.recipient = object.recipient ?? ''
     return message
@@ -2630,7 +2925,7 @@ export const MsgMintNFTResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgMintNFTResponse>, I>>(_: I): MsgMintNFTResponse {
+  fromPartial(_: DeepPartial<MsgMintNFTResponse>): MsgMintNFTResponse {
     const message = { ...baseMsgMintNFTResponse } as MsgMintNFTResponse
     return message
   }
@@ -2690,14 +2985,31 @@ export const MsgUpdateNFT = {
 
   fromJSON(object: any): MsgUpdateNFT {
     const message = { ...baseMsgUpdateNFT } as MsgUpdateNFT
-    message.id = object.id !== undefined && object.id !== null ? String(object.id) : ''
-    message.classId =
-      object.classId !== undefined && object.classId !== null ? String(object.classId) : ''
-    message.uri = object.uri !== undefined && object.uri !== null ? String(object.uri) : ''
-    message.data =
-      object.data !== undefined && object.data !== null ? Any.fromJSON(object.data) : undefined
-    message.sender =
-      object.sender !== undefined && object.sender !== null ? String(object.sender) : ''
+    if (object.id !== undefined && object.id !== null) {
+      message.id = String(object.id)
+    } else {
+      message.id = ''
+    }
+    if (object.classId !== undefined && object.classId !== null) {
+      message.classId = String(object.classId)
+    } else {
+      message.classId = ''
+    }
+    if (object.uri !== undefined && object.uri !== null) {
+      message.uri = String(object.uri)
+    } else {
+      message.uri = ''
+    }
+    if (object.data !== undefined && object.data !== null) {
+      message.data = Any.fromJSON(object.data)
+    } else {
+      message.data = undefined
+    }
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender)
+    } else {
+      message.sender = ''
+    }
     return message
   },
 
@@ -2711,13 +3023,16 @@ export const MsgUpdateNFT = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateNFT>, I>>(object: I): MsgUpdateNFT {
+  fromPartial(object: DeepPartial<MsgUpdateNFT>): MsgUpdateNFT {
     const message = { ...baseMsgUpdateNFT } as MsgUpdateNFT
     message.id = object.id ?? ''
     message.classId = object.classId ?? ''
     message.uri = object.uri ?? ''
-    message.data =
-      object.data !== undefined && object.data !== null ? Any.fromPartial(object.data) : undefined
+    if (object.data !== undefined && object.data !== null) {
+      message.data = Any.fromPartial(object.data)
+    } else {
+      message.data = undefined
+    }
     message.sender = object.sender ?? ''
     return message
   }
@@ -2755,7 +3070,7 @@ export const MsgUpdateNFTResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateNFTResponse>, I>>(_: I): MsgUpdateNFTResponse {
+  fromPartial(_: DeepPartial<MsgUpdateNFTResponse>): MsgUpdateNFTResponse {
     const message = { ...baseMsgUpdateNFTResponse } as MsgUpdateNFTResponse
     return message
   }
@@ -2803,11 +3118,21 @@ export const MsgBurnNFT = {
 
   fromJSON(object: any): MsgBurnNFT {
     const message = { ...baseMsgBurnNFT } as MsgBurnNFT
-    message.id = object.id !== undefined && object.id !== null ? String(object.id) : ''
-    message.classId =
-      object.classId !== undefined && object.classId !== null ? String(object.classId) : ''
-    message.sender =
-      object.sender !== undefined && object.sender !== null ? String(object.sender) : ''
+    if (object.id !== undefined && object.id !== null) {
+      message.id = String(object.id)
+    } else {
+      message.id = ''
+    }
+    if (object.classId !== undefined && object.classId !== null) {
+      message.classId = String(object.classId)
+    } else {
+      message.classId = ''
+    }
+    if (object.sender !== undefined && object.sender !== null) {
+      message.sender = String(object.sender)
+    } else {
+      message.sender = ''
+    }
     return message
   },
 
@@ -2819,7 +3144,7 @@ export const MsgBurnNFT = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgBurnNFT>, I>>(object: I): MsgBurnNFT {
+  fromPartial(object: DeepPartial<MsgBurnNFT>): MsgBurnNFT {
     const message = { ...baseMsgBurnNFT } as MsgBurnNFT
     message.id = object.id ?? ''
     message.classId = object.classId ?? ''
@@ -2860,7 +3185,7 @@ export const MsgBurnNFTResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<MsgBurnNFTResponse>, I>>(_: I): MsgBurnNFTResponse {
+  fromPartial(_: DeepPartial<MsgBurnNFTResponse>): MsgBurnNFTResponse {
     const message = { ...baseMsgBurnNFTResponse } as MsgBurnNFTResponse
     return message
   }
@@ -3029,12 +3354,9 @@ interface Rpc {
   request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -3042,11 +3364,6 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
-
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any

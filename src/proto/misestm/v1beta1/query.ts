@@ -112,8 +112,11 @@ export const QueryGetUserInfoRequest = {
     const message = {
       ...baseQueryGetUserInfoRequest
     } as QueryGetUserInfoRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -123,14 +126,15 @@ export const QueryGetUserInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetUserInfoRequest>, I>>(
-    object: I
-  ): QueryGetUserInfoRequest {
+  fromPartial(object: DeepPartial<QueryGetUserInfoRequest>): QueryGetUserInfoRequest {
     const message = {
       ...baseQueryGetUserInfoRequest
     } as QueryGetUserInfoRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -169,10 +173,11 @@ export const QueryGetUserInfoResponse = {
     const message = {
       ...baseQueryGetUserInfoResponse
     } as QueryGetUserInfoResponse
-    message.UserInfo =
-      object.UserInfo !== undefined && object.UserInfo !== null
-        ? UserInfo.fromJSON(object.UserInfo)
-        : undefined
+    if (object.UserInfo !== undefined && object.UserInfo !== null) {
+      message.UserInfo = UserInfo.fromJSON(object.UserInfo)
+    } else {
+      message.UserInfo = undefined
+    }
     return message
   },
 
@@ -183,16 +188,15 @@ export const QueryGetUserInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetUserInfoResponse>, I>>(
-    object: I
-  ): QueryGetUserInfoResponse {
+  fromPartial(object: DeepPartial<QueryGetUserInfoResponse>): QueryGetUserInfoResponse {
     const message = {
       ...baseQueryGetUserInfoResponse
     } as QueryGetUserInfoResponse
-    message.UserInfo =
-      object.UserInfo !== undefined && object.UserInfo !== null
-        ? UserInfo.fromPartial(object.UserInfo)
-        : undefined
+    if (object.UserInfo !== undefined && object.UserInfo !== null) {
+      message.UserInfo = UserInfo.fromPartial(object.UserInfo)
+    } else {
+      message.UserInfo = undefined
+    }
     return message
   }
 }
@@ -231,10 +235,11 @@ export const QueryAllUserInfoRequest = {
     const message = {
       ...baseQueryAllUserInfoRequest
     } as QueryAllUserInfoRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromJSON(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -245,16 +250,15 @@ export const QueryAllUserInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllUserInfoRequest>, I>>(
-    object: I
-  ): QueryAllUserInfoRequest {
+  fromPartial(object: DeepPartial<QueryAllUserInfoRequest>): QueryAllUserInfoRequest {
     const message = {
       ...baseQueryAllUserInfoRequest
     } as QueryAllUserInfoRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -300,11 +304,17 @@ export const QueryAllUserInfoResponse = {
     const message = {
       ...baseQueryAllUserInfoResponse
     } as QueryAllUserInfoResponse
-    message.UserInfo = (object.UserInfo ?? []).map((e: any) => UserInfo.fromJSON(e))
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromJSON(object.pagination)
-        : undefined
+    message.UserInfo = []
+    if (object.UserInfo !== undefined && object.UserInfo !== null) {
+      for (const e of object.UserInfo) {
+        message.UserInfo.push(UserInfo.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -320,17 +330,21 @@ export const QueryAllUserInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllUserInfoResponse>, I>>(
-    object: I
-  ): QueryAllUserInfoResponse {
+  fromPartial(object: DeepPartial<QueryAllUserInfoResponse>): QueryAllUserInfoResponse {
     const message = {
       ...baseQueryAllUserInfoResponse
     } as QueryAllUserInfoResponse
-    message.UserInfo = object.UserInfo?.map(e => UserInfo.fromPartial(e)) || []
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined
+    message.UserInfo = []
+    if (object.UserInfo !== undefined && object.UserInfo !== null) {
+      for (const e of object.UserInfo) {
+        message.UserInfo.push(UserInfo.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -372,8 +386,11 @@ export const QueryGetUserRelationRequest = {
     const message = {
       ...baseQueryGetUserRelationRequest
     } as QueryGetUserRelationRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -383,14 +400,15 @@ export const QueryGetUserRelationRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetUserRelationRequest>, I>>(
-    object: I
-  ): QueryGetUserRelationRequest {
+  fromPartial(object: DeepPartial<QueryGetUserRelationRequest>): QueryGetUserRelationRequest {
     const message = {
       ...baseQueryGetUserRelationRequest
     } as QueryGetUserRelationRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -432,10 +450,11 @@ export const QueryGetUserRelationResponse = {
     const message = {
       ...baseQueryGetUserRelationResponse
     } as QueryGetUserRelationResponse
-    message.UserRelation =
-      object.UserRelation !== undefined && object.UserRelation !== null
-        ? UserRelation.fromJSON(object.UserRelation)
-        : undefined
+    if (object.UserRelation !== undefined && object.UserRelation !== null) {
+      message.UserRelation = UserRelation.fromJSON(object.UserRelation)
+    } else {
+      message.UserRelation = undefined
+    }
     return message
   },
 
@@ -448,16 +467,15 @@ export const QueryGetUserRelationResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetUserRelationResponse>, I>>(
-    object: I
-  ): QueryGetUserRelationResponse {
+  fromPartial(object: DeepPartial<QueryGetUserRelationResponse>): QueryGetUserRelationResponse {
     const message = {
       ...baseQueryGetUserRelationResponse
     } as QueryGetUserRelationResponse
-    message.UserRelation =
-      object.UserRelation !== undefined && object.UserRelation !== null
-        ? UserRelation.fromPartial(object.UserRelation)
-        : undefined
+    if (object.UserRelation !== undefined && object.UserRelation !== null) {
+      message.UserRelation = UserRelation.fromPartial(object.UserRelation)
+    } else {
+      message.UserRelation = undefined
+    }
     return message
   }
 }
@@ -499,10 +517,11 @@ export const QueryAllUserRelationRequest = {
     const message = {
       ...baseQueryAllUserRelationRequest
     } as QueryAllUserRelationRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromJSON(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -513,16 +532,15 @@ export const QueryAllUserRelationRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllUserRelationRequest>, I>>(
-    object: I
-  ): QueryAllUserRelationRequest {
+  fromPartial(object: DeepPartial<QueryAllUserRelationRequest>): QueryAllUserRelationRequest {
     const message = {
       ...baseQueryAllUserRelationRequest
     } as QueryAllUserRelationRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -571,11 +589,17 @@ export const QueryAllUserRelationResponse = {
     const message = {
       ...baseQueryAllUserRelationResponse
     } as QueryAllUserRelationResponse
-    message.UserRelation = (object.UserRelation ?? []).map((e: any) => UserRelation.fromJSON(e))
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromJSON(object.pagination)
-        : undefined
+    message.UserRelation = []
+    if (object.UserRelation !== undefined && object.UserRelation !== null) {
+      for (const e of object.UserRelation) {
+        message.UserRelation.push(UserRelation.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -591,17 +615,21 @@ export const QueryAllUserRelationResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllUserRelationResponse>, I>>(
-    object: I
-  ): QueryAllUserRelationResponse {
+  fromPartial(object: DeepPartial<QueryAllUserRelationResponse>): QueryAllUserRelationResponse {
     const message = {
       ...baseQueryAllUserRelationResponse
     } as QueryAllUserRelationResponse
-    message.UserRelation = object.UserRelation?.map(e => UserRelation.fromPartial(e)) || []
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined
+    message.UserRelation = []
+    if (object.UserRelation !== undefined && object.UserRelation !== null) {
+      for (const e of object.UserRelation) {
+        message.UserRelation.push(UserRelation.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -636,8 +664,11 @@ export const QueryGetAppInfoRequest = {
 
   fromJSON(object: any): QueryGetAppInfoRequest {
     const message = { ...baseQueryGetAppInfoRequest } as QueryGetAppInfoRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -647,12 +678,13 @@ export const QueryGetAppInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetAppInfoRequest>, I>>(
-    object: I
-  ): QueryGetAppInfoRequest {
+  fromPartial(object: DeepPartial<QueryGetAppInfoRequest>): QueryGetAppInfoRequest {
     const message = { ...baseQueryGetAppInfoRequest } as QueryGetAppInfoRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -691,10 +723,11 @@ export const QueryGetAppInfoResponse = {
     const message = {
       ...baseQueryGetAppInfoResponse
     } as QueryGetAppInfoResponse
-    message.AppInfo =
-      object.AppInfo !== undefined && object.AppInfo !== null
-        ? AppInfo.fromJSON(object.AppInfo)
-        : undefined
+    if (object.AppInfo !== undefined && object.AppInfo !== null) {
+      message.AppInfo = AppInfo.fromJSON(object.AppInfo)
+    } else {
+      message.AppInfo = undefined
+    }
     return message
   },
 
@@ -705,16 +738,15 @@ export const QueryGetAppInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetAppInfoResponse>, I>>(
-    object: I
-  ): QueryGetAppInfoResponse {
+  fromPartial(object: DeepPartial<QueryGetAppInfoResponse>): QueryGetAppInfoResponse {
     const message = {
       ...baseQueryGetAppInfoResponse
     } as QueryGetAppInfoResponse
-    message.AppInfo =
-      object.AppInfo !== undefined && object.AppInfo !== null
-        ? AppInfo.fromPartial(object.AppInfo)
-        : undefined
+    if (object.AppInfo !== undefined && object.AppInfo !== null) {
+      message.AppInfo = AppInfo.fromPartial(object.AppInfo)
+    } else {
+      message.AppInfo = undefined
+    }
     return message
   }
 }
@@ -749,10 +781,11 @@ export const QueryAllAppInfoRequest = {
 
   fromJSON(object: any): QueryAllAppInfoRequest {
     const message = { ...baseQueryAllAppInfoRequest } as QueryAllAppInfoRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromJSON(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -763,14 +796,13 @@ export const QueryAllAppInfoRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllAppInfoRequest>, I>>(
-    object: I
-  ): QueryAllAppInfoRequest {
+  fromPartial(object: DeepPartial<QueryAllAppInfoRequest>): QueryAllAppInfoRequest {
     const message = { ...baseQueryAllAppInfoRequest } as QueryAllAppInfoRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -816,11 +848,17 @@ export const QueryAllAppInfoResponse = {
     const message = {
       ...baseQueryAllAppInfoResponse
     } as QueryAllAppInfoResponse
-    message.AppInfo = (object.AppInfo ?? []).map((e: any) => AppInfo.fromJSON(e))
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromJSON(object.pagination)
-        : undefined
+    message.AppInfo = []
+    if (object.AppInfo !== undefined && object.AppInfo !== null) {
+      for (const e of object.AppInfo) {
+        message.AppInfo.push(AppInfo.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -836,17 +874,21 @@ export const QueryAllAppInfoResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllAppInfoResponse>, I>>(
-    object: I
-  ): QueryAllAppInfoResponse {
+  fromPartial(object: DeepPartial<QueryAllAppInfoResponse>): QueryAllAppInfoResponse {
     const message = {
       ...baseQueryAllAppInfoResponse
     } as QueryAllAppInfoResponse
-    message.AppInfo = object.AppInfo?.map(e => AppInfo.fromPartial(e)) || []
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined
+    message.AppInfo = []
+    if (object.AppInfo !== undefined && object.AppInfo !== null) {
+      for (const e of object.AppInfo) {
+        message.AppInfo.push(AppInfo.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -888,8 +930,11 @@ export const QueryGetDidRegistryRequest = {
     const message = {
       ...baseQueryGetDidRegistryRequest
     } as QueryGetDidRegistryRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromString(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Long.fromString(object.id)
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   },
 
@@ -899,14 +944,15 @@ export const QueryGetDidRegistryRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetDidRegistryRequest>, I>>(
-    object: I
-  ): QueryGetDidRegistryRequest {
+  fromPartial(object: DeepPartial<QueryGetDidRegistryRequest>): QueryGetDidRegistryRequest {
     const message = {
       ...baseQueryGetDidRegistryRequest
     } as QueryGetDidRegistryRequest
-    message.id =
-      object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id as Long
+    } else {
+      message.id = Long.UZERO
+    }
     return message
   }
 }
@@ -948,10 +994,11 @@ export const QueryGetDidRegistryResponse = {
     const message = {
       ...baseQueryGetDidRegistryResponse
     } as QueryGetDidRegistryResponse
-    message.DidRegistry =
-      object.DidRegistry !== undefined && object.DidRegistry !== null
-        ? DidRegistry.fromJSON(object.DidRegistry)
-        : undefined
+    if (object.DidRegistry !== undefined && object.DidRegistry !== null) {
+      message.DidRegistry = DidRegistry.fromJSON(object.DidRegistry)
+    } else {
+      message.DidRegistry = undefined
+    }
     return message
   },
 
@@ -962,16 +1009,15 @@ export const QueryGetDidRegistryResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryGetDidRegistryResponse>, I>>(
-    object: I
-  ): QueryGetDidRegistryResponse {
+  fromPartial(object: DeepPartial<QueryGetDidRegistryResponse>): QueryGetDidRegistryResponse {
     const message = {
       ...baseQueryGetDidRegistryResponse
     } as QueryGetDidRegistryResponse
-    message.DidRegistry =
-      object.DidRegistry !== undefined && object.DidRegistry !== null
-        ? DidRegistry.fromPartial(object.DidRegistry)
-        : undefined
+    if (object.DidRegistry !== undefined && object.DidRegistry !== null) {
+      message.DidRegistry = DidRegistry.fromPartial(object.DidRegistry)
+    } else {
+      message.DidRegistry = undefined
+    }
     return message
   }
 }
@@ -1013,10 +1059,11 @@ export const QueryAllDidRegistryRequest = {
     const message = {
       ...baseQueryAllDidRegistryRequest
     } as QueryAllDidRegistryRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromJSON(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -1027,16 +1074,15 @@ export const QueryAllDidRegistryRequest = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllDidRegistryRequest>, I>>(
-    object: I
-  ): QueryAllDidRegistryRequest {
+  fromPartial(object: DeepPartial<QueryAllDidRegistryRequest>): QueryAllDidRegistryRequest {
     const message = {
       ...baseQueryAllDidRegistryRequest
     } as QueryAllDidRegistryRequest
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -1085,11 +1131,17 @@ export const QueryAllDidRegistryResponse = {
     const message = {
       ...baseQueryAllDidRegistryResponse
     } as QueryAllDidRegistryResponse
-    message.DidRegistry = (object.DidRegistry ?? []).map((e: any) => DidRegistry.fromJSON(e))
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromJSON(object.pagination)
-        : undefined
+    message.DidRegistry = []
+    if (object.DidRegistry !== undefined && object.DidRegistry !== null) {
+      for (const e of object.DidRegistry) {
+        message.DidRegistry.push(DidRegistry.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   },
 
@@ -1105,17 +1157,21 @@ export const QueryAllDidRegistryResponse = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<QueryAllDidRegistryResponse>, I>>(
-    object: I
-  ): QueryAllDidRegistryResponse {
+  fromPartial(object: DeepPartial<QueryAllDidRegistryResponse>): QueryAllDidRegistryResponse {
     const message = {
       ...baseQueryAllDidRegistryResponse
     } as QueryAllDidRegistryResponse
-    message.DidRegistry = object.DidRegistry?.map(e => DidRegistry.fromPartial(e)) || []
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined
+    message.DidRegistry = []
+    if (object.DidRegistry !== undefined && object.DidRegistry !== null) {
+      for (const e of object.DidRegistry) {
+        message.DidRegistry.push(DidRegistry.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
     return message
   }
 }
@@ -1206,12 +1262,9 @@ interface Rpc {
   request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -1219,11 +1272,6 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
-
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any

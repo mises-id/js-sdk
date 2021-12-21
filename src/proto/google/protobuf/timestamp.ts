@@ -149,38 +149,41 @@ export const Timestamp = {
 
   fromJSON(object: any): Timestamp {
     const message = { ...baseTimestamp } as Timestamp
-    message.seconds =
-      object.seconds !== undefined && object.seconds !== null
-        ? Long.fromString(object.seconds)
-        : Long.ZERO
-    message.nanos = object.nanos !== undefined && object.nanos !== null ? Number(object.nanos) : 0
+    if (object.seconds !== undefined && object.seconds !== null) {
+      message.seconds = Long.fromString(object.seconds)
+    } else {
+      message.seconds = Long.ZERO
+    }
+    if (object.nanos !== undefined && object.nanos !== null) {
+      message.nanos = Number(object.nanos)
+    } else {
+      message.nanos = 0
+    }
     return message
   },
 
   toJSON(message: Timestamp): unknown {
     const obj: any = {}
     message.seconds !== undefined && (obj.seconds = (message.seconds || Long.ZERO).toString())
-    message.nanos !== undefined && (obj.nanos = Math.round(message.nanos))
+    message.nanos !== undefined && (obj.nanos = message.nanos)
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<Timestamp>, I>>(object: I): Timestamp {
+  fromPartial(object: DeepPartial<Timestamp>): Timestamp {
     const message = { ...baseTimestamp } as Timestamp
-    message.seconds =
-      object.seconds !== undefined && object.seconds !== null
-        ? Long.fromValue(object.seconds)
-        : Long.ZERO
+    if (object.seconds !== undefined && object.seconds !== null) {
+      message.seconds = object.seconds as Long
+    } else {
+      message.seconds = Long.ZERO
+    }
     message.nanos = object.nanos ?? 0
     return message
   }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -188,11 +191,6 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
-
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any

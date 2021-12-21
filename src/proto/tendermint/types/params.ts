@@ -133,22 +133,26 @@ export const ConsensusParams = {
 
   fromJSON(object: any): ConsensusParams {
     const message = { ...baseConsensusParams } as ConsensusParams
-    message.block =
-      object.block !== undefined && object.block !== null
-        ? BlockParams.fromJSON(object.block)
-        : undefined
-    message.evidence =
-      object.evidence !== undefined && object.evidence !== null
-        ? EvidenceParams.fromJSON(object.evidence)
-        : undefined
-    message.validator =
-      object.validator !== undefined && object.validator !== null
-        ? ValidatorParams.fromJSON(object.validator)
-        : undefined
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? VersionParams.fromJSON(object.version)
-        : undefined
+    if (object.block !== undefined && object.block !== null) {
+      message.block = BlockParams.fromJSON(object.block)
+    } else {
+      message.block = undefined
+    }
+    if (object.evidence !== undefined && object.evidence !== null) {
+      message.evidence = EvidenceParams.fromJSON(object.evidence)
+    } else {
+      message.evidence = undefined
+    }
+    if (object.validator !== undefined && object.validator !== null) {
+      message.validator = ValidatorParams.fromJSON(object.validator)
+    } else {
+      message.validator = undefined
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = VersionParams.fromJSON(object.version)
+    } else {
+      message.version = undefined
+    }
     return message
   },
 
@@ -165,24 +169,28 @@ export const ConsensusParams = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ConsensusParams>, I>>(object: I): ConsensusParams {
+  fromPartial(object: DeepPartial<ConsensusParams>): ConsensusParams {
     const message = { ...baseConsensusParams } as ConsensusParams
-    message.block =
-      object.block !== undefined && object.block !== null
-        ? BlockParams.fromPartial(object.block)
-        : undefined
-    message.evidence =
-      object.evidence !== undefined && object.evidence !== null
-        ? EvidenceParams.fromPartial(object.evidence)
-        : undefined
-    message.validator =
-      object.validator !== undefined && object.validator !== null
-        ? ValidatorParams.fromPartial(object.validator)
-        : undefined
-    message.version =
-      object.version !== undefined && object.version !== null
-        ? VersionParams.fromPartial(object.version)
-        : undefined
+    if (object.block !== undefined && object.block !== null) {
+      message.block = BlockParams.fromPartial(object.block)
+    } else {
+      message.block = undefined
+    }
+    if (object.evidence !== undefined && object.evidence !== null) {
+      message.evidence = EvidenceParams.fromPartial(object.evidence)
+    } else {
+      message.evidence = undefined
+    }
+    if (object.validator !== undefined && object.validator !== null) {
+      message.validator = ValidatorParams.fromPartial(object.validator)
+    } else {
+      message.validator = undefined
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = VersionParams.fromPartial(object.version)
+    } else {
+      message.version = undefined
+    }
     return message
   }
 }
@@ -233,18 +241,21 @@ export const BlockParams = {
 
   fromJSON(object: any): BlockParams {
     const message = { ...baseBlockParams } as BlockParams
-    message.maxBytes =
-      object.maxBytes !== undefined && object.maxBytes !== null
-        ? Long.fromString(object.maxBytes)
-        : Long.ZERO
-    message.maxGas =
-      object.maxGas !== undefined && object.maxGas !== null
-        ? Long.fromString(object.maxGas)
-        : Long.ZERO
-    message.timeIotaMs =
-      object.timeIotaMs !== undefined && object.timeIotaMs !== null
-        ? Long.fromString(object.timeIotaMs)
-        : Long.ZERO
+    if (object.maxBytes !== undefined && object.maxBytes !== null) {
+      message.maxBytes = Long.fromString(object.maxBytes)
+    } else {
+      message.maxBytes = Long.ZERO
+    }
+    if (object.maxGas !== undefined && object.maxGas !== null) {
+      message.maxGas = Long.fromString(object.maxGas)
+    } else {
+      message.maxGas = Long.ZERO
+    }
+    if (object.timeIotaMs !== undefined && object.timeIotaMs !== null) {
+      message.timeIotaMs = Long.fromString(object.timeIotaMs)
+    } else {
+      message.timeIotaMs = Long.ZERO
+    }
     return message
   },
 
@@ -257,20 +268,23 @@ export const BlockParams = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<BlockParams>, I>>(object: I): BlockParams {
+  fromPartial(object: DeepPartial<BlockParams>): BlockParams {
     const message = { ...baseBlockParams } as BlockParams
-    message.maxBytes =
-      object.maxBytes !== undefined && object.maxBytes !== null
-        ? Long.fromValue(object.maxBytes)
-        : Long.ZERO
-    message.maxGas =
-      object.maxGas !== undefined && object.maxGas !== null
-        ? Long.fromValue(object.maxGas)
-        : Long.ZERO
-    message.timeIotaMs =
-      object.timeIotaMs !== undefined && object.timeIotaMs !== null
-        ? Long.fromValue(object.timeIotaMs)
-        : Long.ZERO
+    if (object.maxBytes !== undefined && object.maxBytes !== null) {
+      message.maxBytes = object.maxBytes as Long
+    } else {
+      message.maxBytes = Long.ZERO
+    }
+    if (object.maxGas !== undefined && object.maxGas !== null) {
+      message.maxGas = object.maxGas as Long
+    } else {
+      message.maxGas = Long.ZERO
+    }
+    if (object.timeIotaMs !== undefined && object.timeIotaMs !== null) {
+      message.timeIotaMs = object.timeIotaMs as Long
+    } else {
+      message.timeIotaMs = Long.ZERO
+    }
     return message
   }
 }
@@ -320,18 +334,21 @@ export const EvidenceParams = {
 
   fromJSON(object: any): EvidenceParams {
     const message = { ...baseEvidenceParams } as EvidenceParams
-    message.maxAgeNumBlocks =
-      object.maxAgeNumBlocks !== undefined && object.maxAgeNumBlocks !== null
-        ? Long.fromString(object.maxAgeNumBlocks)
-        : Long.ZERO
-    message.maxAgeDuration =
-      object.maxAgeDuration !== undefined && object.maxAgeDuration !== null
-        ? Duration.fromJSON(object.maxAgeDuration)
-        : undefined
-    message.maxBytes =
-      object.maxBytes !== undefined && object.maxBytes !== null
-        ? Long.fromString(object.maxBytes)
-        : Long.ZERO
+    if (object.maxAgeNumBlocks !== undefined && object.maxAgeNumBlocks !== null) {
+      message.maxAgeNumBlocks = Long.fromString(object.maxAgeNumBlocks)
+    } else {
+      message.maxAgeNumBlocks = Long.ZERO
+    }
+    if (object.maxAgeDuration !== undefined && object.maxAgeDuration !== null) {
+      message.maxAgeDuration = Duration.fromJSON(object.maxAgeDuration)
+    } else {
+      message.maxAgeDuration = undefined
+    }
+    if (object.maxBytes !== undefined && object.maxBytes !== null) {
+      message.maxBytes = Long.fromString(object.maxBytes)
+    } else {
+      message.maxBytes = Long.ZERO
+    }
     return message
   },
 
@@ -347,20 +364,23 @@ export const EvidenceParams = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<EvidenceParams>, I>>(object: I): EvidenceParams {
+  fromPartial(object: DeepPartial<EvidenceParams>): EvidenceParams {
     const message = { ...baseEvidenceParams } as EvidenceParams
-    message.maxAgeNumBlocks =
-      object.maxAgeNumBlocks !== undefined && object.maxAgeNumBlocks !== null
-        ? Long.fromValue(object.maxAgeNumBlocks)
-        : Long.ZERO
-    message.maxAgeDuration =
-      object.maxAgeDuration !== undefined && object.maxAgeDuration !== null
-        ? Duration.fromPartial(object.maxAgeDuration)
-        : undefined
-    message.maxBytes =
-      object.maxBytes !== undefined && object.maxBytes !== null
-        ? Long.fromValue(object.maxBytes)
-        : Long.ZERO
+    if (object.maxAgeNumBlocks !== undefined && object.maxAgeNumBlocks !== null) {
+      message.maxAgeNumBlocks = object.maxAgeNumBlocks as Long
+    } else {
+      message.maxAgeNumBlocks = Long.ZERO
+    }
+    if (object.maxAgeDuration !== undefined && object.maxAgeDuration !== null) {
+      message.maxAgeDuration = Duration.fromPartial(object.maxAgeDuration)
+    } else {
+      message.maxAgeDuration = undefined
+    }
+    if (object.maxBytes !== undefined && object.maxBytes !== null) {
+      message.maxBytes = object.maxBytes as Long
+    } else {
+      message.maxBytes = Long.ZERO
+    }
     return message
   }
 }
@@ -396,7 +416,12 @@ export const ValidatorParams = {
 
   fromJSON(object: any): ValidatorParams {
     const message = { ...baseValidatorParams } as ValidatorParams
-    message.pubKeyTypes = (object.pubKeyTypes ?? []).map((e: any) => String(e))
+    message.pubKeyTypes = []
+    if (object.pubKeyTypes !== undefined && object.pubKeyTypes !== null) {
+      for (const e of object.pubKeyTypes) {
+        message.pubKeyTypes.push(String(e))
+      }
+    }
     return message
   },
 
@@ -410,9 +435,14 @@ export const ValidatorParams = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<ValidatorParams>, I>>(object: I): ValidatorParams {
+  fromPartial(object: DeepPartial<ValidatorParams>): ValidatorParams {
     const message = { ...baseValidatorParams } as ValidatorParams
-    message.pubKeyTypes = object.pubKeyTypes?.map(e => e) || []
+    message.pubKeyTypes = []
+    if (object.pubKeyTypes !== undefined && object.pubKeyTypes !== null) {
+      for (const e of object.pubKeyTypes) {
+        message.pubKeyTypes.push(e)
+      }
+    }
     return message
   }
 }
@@ -447,10 +477,11 @@ export const VersionParams = {
 
   fromJSON(object: any): VersionParams {
     const message = { ...baseVersionParams } as VersionParams
-    message.appVersion =
-      object.appVersion !== undefined && object.appVersion !== null
-        ? Long.fromString(object.appVersion)
-        : Long.UZERO
+    if (object.appVersion !== undefined && object.appVersion !== null) {
+      message.appVersion = Long.fromString(object.appVersion)
+    } else {
+      message.appVersion = Long.UZERO
+    }
     return message
   },
 
@@ -461,12 +492,13 @@ export const VersionParams = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<VersionParams>, I>>(object: I): VersionParams {
+  fromPartial(object: DeepPartial<VersionParams>): VersionParams {
     const message = { ...baseVersionParams } as VersionParams
-    message.appVersion =
-      object.appVersion !== undefined && object.appVersion !== null
-        ? Long.fromValue(object.appVersion)
-        : Long.UZERO
+    if (object.appVersion !== undefined && object.appVersion !== null) {
+      message.appVersion = object.appVersion as Long
+    } else {
+      message.appVersion = Long.UZERO
+    }
     return message
   }
 }
@@ -510,14 +542,16 @@ export const HashedParams = {
 
   fromJSON(object: any): HashedParams {
     const message = { ...baseHashedParams } as HashedParams
-    message.blockMaxBytes =
-      object.blockMaxBytes !== undefined && object.blockMaxBytes !== null
-        ? Long.fromString(object.blockMaxBytes)
-        : Long.ZERO
-    message.blockMaxGas =
-      object.blockMaxGas !== undefined && object.blockMaxGas !== null
-        ? Long.fromString(object.blockMaxGas)
-        : Long.ZERO
+    if (object.blockMaxBytes !== undefined && object.blockMaxBytes !== null) {
+      message.blockMaxBytes = Long.fromString(object.blockMaxBytes)
+    } else {
+      message.blockMaxBytes = Long.ZERO
+    }
+    if (object.blockMaxGas !== undefined && object.blockMaxGas !== null) {
+      message.blockMaxGas = Long.fromString(object.blockMaxGas)
+    } else {
+      message.blockMaxGas = Long.ZERO
+    }
     return message
   },
 
@@ -530,26 +564,25 @@ export const HashedParams = {
     return obj
   },
 
-  fromPartial<I extends Exact<DeepPartial<HashedParams>, I>>(object: I): HashedParams {
+  fromPartial(object: DeepPartial<HashedParams>): HashedParams {
     const message = { ...baseHashedParams } as HashedParams
-    message.blockMaxBytes =
-      object.blockMaxBytes !== undefined && object.blockMaxBytes !== null
-        ? Long.fromValue(object.blockMaxBytes)
-        : Long.ZERO
-    message.blockMaxGas =
-      object.blockMaxGas !== undefined && object.blockMaxGas !== null
-        ? Long.fromValue(object.blockMaxGas)
-        : Long.ZERO
+    if (object.blockMaxBytes !== undefined && object.blockMaxBytes !== null) {
+      message.blockMaxBytes = object.blockMaxBytes as Long
+    } else {
+      message.blockMaxBytes = Long.ZERO
+    }
+    if (object.blockMaxGas !== undefined && object.blockMaxGas !== null) {
+      message.blockMaxGas = object.blockMaxGas as Long
+    } else {
+      message.blockMaxGas = Long.ZERO
+    }
     return message
   }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
-
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined | Long
 export type DeepPartial<T> = T extends Builtin
   ? T
-  : T extends Long
-  ? string | number | Long
   : T extends Array<infer U>
   ? Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U>
@@ -557,11 +590,6 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>
-
-type KeysOfUnion<T> = T extends T ? keyof T : never
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P>>, never>
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any

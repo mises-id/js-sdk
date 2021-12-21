@@ -12,17 +12,27 @@ import {
   Registry,
   TxBodyEncodeObject
 } from '@cosmjs/proto-signing'
-import { StargateClient, BroadcastTxResponse, QueryClient, TimeoutError } from '@cosmjs/stargate'
+import {
+  StargateClient,
+  BroadcastTxResponse,
+  QueryClient,
+  TimeoutError,
+  defaultRegistryTypes
+} from '@cosmjs/stargate'
 
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 
 import { PageRequest } from './proto/cosmos/base/query/v1beta1/pagination'
+import { MsgCreateDidRegistry } from './proto/misestm/v1beta1/tx'
 import Long from 'long'
 
 export class LCDConnection {
   private _lcdEndpoint: string
+  private _registry = new Registry([...defaultRegistryTypes])
   constructor(endpoint: string) {
     this._lcdEndpoint = endpoint
+
+    this._registry.register('/misesid.misestm.v1beta1.MsgCreateDidRegistry', MsgCreateDidRegistry)
   }
   private async makeClient(rpcUrl: string): Promise<[QueryClient, Tendermint34Client]> {
     const tmClient = await Tendermint34Client.connect(rpcUrl)
@@ -55,14 +65,13 @@ export class LCDConnection {
       type: 'tendermint/PubKeySecp256k1',
       value: toBase64(pubkeyBytes)
     })
-    const registry = new Registry()
     const txBodyFields: TxBodyEncodeObject = {
       typeUrl: '/cosmos.tx.v1beta1.TxBody',
       value: {
         messages: [msg]
       }
     }
-    const txBodyBytes = registry.encode(txBodyFields)
+    const txBodyBytes = this._registry.encode(txBodyFields)
     const { accountNumber, sequence } = await client.getSequence(address)
     const feeAmount = coins(2000, 'umis')
     const gasLimit = 200000
