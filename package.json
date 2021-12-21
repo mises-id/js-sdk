@@ -1,6 +1,6 @@
 {
   "name": "mises-js-sdk",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "description": "",
   "keywords": [],
   "main": "dist/mises-js-sdk.umd.js",
@@ -9,10 +9,10 @@
   "files": [
     "dist"
   ],
-  "author": "baoge <baoge_pmb@hotmail.com>",
+  "author": "freshlife001",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/mises-id/js-sdk"
   },
   "license": "MIT",
   "engines": {
@@ -34,8 +34,9 @@
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
     "travis-deploy-once": "travis-deploy-once",
-    "postinstall": "yarn build",
-    "proto-compile": "protoc --plugin='./node_modules/.bin/protoc-gen-ts_proto' --ts_proto_out=./src/proto --proto_path=./proto --ts_proto_opt=esModuleInterop=true,forceLong=long,useOptionals=true ./proto/misestm/v1beta1/rest_query.proto ./proto/misestm/v1beta1/query.proto ./proto/misestm/v1beta1/tx.proto"
+    "proto-compile": "protoc --plugin='./node_modules/.bin/protoc-gen-ts_proto' --ts_proto_out=./src/proto --proto_path=./proto --ts_proto_opt=esModuleInterop=true,forceLong=long,useOptionals=true ./proto/misestm/v1beta1/rest_query.proto ./proto/misestm/v1beta1/query.proto ./proto/misestm/v1beta1/tx.proto",
+    "prepush": "npm run test:prod && npm run build",
+    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -49,7 +50,9 @@
     }
   },
   "jest": {
-    "extensionsToTreatAsEsm": [".ts"],
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
     "globals": {
       "ts-jest": {
         "useESM": true
@@ -61,7 +64,9 @@
     "transform": {
       ".(ts|tsx)": "ts-jest"
     },
-    "transformIgnorePatterns": ["node_modules/(?!(some-module|another-module))"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(some-module|another-module))"
+    ],
     "testEnvironment": "node",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
@@ -116,7 +121,7 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-typescript2": "^0.18.0",
-    "semantic-release": "^15.9.16",
+    "semantic-release": "^18.0.1",
     "shelljs": "^0.8.3",
     "travis-deploy-once": "^5.0.9",
     "tslint": "^5.11.0",
