@@ -25,7 +25,7 @@ describe('MSdk test', () => {
     expect(sdk).toBeInstanceOf(MSdk)
     const mockAppID = 'did:misesapp:mises1s0psf4wjssssdxpf0c29vyrnudrmggvp63qmmy'
     const mockUserID = 'did:mises:mises1s0psf4wjssssdxpf0c29vyrnudrmggvp63qmmy'
-    expect(await sdk.connect('mock.site', mockAppID, mockUserID, [])).toEqual('') //no user
+    expect(await sdk.connect('mock.site', mockAppID, mockUserID, [])).toEqual('') // no user
 
     const umgr = sdk.UserMgr()
     const user = await umgr.activateUser(
@@ -35,7 +35,7 @@ describe('MSdk test', () => {
     Tendermint34Client.connect = mockTMClient(mockRestQueryAppResponse('mock.site'))
     expect(await sdk.connect('mock.site', mockAppID, mockUserID, [])).toEqual('')
 
-    expect(await sdk.connectedApps(mockUserID)).toEqual([mockAppID])
-    expect(await sdk.connectedUsers(mockAppID)).toEqual([mockUserID])
+    expect(sdk.connectedApps(mockUserID)).toEqual([mockAppID])
+    expect(sdk.connectedUsers(mockAppID)).toEqual([mockUserID])
   })
 })
