@@ -142,7 +142,7 @@ export class MUser {
     )
     const respData = await lcd.query(`/misesid.misestm.v1beta1.RestQuery/QueryDid`, requestData)
     const response = RestQueryDidResponse.decode(respData)
-    return response.didRegistry !== undefined && response.didRegistry!.did === this.misesID()
+    return response.didRegistry !== undefined && response.didRegistry.did === this.misesID()
   }
   public register(): Promise<BroadcastTxResponse> {
     const lcd = this.makeLCDConnection()
