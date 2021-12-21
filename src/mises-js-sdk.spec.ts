@@ -1,6 +1,5 @@
 /* eslint-disable */
 import MSdk from './mises-js-sdk'
-
 /**
  * MSdk test
  */
@@ -12,5 +11,10 @@ describe('MSdk test', () => {
   it('MSdk is instantiable', async () => {
     const sdk = await MSdk.newSdk()
     expect(sdk).toBeInstanceOf(MSdk)
+  })
+
+  it('test lcd', async () => {
+    const sdk = await MSdk.newSdk()
+    await sdk.testLCDConnection()
   })
 })

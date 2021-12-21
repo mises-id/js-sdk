@@ -24,7 +24,8 @@
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts",
     "start": "rollup -c rollup.config.ts -w",
-    "test": "yarn node jasmine-testrunner.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
@@ -45,6 +46,43 @@
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
     }
+  },
+  "jest": {
+    "extensionsToTreatAsEsm": [".ts"],
+    "globals": {
+      "ts-jest": {
+        "useESM": true
+      }
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "transformIgnorePatterns": ["node_modules/(?!(some-module|another-module))"],
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverageFrom": [
+      "src/*.{js,ts}"
+    ]
   },
   "prettier": {
     "semi": false,
@@ -86,12 +124,11 @@
     "typedoc": "^0.22",
     "typescript": "~4.4",
     "ts-proto": "^1.95",
-    "@types/jasmine": "^3.3.7",
-    "jasmine": "^3.5",
-    "jasmine-core": "^3.5",
-    "jasmine-spec-reporter": "^6",
-    "ses": "^0.11.0",
-    "source-map-support": "^0.5.19"
+    "@types/jest": "^27.0.3",
+    "jest": "^27.4.0",
+    "jest-config": "^27.4.0",
+    "ts-jest": "^27.1.2",
+    "ts-node": "^8"
   },
   "dependencies": {
     "@cosmjs/proto-signing": "^0.26.5",
