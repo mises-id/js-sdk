@@ -38,7 +38,7 @@ export default class MSdk {
     permissions: string[]
   ): Promise<string> {
     const user = this._userMgr.findUser(uid)
-    if (user === undefined) {
+    if (!user) {
       return ''
     }
     const app = this._appMgr.findApp(appid)
@@ -64,14 +64,14 @@ export default class MSdk {
 
   public connectedUsers(appid: string): string[] {
     const app = this._appMgr.findApp(appid)
-    if (app == undefined) {
+    if (!app) {
       return []
     }
     return app.connectedUsers()
   }
   public connectedApps(uid: string): string[] {
     const user = this._userMgr.findUser(uid)
-    if (user === undefined) {
+    if (!user) {
       return []
     }
     return user.connectedApps()
