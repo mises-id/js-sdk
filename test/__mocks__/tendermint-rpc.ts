@@ -13,9 +13,13 @@ import {
   RestQueryUserRelationResponse,
   RestQueryAppResponse,
   RestQueryDidResponse
-} from '../proto/misestm/v1beta1/rest_query'
+} from '../../src/proto/misestm/v1beta1/rest_query'
 import { QueryAccountResponse } from 'cosmjs-types/cosmos/auth/v1beta1/query'
 import { Any } from 'cosmjs-types/google/protobuf/any'
+
+export const testAppID = 'did:misesapp:mises1s0psf4wjssssdxpf0c29vyrnudrmggvp63qmmy'
+export const testUserID1 = 'did:mises:mises1s0psf4wjssssdxpf0c29vyrnudrmggvp63qmmy'
+export const testPkey1 = '7fbe7f060e916f2901de4f44cea972c3083f99cd4bbcb39c0bb3e0c3f4f0f927'
 
 export function makeAny(object: any): Any {
   return Any.fromJSON(object)
@@ -55,6 +59,28 @@ export function mockRestQueryAppResponse(domain: string): Uint8Array {
   })
 
   return RestQueryAppResponse.encode(resp).finish()
+}
+
+export function mockRestQueryUserResponse(name: string): Uint8Array {
+  const resp = RestQueryUserResponse.fromPartial({
+    pubInfo: {
+      name: name
+    }
+  })
+
+  return RestQueryUserResponse.encode(resp).finish()
+}
+
+export function mockRestQueryUserRelationResponse(): Uint8Array {
+  const resp = RestQueryUserRelationResponse.fromPartial({
+    misesList: [
+      {
+        misesId: testUserID1
+      }
+    ]
+  })
+
+  return RestQueryUserRelationResponse.encode(resp).finish()
 }
 
 export function mockTMClient(respData: Uint8Array) {

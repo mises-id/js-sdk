@@ -17,7 +17,7 @@ import {
 } from './proto/misestm/v1beta1/rest_query'
 import { LCDConnection } from './lcd'
 
-import { PublicUserInfo } from './proto/misestm/v1beta1/rest_tx'
+import { PublicUserInfo } from './proto/misestm/v1beta1/UserInfo'
 
 export class MUserInfo {
   name: string
@@ -87,7 +87,7 @@ export class MUser {
     }
     return lcd.broadcast(msg, this._wallet)
   }
-  public async getFollowing(appDid: string): Promise<string[]> {
+  public async getFollowing(): Promise<string[]> {
     const lcd = this.makeLCDConnection()
     const requestData = Uint8Array.from(
       RestQueryUserRelationRequest.encode({
@@ -110,7 +110,7 @@ export class MUser {
   public follow(followingId: string): Promise<BroadcastTxResponse> {
     const lcd = this.makeLCDConnection()
     const msg = {
-      typeUrl: '/misesid.misestm.v1beta1.MsgCreateUserRelation',
+      typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
       value: {
         creator: this._address,
         uid_from: this.misesID(),
@@ -123,7 +123,7 @@ export class MUser {
   public unfollow(unfollowingId: string): Promise<BroadcastTxResponse> {
     const lcd = this.makeLCDConnection()
     const msg = {
-      typeUrl: '/misesid.misestm.v1beta1.MsgCreateUserRelation',
+      typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
       value: {
         creator: this._address,
         uid_from: this.misesID(),
@@ -161,11 +161,15 @@ export class MUser {
   }
 
   public connect(appid: string, permissions: string[]): string {
+    if (this._connectedApps.find(x => x === appid)) {
+      return this.misesID()
+    }
     this._connectedApps.push(appid)
-    return ''
+    return this.misesID()
   }
   public disconnect(appid: string): boolean {
-    return false
+    this._connectedApps = this._connectedApps.filter(x => x !== appid)
+    return true
   }
 
   public connectedApps(): string[] {
@@ -191,12 +195,12 @@ export class MUserMgr {
     const wallet = await DirectSecp256k1Wallet.fromKey(priKey, 'mises')
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
 
-    const oldUser = this.findUser(address)
+    const newUser = new MUser(wallet, address, pubkeyBytes)
+    const oldUser = this.findUser(newUser.misesID())
     if (oldUser) {
       this._activeUid = oldUser.misesID()
       return oldUser
     }
-    const newUser = new MUser(wallet, address, pubkeyBytes)
     const uid = newUser.misesID()
     this._users.set(uid, newUser)
     this._activeUid = uid

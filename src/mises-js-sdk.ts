@@ -2,7 +2,7 @@
 // import "core-js/fn/array.find"
 // ...
 
-import { StargateClient } from '@cosmjs/stargate'
+import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 import { MUserMgr } from './muser'
 import { MAppMgr } from './mapp'
 
@@ -18,16 +18,16 @@ export default class MSdk {
     this._lcdEndpoint = endpoint
   }
   public async testLCDConnection(): Promise<void> {
-    const client = await StargateClient.connect(this._lcdEndpoint)
-    client.disconnect()
+    const tmClient = await Tendermint34Client.connect(this._lcdEndpoint)
+    tmClient.disconnect()
   }
   public setLogLevel(level: number): void {
     return
   }
-  public UserMgr(): MUserMgr {
+  public userMgr(): MUserMgr {
     return this._userMgr
   }
-  public AppMgr(): MAppMgr {
+  public appMgr(): MAppMgr {
     return this._appMgr
   }
 
@@ -52,16 +52,26 @@ export default class MSdk {
     }
   }
 
+  public disconnect(appid: string, uid: string): boolean {
+    let ret = false
+    const user = this._userMgr.findUser(uid)
+    const app = this._appMgr.findApp(appid)
+    if (user && app) {
+      ret = app.disconnect(user.misesID()) && user.disconnect(app.misesID())
+    }
+    return ret
+  }
+
   public connectedUsers(appid: string): string[] {
     const app = this._appMgr.findApp(appid)
-    if (!app) {
+    if (app == undefined) {
       return []
     }
     return app.connectedUsers()
   }
   public connectedApps(uid: string): string[] {
     const user = this._userMgr.findUser(uid)
-    if (!user) {
+    if (user === undefined) {
       return []
     }
     return user.connectedApps()

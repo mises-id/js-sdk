@@ -23,7 +23,12 @@ import {
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 
 import { PageRequest } from './proto/cosmos/base/query/v1beta1/pagination'
-import { MsgCreateDidRegistry } from './proto/misestm/v1beta1/tx'
+import {
+  MsgCreateDidRegistry,
+  MsgUpdateAppInfo,
+  MsgUpdateUserInfo,
+  MsgUpdateUserRelation
+} from './proto/misestm/v1beta1/tx'
 import Long from 'long'
 
 export class LCDConnection {
@@ -33,6 +38,9 @@ export class LCDConnection {
     this._lcdEndpoint = endpoint
 
     this._registry.register('/misesid.misestm.v1beta1.MsgCreateDidRegistry', MsgCreateDidRegistry)
+    this._registry.register('/misesid.misestm.v1beta1.MsgUpdateUserInfo', MsgUpdateUserInfo)
+    this._registry.register('/misesid.misestm.v1beta1.MsgUpdateUserRelation', MsgUpdateUserRelation)
+    this._registry.register('/misesid.misestm.v1beta1.MsgUpdateAppInfo', MsgUpdateAppInfo)
   }
   private async makeClient(rpcUrl: string): Promise<[QueryClient, Tendermint34Client]> {
     const tmClient = await Tendermint34Client.connect(rpcUrl)

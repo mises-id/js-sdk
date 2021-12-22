@@ -1,59 +1,24 @@
 /* eslint-disable */
 import Long from 'long'
 import _m0 from 'protobufjs/minimal'
+import { PublicUserInfo, PrivateUserInfo } from '../../misestm/v1beta1/UserInfo'
 import { Metadata } from '../../cosmos/bank/v1beta1/bank'
 import { Any } from '../../google/protobuf/any'
 
 export const protobufPackage = 'misesid.misestm.v1beta1'
 
-/** this line is used by starport scaffolding # proto/tx/message */
-export interface MsgCreateUserInfo {
-  creator: string
-  uid: string
-  encData: string
-  iv: string
-  version: Long
-}
-
-export interface MsgCreateUserInfoResponse {
-  id: Long
-}
-
 export interface MsgUpdateUserInfo {
   creator: string
-  id: Long
   uid: string
-  encData: string
-  iv: string
+  pubInfo?: PublicUserInfo
+  priInfo?: PrivateUserInfo
   version: Long
 }
 
 export interface MsgUpdateUserInfoResponse {}
 
-export interface MsgDeleteUserInfo {
-  creator: string
-  id: Long
-}
-
-export interface MsgDeleteUserInfoResponse {}
-
-export interface MsgCreateUserRelation {
-  creator: string
-  uidFrom: string
-  uidTo: string
-  isFollowing: boolean
-  isBlocking: boolean
-  isReferredBy: boolean
-  version: Long
-}
-
-export interface MsgCreateUserRelationResponse {
-  id: Long
-}
-
 export interface MsgUpdateUserRelation {
   creator: string
-  id: Long
   uidFrom: string
   uidTo: string
   isFollowing: boolean
@@ -64,31 +29,8 @@ export interface MsgUpdateUserRelation {
 
 export interface MsgUpdateUserRelationResponse {}
 
-export interface MsgDeleteUserRelation {
-  creator: string
-  id: Long
-}
-
-export interface MsgDeleteUserRelationResponse {}
-
-export interface MsgCreateAppInfo {
-  creator: string
-  appid: string
-  name: string
-  domains: string[]
-  developer: string
-  homeUrl: string
-  iconUrl: string
-  version: Long
-}
-
-export interface MsgCreateAppInfoResponse {
-  id: Long
-}
-
 export interface MsgUpdateAppInfo {
   creator: string
-  id: Long
   appid: string
   name: string
   domains: string[]
@@ -100,13 +42,6 @@ export interface MsgUpdateAppInfo {
 
 export interface MsgUpdateAppInfoResponse {}
 
-export interface MsgDeleteAppInfo {
-  creator: string
-  id: Long
-}
-
-export interface MsgDeleteAppInfoResponse {}
-
 export interface MsgCreateDidRegistry {
   creator: string
   did: string
@@ -116,28 +51,7 @@ export interface MsgCreateDidRegistry {
   version: Long
 }
 
-export interface MsgCreateDidRegistryResponse {
-  id: Long
-}
-
-export interface MsgUpdateDidRegistry {
-  creator: string
-  id: Long
-  did: string
-  pkeyDid: string
-  pkeyType: string
-  pkeyMultibase: string
-  version: Long
-}
-
-export interface MsgUpdateDidRegistryResponse {}
-
-export interface MsgDeleteDidRegistry {
-  creator: string
-  id: Long
-}
-
-export interface MsgDeleteDidRegistryResponse {}
+export interface MsgCreateDidRegistryResponse {}
 
 /** MsgNewDenom defines an SDK message for creating a new denom. */
 export interface MsgNewDenom {
@@ -214,186 +128,9 @@ export interface MsgBurnNFT {
 /** MsgBurnNFTResponse defines the Msg/BurnNFT response type. */
 export interface MsgBurnNFTResponse {}
 
-const baseMsgCreateUserInfo: object = {
-  creator: '',
-  uid: '',
-  encData: '',
-  iv: '',
-  version: Long.UZERO
-}
-
-export const MsgCreateUserInfo = {
-  encode(message: MsgCreateUserInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.creator !== '') {
-      writer.uint32(10).string(message.creator)
-    }
-    if (message.uid !== '') {
-      writer.uint32(18).string(message.uid)
-    }
-    if (message.encData !== '') {
-      writer.uint32(26).string(message.encData)
-    }
-    if (message.iv !== '') {
-      writer.uint32(34).string(message.iv)
-    }
-    if (!message.version.isZero()) {
-      writer.uint32(40).uint64(message.version)
-    }
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateUserInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMsgCreateUserInfo } as MsgCreateUserInfo
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string()
-          break
-        case 2:
-          message.uid = reader.string()
-          break
-        case 3:
-          message.encData = reader.string()
-          break
-        case 4:
-          message.iv = reader.string()
-          break
-        case 5:
-          message.version = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgCreateUserInfo {
-    const message = { ...baseMsgCreateUserInfo } as MsgCreateUserInfo
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator)
-    } else {
-      message.creator = ''
-    }
-    if (object.uid !== undefined && object.uid !== null) {
-      message.uid = String(object.uid)
-    } else {
-      message.uid = ''
-    }
-    if (object.encData !== undefined && object.encData !== null) {
-      message.encData = String(object.encData)
-    } else {
-      message.encData = ''
-    }
-    if (object.iv !== undefined && object.iv !== null) {
-      message.iv = String(object.iv)
-    } else {
-      message.iv = ''
-    }
-    if (object.version !== undefined && object.version !== null) {
-      message.version = Long.fromString(object.version)
-    } else {
-      message.version = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgCreateUserInfo): unknown {
-    const obj: any = {}
-    message.creator !== undefined && (obj.creator = message.creator)
-    message.uid !== undefined && (obj.uid = message.uid)
-    message.encData !== undefined && (obj.encData = message.encData)
-    message.iv !== undefined && (obj.iv = message.iv)
-    message.version !== undefined && (obj.version = (message.version || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgCreateUserInfo>): MsgCreateUserInfo {
-    const message = { ...baseMsgCreateUserInfo } as MsgCreateUserInfo
-    message.creator = object.creator ?? ''
-    message.uid = object.uid ?? ''
-    message.encData = object.encData ?? ''
-    message.iv = object.iv ?? ''
-    if (object.version !== undefined && object.version !== null) {
-      message.version = object.version as Long
-    } else {
-      message.version = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgCreateUserInfoResponse: object = { id: Long.UZERO }
-
-export const MsgCreateUserInfoResponse = {
-  encode(message: MsgCreateUserInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.isZero()) {
-      writer.uint32(8).uint64(message.id)
-    }
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateUserInfoResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgCreateUserInfoResponse
-    } as MsgCreateUserInfoResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.id = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgCreateUserInfoResponse {
-    const message = {
-      ...baseMsgCreateUserInfoResponse
-    } as MsgCreateUserInfoResponse
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgCreateUserInfoResponse): unknown {
-    const obj: any = {}
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgCreateUserInfoResponse>): MsgCreateUserInfoResponse {
-    const message = {
-      ...baseMsgCreateUserInfoResponse
-    } as MsgCreateUserInfoResponse
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  }
-}
-
 const baseMsgUpdateUserInfo: object = {
   creator: '',
-  id: Long.UZERO,
   uid: '',
-  encData: '',
-  iv: '',
   version: Long.UZERO
 }
 
@@ -402,20 +139,17 @@ export const MsgUpdateUserInfo = {
     if (message.creator !== '') {
       writer.uint32(10).string(message.creator)
     }
-    if (!message.id.isZero()) {
-      writer.uint32(16).uint64(message.id)
-    }
     if (message.uid !== '') {
-      writer.uint32(26).string(message.uid)
+      writer.uint32(18).string(message.uid)
     }
-    if (message.encData !== '') {
-      writer.uint32(34).string(message.encData)
+    if (message.pubInfo !== undefined) {
+      PublicUserInfo.encode(message.pubInfo, writer.uint32(26).fork()).ldelim()
     }
-    if (message.iv !== '') {
-      writer.uint32(42).string(message.iv)
+    if (message.priInfo !== undefined) {
+      PrivateUserInfo.encode(message.priInfo, writer.uint32(34).fork()).ldelim()
     }
     if (!message.version.isZero()) {
-      writer.uint32(48).uint64(message.version)
+      writer.uint32(40).uint64(message.version)
     }
     return writer
   },
@@ -431,18 +165,15 @@ export const MsgUpdateUserInfo = {
           message.creator = reader.string()
           break
         case 2:
-          message.id = reader.uint64() as Long
-          break
-        case 3:
           message.uid = reader.string()
           break
+        case 3:
+          message.pubInfo = PublicUserInfo.decode(reader, reader.uint32())
+          break
         case 4:
-          message.encData = reader.string()
+          message.priInfo = PrivateUserInfo.decode(reader, reader.uint32())
           break
         case 5:
-          message.iv = reader.string()
-          break
-        case 6:
           message.version = reader.uint64() as Long
           break
         default:
@@ -460,25 +191,20 @@ export const MsgUpdateUserInfo = {
     } else {
       message.creator = ''
     }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
     if (object.uid !== undefined && object.uid !== null) {
       message.uid = String(object.uid)
     } else {
       message.uid = ''
     }
-    if (object.encData !== undefined && object.encData !== null) {
-      message.encData = String(object.encData)
+    if (object.pubInfo !== undefined && object.pubInfo !== null) {
+      message.pubInfo = PublicUserInfo.fromJSON(object.pubInfo)
     } else {
-      message.encData = ''
+      message.pubInfo = undefined
     }
-    if (object.iv !== undefined && object.iv !== null) {
-      message.iv = String(object.iv)
+    if (object.priInfo !== undefined && object.priInfo !== null) {
+      message.priInfo = PrivateUserInfo.fromJSON(object.priInfo)
     } else {
-      message.iv = ''
+      message.priInfo = undefined
     }
     if (object.version !== undefined && object.version !== null) {
       message.version = Long.fromString(object.version)
@@ -491,10 +217,11 @@ export const MsgUpdateUserInfo = {
   toJSON(message: MsgUpdateUserInfo): unknown {
     const obj: any = {}
     message.creator !== undefined && (obj.creator = message.creator)
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
     message.uid !== undefined && (obj.uid = message.uid)
-    message.encData !== undefined && (obj.encData = message.encData)
-    message.iv !== undefined && (obj.iv = message.iv)
+    message.pubInfo !== undefined &&
+      (obj.pubInfo = message.pubInfo ? PublicUserInfo.toJSON(message.pubInfo) : undefined)
+    message.priInfo !== undefined &&
+      (obj.priInfo = message.priInfo ? PrivateUserInfo.toJSON(message.priInfo) : undefined)
     message.version !== undefined && (obj.version = (message.version || Long.UZERO).toString())
     return obj
   },
@@ -502,14 +229,17 @@ export const MsgUpdateUserInfo = {
   fromPartial(object: DeepPartial<MsgUpdateUserInfo>): MsgUpdateUserInfo {
     const message = { ...baseMsgUpdateUserInfo } as MsgUpdateUserInfo
     message.creator = object.creator ?? ''
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
     message.uid = object.uid ?? ''
-    message.encData = object.encData ?? ''
-    message.iv = object.iv ?? ''
+    if (object.pubInfo !== undefined && object.pubInfo !== null) {
+      message.pubInfo = PublicUserInfo.fromPartial(object.pubInfo)
+    } else {
+      message.pubInfo = undefined
+    }
+    if (object.priInfo !== undefined && object.priInfo !== null) {
+      message.priInfo = PrivateUserInfo.fromPartial(object.priInfo)
+    } else {
+      message.priInfo = undefined
+    }
     if (object.version !== undefined && object.version !== null) {
       message.version = object.version as Long
     } else {
@@ -563,119 +293,7 @@ export const MsgUpdateUserInfoResponse = {
   }
 }
 
-const baseMsgDeleteUserInfo: object = { creator: '', id: Long.UZERO }
-
-export const MsgDeleteUserInfo = {
-  encode(message: MsgDeleteUserInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.creator !== '') {
-      writer.uint32(10).string(message.creator)
-    }
-    if (!message.id.isZero()) {
-      writer.uint32(16).uint64(message.id)
-    }
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteUserInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMsgDeleteUserInfo } as MsgDeleteUserInfo
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string()
-          break
-        case 2:
-          message.id = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgDeleteUserInfo {
-    const message = { ...baseMsgDeleteUserInfo } as MsgDeleteUserInfo
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator)
-    } else {
-      message.creator = ''
-    }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgDeleteUserInfo): unknown {
-    const obj: any = {}
-    message.creator !== undefined && (obj.creator = message.creator)
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgDeleteUserInfo>): MsgDeleteUserInfo {
-    const message = { ...baseMsgDeleteUserInfo } as MsgDeleteUserInfo
-    message.creator = object.creator ?? ''
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgDeleteUserInfoResponse: object = {}
-
-export const MsgDeleteUserInfoResponse = {
-  encode(_: MsgDeleteUserInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteUserInfoResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgDeleteUserInfoResponse
-    } as MsgDeleteUserInfoResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(_: any): MsgDeleteUserInfoResponse {
-    const message = {
-      ...baseMsgDeleteUserInfoResponse
-    } as MsgDeleteUserInfoResponse
-    return message
-  },
-
-  toJSON(_: MsgDeleteUserInfoResponse): unknown {
-    const obj: any = {}
-    return obj
-  },
-
-  fromPartial(_: DeepPartial<MsgDeleteUserInfoResponse>): MsgDeleteUserInfoResponse {
-    const message = {
-      ...baseMsgDeleteUserInfoResponse
-    } as MsgDeleteUserInfoResponse
-    return message
-  }
-}
-
-const baseMsgCreateUserRelation: object = {
+const baseMsgUpdateUserRelation: object = {
   creator: '',
   uidFrom: '',
   uidTo: '',
@@ -685,8 +303,8 @@ const baseMsgCreateUserRelation: object = {
   version: Long.UZERO
 }
 
-export const MsgCreateUserRelation = {
-  encode(message: MsgCreateUserRelation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const MsgUpdateUserRelation = {
+  encode(message: MsgUpdateUserRelation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.creator !== '') {
       writer.uint32(10).string(message.creator)
     }
@@ -711,215 +329,6 @@ export const MsgCreateUserRelation = {
     return writer
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateUserRelation {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMsgCreateUserRelation } as MsgCreateUserRelation
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string()
-          break
-        case 2:
-          message.uidFrom = reader.string()
-          break
-        case 3:
-          message.uidTo = reader.string()
-          break
-        case 4:
-          message.isFollowing = reader.bool()
-          break
-        case 5:
-          message.isBlocking = reader.bool()
-          break
-        case 6:
-          message.isReferredBy = reader.bool()
-          break
-        case 7:
-          message.version = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgCreateUserRelation {
-    const message = { ...baseMsgCreateUserRelation } as MsgCreateUserRelation
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator)
-    } else {
-      message.creator = ''
-    }
-    if (object.uidFrom !== undefined && object.uidFrom !== null) {
-      message.uidFrom = String(object.uidFrom)
-    } else {
-      message.uidFrom = ''
-    }
-    if (object.uidTo !== undefined && object.uidTo !== null) {
-      message.uidTo = String(object.uidTo)
-    } else {
-      message.uidTo = ''
-    }
-    if (object.isFollowing !== undefined && object.isFollowing !== null) {
-      message.isFollowing = Boolean(object.isFollowing)
-    } else {
-      message.isFollowing = false
-    }
-    if (object.isBlocking !== undefined && object.isBlocking !== null) {
-      message.isBlocking = Boolean(object.isBlocking)
-    } else {
-      message.isBlocking = false
-    }
-    if (object.isReferredBy !== undefined && object.isReferredBy !== null) {
-      message.isReferredBy = Boolean(object.isReferredBy)
-    } else {
-      message.isReferredBy = false
-    }
-    if (object.version !== undefined && object.version !== null) {
-      message.version = Long.fromString(object.version)
-    } else {
-      message.version = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgCreateUserRelation): unknown {
-    const obj: any = {}
-    message.creator !== undefined && (obj.creator = message.creator)
-    message.uidFrom !== undefined && (obj.uidFrom = message.uidFrom)
-    message.uidTo !== undefined && (obj.uidTo = message.uidTo)
-    message.isFollowing !== undefined && (obj.isFollowing = message.isFollowing)
-    message.isBlocking !== undefined && (obj.isBlocking = message.isBlocking)
-    message.isReferredBy !== undefined && (obj.isReferredBy = message.isReferredBy)
-    message.version !== undefined && (obj.version = (message.version || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgCreateUserRelation>): MsgCreateUserRelation {
-    const message = { ...baseMsgCreateUserRelation } as MsgCreateUserRelation
-    message.creator = object.creator ?? ''
-    message.uidFrom = object.uidFrom ?? ''
-    message.uidTo = object.uidTo ?? ''
-    message.isFollowing = object.isFollowing ?? false
-    message.isBlocking = object.isBlocking ?? false
-    message.isReferredBy = object.isReferredBy ?? false
-    if (object.version !== undefined && object.version !== null) {
-      message.version = object.version as Long
-    } else {
-      message.version = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgCreateUserRelationResponse: object = { id: Long.UZERO }
-
-export const MsgCreateUserRelationResponse = {
-  encode(
-    message: MsgCreateUserRelationResponse,
-    writer: _m0.Writer = _m0.Writer.create()
-  ): _m0.Writer {
-    if (!message.id.isZero()) {
-      writer.uint32(8).uint64(message.id)
-    }
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateUserRelationResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgCreateUserRelationResponse
-    } as MsgCreateUserRelationResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.id = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgCreateUserRelationResponse {
-    const message = {
-      ...baseMsgCreateUserRelationResponse
-    } as MsgCreateUserRelationResponse
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgCreateUserRelationResponse): unknown {
-    const obj: any = {}
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgCreateUserRelationResponse>): MsgCreateUserRelationResponse {
-    const message = {
-      ...baseMsgCreateUserRelationResponse
-    } as MsgCreateUserRelationResponse
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgUpdateUserRelation: object = {
-  creator: '',
-  id: Long.UZERO,
-  uidFrom: '',
-  uidTo: '',
-  isFollowing: false,
-  isBlocking: false,
-  isReferredBy: false,
-  version: Long.UZERO
-}
-
-export const MsgUpdateUserRelation = {
-  encode(message: MsgUpdateUserRelation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.creator !== '') {
-      writer.uint32(10).string(message.creator)
-    }
-    if (!message.id.isZero()) {
-      writer.uint32(16).uint64(message.id)
-    }
-    if (message.uidFrom !== '') {
-      writer.uint32(26).string(message.uidFrom)
-    }
-    if (message.uidTo !== '') {
-      writer.uint32(34).string(message.uidTo)
-    }
-    if (message.isFollowing === true) {
-      writer.uint32(40).bool(message.isFollowing)
-    }
-    if (message.isBlocking === true) {
-      writer.uint32(48).bool(message.isBlocking)
-    }
-    if (message.isReferredBy === true) {
-      writer.uint32(56).bool(message.isReferredBy)
-    }
-    if (!message.version.isZero()) {
-      writer.uint32(64).uint64(message.version)
-    }
-    return writer
-  },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateUserRelation {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
@@ -931,24 +340,21 @@ export const MsgUpdateUserRelation = {
           message.creator = reader.string()
           break
         case 2:
-          message.id = reader.uint64() as Long
-          break
-        case 3:
           message.uidFrom = reader.string()
           break
-        case 4:
+        case 3:
           message.uidTo = reader.string()
           break
-        case 5:
+        case 4:
           message.isFollowing = reader.bool()
           break
-        case 6:
+        case 5:
           message.isBlocking = reader.bool()
           break
-        case 7:
+        case 6:
           message.isReferredBy = reader.bool()
           break
-        case 8:
+        case 7:
           message.version = reader.uint64() as Long
           break
         default:
@@ -965,11 +371,6 @@ export const MsgUpdateUserRelation = {
       message.creator = String(object.creator)
     } else {
       message.creator = ''
-    }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
     }
     if (object.uidFrom !== undefined && object.uidFrom !== null) {
       message.uidFrom = String(object.uidFrom)
@@ -1007,7 +408,6 @@ export const MsgUpdateUserRelation = {
   toJSON(message: MsgUpdateUserRelation): unknown {
     const obj: any = {}
     message.creator !== undefined && (obj.creator = message.creator)
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
     message.uidFrom !== undefined && (obj.uidFrom = message.uidFrom)
     message.uidTo !== undefined && (obj.uidTo = message.uidTo)
     message.isFollowing !== undefined && (obj.isFollowing = message.isFollowing)
@@ -1020,11 +420,6 @@ export const MsgUpdateUserRelation = {
   fromPartial(object: DeepPartial<MsgUpdateUserRelation>): MsgUpdateUserRelation {
     const message = { ...baseMsgUpdateUserRelation } as MsgUpdateUserRelation
     message.creator = object.creator ?? ''
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
     message.uidFrom = object.uidFrom ?? ''
     message.uidTo = object.uidTo ?? ''
     message.isFollowing = object.isFollowing ?? false
@@ -1083,119 +478,7 @@ export const MsgUpdateUserRelationResponse = {
   }
 }
 
-const baseMsgDeleteUserRelation: object = { creator: '', id: Long.UZERO }
-
-export const MsgDeleteUserRelation = {
-  encode(message: MsgDeleteUserRelation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.creator !== '') {
-      writer.uint32(10).string(message.creator)
-    }
-    if (!message.id.isZero()) {
-      writer.uint32(16).uint64(message.id)
-    }
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteUserRelation {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMsgDeleteUserRelation } as MsgDeleteUserRelation
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string()
-          break
-        case 2:
-          message.id = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgDeleteUserRelation {
-    const message = { ...baseMsgDeleteUserRelation } as MsgDeleteUserRelation
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator)
-    } else {
-      message.creator = ''
-    }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgDeleteUserRelation): unknown {
-    const obj: any = {}
-    message.creator !== undefined && (obj.creator = message.creator)
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgDeleteUserRelation>): MsgDeleteUserRelation {
-    const message = { ...baseMsgDeleteUserRelation } as MsgDeleteUserRelation
-    message.creator = object.creator ?? ''
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgDeleteUserRelationResponse: object = {}
-
-export const MsgDeleteUserRelationResponse = {
-  encode(_: MsgDeleteUserRelationResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteUserRelationResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgDeleteUserRelationResponse
-    } as MsgDeleteUserRelationResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(_: any): MsgDeleteUserRelationResponse {
-    const message = {
-      ...baseMsgDeleteUserRelationResponse
-    } as MsgDeleteUserRelationResponse
-    return message
-  },
-
-  toJSON(_: MsgDeleteUserRelationResponse): unknown {
-    const obj: any = {}
-    return obj
-  },
-
-  fromPartial(_: DeepPartial<MsgDeleteUserRelationResponse>): MsgDeleteUserRelationResponse {
-    const message = {
-      ...baseMsgDeleteUserRelationResponse
-    } as MsgDeleteUserRelationResponse
-    return message
-  }
-}
-
-const baseMsgCreateAppInfo: object = {
+const baseMsgUpdateAppInfo: object = {
   creator: '',
   appid: '',
   name: '',
@@ -1206,8 +489,8 @@ const baseMsgCreateAppInfo: object = {
   version: Long.UZERO
 }
 
-export const MsgCreateAppInfo = {
-  encode(message: MsgCreateAppInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const MsgUpdateAppInfo = {
+  encode(message: MsgUpdateAppInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.creator !== '') {
       writer.uint32(10).string(message.creator)
     }
@@ -1235,237 +518,6 @@ export const MsgCreateAppInfo = {
     return writer
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateAppInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMsgCreateAppInfo } as MsgCreateAppInfo
-    message.domains = []
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string()
-          break
-        case 2:
-          message.appid = reader.string()
-          break
-        case 3:
-          message.name = reader.string()
-          break
-        case 4:
-          message.domains.push(reader.string())
-          break
-        case 5:
-          message.developer = reader.string()
-          break
-        case 6:
-          message.homeUrl = reader.string()
-          break
-        case 7:
-          message.iconUrl = reader.string()
-          break
-        case 8:
-          message.version = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgCreateAppInfo {
-    const message = { ...baseMsgCreateAppInfo } as MsgCreateAppInfo
-    message.domains = []
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator)
-    } else {
-      message.creator = ''
-    }
-    if (object.appid !== undefined && object.appid !== null) {
-      message.appid = String(object.appid)
-    } else {
-      message.appid = ''
-    }
-    if (object.name !== undefined && object.name !== null) {
-      message.name = String(object.name)
-    } else {
-      message.name = ''
-    }
-    if (object.domains !== undefined && object.domains !== null) {
-      for (const e of object.domains) {
-        message.domains.push(String(e))
-      }
-    }
-    if (object.developer !== undefined && object.developer !== null) {
-      message.developer = String(object.developer)
-    } else {
-      message.developer = ''
-    }
-    if (object.homeUrl !== undefined && object.homeUrl !== null) {
-      message.homeUrl = String(object.homeUrl)
-    } else {
-      message.homeUrl = ''
-    }
-    if (object.iconUrl !== undefined && object.iconUrl !== null) {
-      message.iconUrl = String(object.iconUrl)
-    } else {
-      message.iconUrl = ''
-    }
-    if (object.version !== undefined && object.version !== null) {
-      message.version = Long.fromString(object.version)
-    } else {
-      message.version = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgCreateAppInfo): unknown {
-    const obj: any = {}
-    message.creator !== undefined && (obj.creator = message.creator)
-    message.appid !== undefined && (obj.appid = message.appid)
-    message.name !== undefined && (obj.name = message.name)
-    if (message.domains) {
-      obj.domains = message.domains.map(e => e)
-    } else {
-      obj.domains = []
-    }
-    message.developer !== undefined && (obj.developer = message.developer)
-    message.homeUrl !== undefined && (obj.homeUrl = message.homeUrl)
-    message.iconUrl !== undefined && (obj.iconUrl = message.iconUrl)
-    message.version !== undefined && (obj.version = (message.version || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgCreateAppInfo>): MsgCreateAppInfo {
-    const message = { ...baseMsgCreateAppInfo } as MsgCreateAppInfo
-    message.creator = object.creator ?? ''
-    message.appid = object.appid ?? ''
-    message.name = object.name ?? ''
-    message.domains = []
-    if (object.domains !== undefined && object.domains !== null) {
-      for (const e of object.domains) {
-        message.domains.push(e)
-      }
-    }
-    message.developer = object.developer ?? ''
-    message.homeUrl = object.homeUrl ?? ''
-    message.iconUrl = object.iconUrl ?? ''
-    if (object.version !== undefined && object.version !== null) {
-      message.version = object.version as Long
-    } else {
-      message.version = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgCreateAppInfoResponse: object = { id: Long.UZERO }
-
-export const MsgCreateAppInfoResponse = {
-  encode(message: MsgCreateAppInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.isZero()) {
-      writer.uint32(8).uint64(message.id)
-    }
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateAppInfoResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgCreateAppInfoResponse
-    } as MsgCreateAppInfoResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.id = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgCreateAppInfoResponse {
-    const message = {
-      ...baseMsgCreateAppInfoResponse
-    } as MsgCreateAppInfoResponse
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgCreateAppInfoResponse): unknown {
-    const obj: any = {}
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgCreateAppInfoResponse>): MsgCreateAppInfoResponse {
-    const message = {
-      ...baseMsgCreateAppInfoResponse
-    } as MsgCreateAppInfoResponse
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgUpdateAppInfo: object = {
-  creator: '',
-  id: Long.UZERO,
-  appid: '',
-  name: '',
-  domains: '',
-  developer: '',
-  homeUrl: '',
-  iconUrl: '',
-  version: Long.UZERO
-}
-
-export const MsgUpdateAppInfo = {
-  encode(message: MsgUpdateAppInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.creator !== '') {
-      writer.uint32(10).string(message.creator)
-    }
-    if (!message.id.isZero()) {
-      writer.uint32(16).uint64(message.id)
-    }
-    if (message.appid !== '') {
-      writer.uint32(26).string(message.appid)
-    }
-    if (message.name !== '') {
-      writer.uint32(34).string(message.name)
-    }
-    for (const v of message.domains) {
-      writer.uint32(42).string(v!)
-    }
-    if (message.developer !== '') {
-      writer.uint32(50).string(message.developer)
-    }
-    if (message.homeUrl !== '') {
-      writer.uint32(58).string(message.homeUrl)
-    }
-    if (message.iconUrl !== '') {
-      writer.uint32(66).string(message.iconUrl)
-    }
-    if (!message.version.isZero()) {
-      writer.uint32(72).uint64(message.version)
-    }
-    return writer
-  },
-
   decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateAppInfo {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
     let end = length === undefined ? reader.len : reader.pos + length
@@ -1478,27 +530,24 @@ export const MsgUpdateAppInfo = {
           message.creator = reader.string()
           break
         case 2:
-          message.id = reader.uint64() as Long
-          break
-        case 3:
           message.appid = reader.string()
           break
-        case 4:
+        case 3:
           message.name = reader.string()
           break
-        case 5:
+        case 4:
           message.domains.push(reader.string())
           break
-        case 6:
+        case 5:
           message.developer = reader.string()
           break
-        case 7:
+        case 6:
           message.homeUrl = reader.string()
           break
-        case 8:
+        case 7:
           message.iconUrl = reader.string()
           break
-        case 9:
+        case 8:
           message.version = reader.uint64() as Long
           break
         default:
@@ -1516,11 +565,6 @@ export const MsgUpdateAppInfo = {
       message.creator = String(object.creator)
     } else {
       message.creator = ''
-    }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
     }
     if (object.appid !== undefined && object.appid !== null) {
       message.appid = String(object.appid)
@@ -1563,7 +607,6 @@ export const MsgUpdateAppInfo = {
   toJSON(message: MsgUpdateAppInfo): unknown {
     const obj: any = {}
     message.creator !== undefined && (obj.creator = message.creator)
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
     message.appid !== undefined && (obj.appid = message.appid)
     message.name !== undefined && (obj.name = message.name)
     if (message.domains) {
@@ -1581,11 +624,6 @@ export const MsgUpdateAppInfo = {
   fromPartial(object: DeepPartial<MsgUpdateAppInfo>): MsgUpdateAppInfo {
     const message = { ...baseMsgUpdateAppInfo } as MsgUpdateAppInfo
     message.creator = object.creator ?? ''
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
     message.appid = object.appid ?? ''
     message.name = object.name ?? ''
     message.domains = []
@@ -1646,118 +684,6 @@ export const MsgUpdateAppInfoResponse = {
     const message = {
       ...baseMsgUpdateAppInfoResponse
     } as MsgUpdateAppInfoResponse
-    return message
-  }
-}
-
-const baseMsgDeleteAppInfo: object = { creator: '', id: Long.UZERO }
-
-export const MsgDeleteAppInfo = {
-  encode(message: MsgDeleteAppInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.creator !== '') {
-      writer.uint32(10).string(message.creator)
-    }
-    if (!message.id.isZero()) {
-      writer.uint32(16).uint64(message.id)
-    }
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteAppInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMsgDeleteAppInfo } as MsgDeleteAppInfo
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string()
-          break
-        case 2:
-          message.id = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgDeleteAppInfo {
-    const message = { ...baseMsgDeleteAppInfo } as MsgDeleteAppInfo
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator)
-    } else {
-      message.creator = ''
-    }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgDeleteAppInfo): unknown {
-    const obj: any = {}
-    message.creator !== undefined && (obj.creator = message.creator)
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgDeleteAppInfo>): MsgDeleteAppInfo {
-    const message = { ...baseMsgDeleteAppInfo } as MsgDeleteAppInfo
-    message.creator = object.creator ?? ''
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgDeleteAppInfoResponse: object = {}
-
-export const MsgDeleteAppInfoResponse = {
-  encode(_: MsgDeleteAppInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteAppInfoResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgDeleteAppInfoResponse
-    } as MsgDeleteAppInfoResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(_: any): MsgDeleteAppInfoResponse {
-    const message = {
-      ...baseMsgDeleteAppInfoResponse
-    } as MsgDeleteAppInfoResponse
-    return message
-  },
-
-  toJSON(_: MsgDeleteAppInfoResponse): unknown {
-    const obj: any = {}
-    return obj
-  },
-
-  fromPartial(_: DeepPartial<MsgDeleteAppInfoResponse>): MsgDeleteAppInfoResponse {
-    const message = {
-      ...baseMsgDeleteAppInfoResponse
-    } as MsgDeleteAppInfoResponse
     return message
   }
 }
@@ -1889,16 +815,10 @@ export const MsgCreateDidRegistry = {
   }
 }
 
-const baseMsgCreateDidRegistryResponse: object = { id: Long.UZERO }
+const baseMsgCreateDidRegistryResponse: object = {}
 
 export const MsgCreateDidRegistryResponse = {
-  encode(
-    message: MsgCreateDidRegistryResponse,
-    writer: _m0.Writer = _m0.Writer.create()
-  ): _m0.Writer {
-    if (!message.id.isZero()) {
-      writer.uint32(8).uint64(message.id)
-    }
+  encode(_: MsgCreateDidRegistryResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer
   },
 
@@ -1911,9 +831,6 @@ export const MsgCreateDidRegistryResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
-        case 1:
-          message.id = reader.uint64() as Long
-          break
         default:
           reader.skipType(tag & 7)
           break
@@ -1922,334 +839,22 @@ export const MsgCreateDidRegistryResponse = {
     return message
   },
 
-  fromJSON(object: any): MsgCreateDidRegistryResponse {
+  fromJSON(_: any): MsgCreateDidRegistryResponse {
     const message = {
       ...baseMsgCreateDidRegistryResponse
     } as MsgCreateDidRegistryResponse
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
     return message
   },
 
-  toJSON(message: MsgCreateDidRegistryResponse): unknown {
+  toJSON(_: MsgCreateDidRegistryResponse): unknown {
     const obj: any = {}
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
     return obj
   },
 
-  fromPartial(object: DeepPartial<MsgCreateDidRegistryResponse>): MsgCreateDidRegistryResponse {
+  fromPartial(_: DeepPartial<MsgCreateDidRegistryResponse>): MsgCreateDidRegistryResponse {
     const message = {
       ...baseMsgCreateDidRegistryResponse
     } as MsgCreateDidRegistryResponse
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgUpdateDidRegistry: object = {
-  creator: '',
-  id: Long.UZERO,
-  did: '',
-  pkeyDid: '',
-  pkeyType: '',
-  pkeyMultibase: '',
-  version: Long.UZERO
-}
-
-export const MsgUpdateDidRegistry = {
-  encode(message: MsgUpdateDidRegistry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.creator !== '') {
-      writer.uint32(10).string(message.creator)
-    }
-    if (!message.id.isZero()) {
-      writer.uint32(16).uint64(message.id)
-    }
-    if (message.did !== '') {
-      writer.uint32(26).string(message.did)
-    }
-    if (message.pkeyDid !== '') {
-      writer.uint32(34).string(message.pkeyDid)
-    }
-    if (message.pkeyType !== '') {
-      writer.uint32(42).string(message.pkeyType)
-    }
-    if (message.pkeyMultibase !== '') {
-      writer.uint32(50).string(message.pkeyMultibase)
-    }
-    if (!message.version.isZero()) {
-      writer.uint32(56).uint64(message.version)
-    }
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateDidRegistry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMsgUpdateDidRegistry } as MsgUpdateDidRegistry
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string()
-          break
-        case 2:
-          message.id = reader.uint64() as Long
-          break
-        case 3:
-          message.did = reader.string()
-          break
-        case 4:
-          message.pkeyDid = reader.string()
-          break
-        case 5:
-          message.pkeyType = reader.string()
-          break
-        case 6:
-          message.pkeyMultibase = reader.string()
-          break
-        case 7:
-          message.version = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgUpdateDidRegistry {
-    const message = { ...baseMsgUpdateDidRegistry } as MsgUpdateDidRegistry
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator)
-    } else {
-      message.creator = ''
-    }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
-    if (object.did !== undefined && object.did !== null) {
-      message.did = String(object.did)
-    } else {
-      message.did = ''
-    }
-    if (object.pkeyDid !== undefined && object.pkeyDid !== null) {
-      message.pkeyDid = String(object.pkeyDid)
-    } else {
-      message.pkeyDid = ''
-    }
-    if (object.pkeyType !== undefined && object.pkeyType !== null) {
-      message.pkeyType = String(object.pkeyType)
-    } else {
-      message.pkeyType = ''
-    }
-    if (object.pkeyMultibase !== undefined && object.pkeyMultibase !== null) {
-      message.pkeyMultibase = String(object.pkeyMultibase)
-    } else {
-      message.pkeyMultibase = ''
-    }
-    if (object.version !== undefined && object.version !== null) {
-      message.version = Long.fromString(object.version)
-    } else {
-      message.version = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgUpdateDidRegistry): unknown {
-    const obj: any = {}
-    message.creator !== undefined && (obj.creator = message.creator)
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
-    message.did !== undefined && (obj.did = message.did)
-    message.pkeyDid !== undefined && (obj.pkeyDid = message.pkeyDid)
-    message.pkeyType !== undefined && (obj.pkeyType = message.pkeyType)
-    message.pkeyMultibase !== undefined && (obj.pkeyMultibase = message.pkeyMultibase)
-    message.version !== undefined && (obj.version = (message.version || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgUpdateDidRegistry>): MsgUpdateDidRegistry {
-    const message = { ...baseMsgUpdateDidRegistry } as MsgUpdateDidRegistry
-    message.creator = object.creator ?? ''
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
-    message.did = object.did ?? ''
-    message.pkeyDid = object.pkeyDid ?? ''
-    message.pkeyType = object.pkeyType ?? ''
-    message.pkeyMultibase = object.pkeyMultibase ?? ''
-    if (object.version !== undefined && object.version !== null) {
-      message.version = object.version as Long
-    } else {
-      message.version = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgUpdateDidRegistryResponse: object = {}
-
-export const MsgUpdateDidRegistryResponse = {
-  encode(_: MsgUpdateDidRegistryResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateDidRegistryResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgUpdateDidRegistryResponse
-    } as MsgUpdateDidRegistryResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(_: any): MsgUpdateDidRegistryResponse {
-    const message = {
-      ...baseMsgUpdateDidRegistryResponse
-    } as MsgUpdateDidRegistryResponse
-    return message
-  },
-
-  toJSON(_: MsgUpdateDidRegistryResponse): unknown {
-    const obj: any = {}
-    return obj
-  },
-
-  fromPartial(_: DeepPartial<MsgUpdateDidRegistryResponse>): MsgUpdateDidRegistryResponse {
-    const message = {
-      ...baseMsgUpdateDidRegistryResponse
-    } as MsgUpdateDidRegistryResponse
-    return message
-  }
-}
-
-const baseMsgDeleteDidRegistry: object = { creator: '', id: Long.UZERO }
-
-export const MsgDeleteDidRegistry = {
-  encode(message: MsgDeleteDidRegistry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.creator !== '') {
-      writer.uint32(10).string(message.creator)
-    }
-    if (!message.id.isZero()) {
-      writer.uint32(16).uint64(message.id)
-    }
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteDidRegistry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = { ...baseMsgDeleteDidRegistry } as MsgDeleteDidRegistry
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string()
-          break
-        case 2:
-          message.id = reader.uint64() as Long
-          break
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(object: any): MsgDeleteDidRegistry {
-    const message = { ...baseMsgDeleteDidRegistry } as MsgDeleteDidRegistry
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator)
-    } else {
-      message.creator = ''
-    }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromString(object.id)
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  },
-
-  toJSON(message: MsgDeleteDidRegistry): unknown {
-    const obj: any = {}
-    message.creator !== undefined && (obj.creator = message.creator)
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString())
-    return obj
-  },
-
-  fromPartial(object: DeepPartial<MsgDeleteDidRegistry>): MsgDeleteDidRegistry {
-    const message = { ...baseMsgDeleteDidRegistry } as MsgDeleteDidRegistry
-    message.creator = object.creator ?? ''
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id as Long
-    } else {
-      message.id = Long.UZERO
-    }
-    return message
-  }
-}
-
-const baseMsgDeleteDidRegistryResponse: object = {}
-
-export const MsgDeleteDidRegistryResponse = {
-  encode(_: MsgDeleteDidRegistryResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    return writer
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteDidRegistryResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input)
-    let end = length === undefined ? reader.len : reader.pos + length
-    const message = {
-      ...baseMsgDeleteDidRegistryResponse
-    } as MsgDeleteDidRegistryResponse
-    while (reader.pos < end) {
-      const tag = reader.uint32()
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7)
-          break
-      }
-    }
-    return message
-  },
-
-  fromJSON(_: any): MsgDeleteDidRegistryResponse {
-    const message = {
-      ...baseMsgDeleteDidRegistryResponse
-    } as MsgDeleteDidRegistryResponse
-    return message
-  },
-
-  toJSON(_: MsgDeleteDidRegistryResponse): unknown {
-    const obj: any = {}
-    return obj
-  },
-
-  fromPartial(_: DeepPartial<MsgDeleteDidRegistryResponse>): MsgDeleteDidRegistryResponse {
-    const message = {
-      ...baseMsgDeleteDidRegistryResponse
-    } as MsgDeleteDidRegistryResponse
     return message
   }
 }
@@ -3203,19 +1808,10 @@ export interface Msg {
   UpdateNFT(request: MsgUpdateNFT): Promise<MsgUpdateNFTResponse>
   /** BurnNFT defines a method for burning a nft. */
   BurnNFT(request: MsgBurnNFT): Promise<MsgBurnNFTResponse>
-  /** this line is used by starport scaffolding # proto/tx/rpc */
-  CreateUserInfo(request: MsgCreateUserInfo): Promise<MsgCreateUserInfoResponse>
   UpdateUserInfo(request: MsgUpdateUserInfo): Promise<MsgUpdateUserInfoResponse>
-  DeleteUserInfo(request: MsgDeleteUserInfo): Promise<MsgDeleteUserInfoResponse>
-  CreateUserRelation(request: MsgCreateUserRelation): Promise<MsgCreateUserRelationResponse>
   UpdateUserRelation(request: MsgUpdateUserRelation): Promise<MsgUpdateUserRelationResponse>
-  DeleteUserRelation(request: MsgDeleteUserRelation): Promise<MsgDeleteUserRelationResponse>
-  CreateAppInfo(request: MsgCreateAppInfo): Promise<MsgCreateAppInfoResponse>
   UpdateAppInfo(request: MsgUpdateAppInfo): Promise<MsgUpdateAppInfoResponse>
-  DeleteAppInfo(request: MsgDeleteAppInfo): Promise<MsgDeleteAppInfoResponse>
   CreateDidRegistry(request: MsgCreateDidRegistry): Promise<MsgCreateDidRegistryResponse>
-  UpdateDidRegistry(request: MsgUpdateDidRegistry): Promise<MsgUpdateDidRegistryResponse>
-  DeleteDidRegistry(request: MsgDeleteDidRegistry): Promise<MsgDeleteDidRegistryResponse>
 }
 
 export class MsgClientImpl implements Msg {
@@ -3228,18 +1824,10 @@ export class MsgClientImpl implements Msg {
     this.MintNFT = this.MintNFT.bind(this)
     this.UpdateNFT = this.UpdateNFT.bind(this)
     this.BurnNFT = this.BurnNFT.bind(this)
-    this.CreateUserInfo = this.CreateUserInfo.bind(this)
     this.UpdateUserInfo = this.UpdateUserInfo.bind(this)
-    this.DeleteUserInfo = this.DeleteUserInfo.bind(this)
-    this.CreateUserRelation = this.CreateUserRelation.bind(this)
     this.UpdateUserRelation = this.UpdateUserRelation.bind(this)
-    this.DeleteUserRelation = this.DeleteUserRelation.bind(this)
-    this.CreateAppInfo = this.CreateAppInfo.bind(this)
     this.UpdateAppInfo = this.UpdateAppInfo.bind(this)
-    this.DeleteAppInfo = this.DeleteAppInfo.bind(this)
     this.CreateDidRegistry = this.CreateDidRegistry.bind(this)
-    this.UpdateDidRegistry = this.UpdateDidRegistry.bind(this)
-    this.DeleteDidRegistry = this.DeleteDidRegistry.bind(this)
   }
   NewDenom(request: MsgNewDenom): Promise<MsgNewDenomResponse> {
     const data = MsgNewDenom.encode(request).finish()
@@ -3277,28 +1865,10 @@ export class MsgClientImpl implements Msg {
     return promise.then(data => MsgBurnNFTResponse.decode(new _m0.Reader(data)))
   }
 
-  CreateUserInfo(request: MsgCreateUserInfo): Promise<MsgCreateUserInfoResponse> {
-    const data = MsgCreateUserInfo.encode(request).finish()
-    const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'CreateUserInfo', data)
-    return promise.then(data => MsgCreateUserInfoResponse.decode(new _m0.Reader(data)))
-  }
-
   UpdateUserInfo(request: MsgUpdateUserInfo): Promise<MsgUpdateUserInfoResponse> {
     const data = MsgUpdateUserInfo.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'UpdateUserInfo', data)
     return promise.then(data => MsgUpdateUserInfoResponse.decode(new _m0.Reader(data)))
-  }
-
-  DeleteUserInfo(request: MsgDeleteUserInfo): Promise<MsgDeleteUserInfoResponse> {
-    const data = MsgDeleteUserInfo.encode(request).finish()
-    const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'DeleteUserInfo', data)
-    return promise.then(data => MsgDeleteUserInfoResponse.decode(new _m0.Reader(data)))
-  }
-
-  CreateUserRelation(request: MsgCreateUserRelation): Promise<MsgCreateUserRelationResponse> {
-    const data = MsgCreateUserRelation.encode(request).finish()
-    const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'CreateUserRelation', data)
-    return promise.then(data => MsgCreateUserRelationResponse.decode(new _m0.Reader(data)))
   }
 
   UpdateUserRelation(request: MsgUpdateUserRelation): Promise<MsgUpdateUserRelationResponse> {
@@ -3307,46 +1877,16 @@ export class MsgClientImpl implements Msg {
     return promise.then(data => MsgUpdateUserRelationResponse.decode(new _m0.Reader(data)))
   }
 
-  DeleteUserRelation(request: MsgDeleteUserRelation): Promise<MsgDeleteUserRelationResponse> {
-    const data = MsgDeleteUserRelation.encode(request).finish()
-    const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'DeleteUserRelation', data)
-    return promise.then(data => MsgDeleteUserRelationResponse.decode(new _m0.Reader(data)))
-  }
-
-  CreateAppInfo(request: MsgCreateAppInfo): Promise<MsgCreateAppInfoResponse> {
-    const data = MsgCreateAppInfo.encode(request).finish()
-    const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'CreateAppInfo', data)
-    return promise.then(data => MsgCreateAppInfoResponse.decode(new _m0.Reader(data)))
-  }
-
   UpdateAppInfo(request: MsgUpdateAppInfo): Promise<MsgUpdateAppInfoResponse> {
     const data = MsgUpdateAppInfo.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'UpdateAppInfo', data)
     return promise.then(data => MsgUpdateAppInfoResponse.decode(new _m0.Reader(data)))
   }
 
-  DeleteAppInfo(request: MsgDeleteAppInfo): Promise<MsgDeleteAppInfoResponse> {
-    const data = MsgDeleteAppInfo.encode(request).finish()
-    const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'DeleteAppInfo', data)
-    return promise.then(data => MsgDeleteAppInfoResponse.decode(new _m0.Reader(data)))
-  }
-
   CreateDidRegistry(request: MsgCreateDidRegistry): Promise<MsgCreateDidRegistryResponse> {
     const data = MsgCreateDidRegistry.encode(request).finish()
     const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'CreateDidRegistry', data)
     return promise.then(data => MsgCreateDidRegistryResponse.decode(new _m0.Reader(data)))
-  }
-
-  UpdateDidRegistry(request: MsgUpdateDidRegistry): Promise<MsgUpdateDidRegistryResponse> {
-    const data = MsgUpdateDidRegistry.encode(request).finish()
-    const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'UpdateDidRegistry', data)
-    return promise.then(data => MsgUpdateDidRegistryResponse.decode(new _m0.Reader(data)))
-  }
-
-  DeleteDidRegistry(request: MsgDeleteDidRegistry): Promise<MsgDeleteDidRegistryResponse> {
-    const data = MsgDeleteDidRegistry.encode(request).finish()
-    const promise = this.rpc.request('misesid.misestm.v1beta1.Msg', 'DeleteDidRegistry', data)
-    return promise.then(data => MsgDeleteDidRegistryResponse.decode(new _m0.Reader(data)))
   }
 }
 

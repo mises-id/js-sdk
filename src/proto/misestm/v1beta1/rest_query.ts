@@ -2,13 +2,10 @@
 import Long from 'long'
 import _m0 from 'protobufjs/minimal'
 import { DidRegistry } from '../../misestm/v1beta1/DidRegistry'
-import {
-  PublicUserInfo,
-  PrivateUserInfo,
-  PublicAppInfo,
-  AppFeeGrant
-} from '../../misestm/v1beta1/rest_tx'
+import { PublicUserInfo, PrivateUserInfo } from '../../misestm/v1beta1/UserInfo'
 import { PageRequest, PageResponse } from '../../cosmos/base/query/v1beta1/pagination'
+import { PublicAppInfo } from '../../misestm/v1beta1/AppInfo'
+import { AppFeeGrant } from '../../misestm/v1beta1/rest_tx'
 
 export const protobufPackage = 'misesid.misestm.v1beta1'
 

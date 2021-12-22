@@ -4,7 +4,9 @@
 
 import { RestQueryAppRequest, RestQueryAppResponse } from './proto/misestm/v1beta1/rest_query'
 
-import { PublicAppInfo, PublicUserInfo } from './proto/misestm/v1beta1/rest_tx'
+import { PublicAppInfo } from './proto/misestm/v1beta1/AppInfo'
+import { PublicUserInfo } from './proto/misestm/v1beta1/UserInfo'
+
 import Long from 'long'
 import { LCDConnection } from './lcd'
 
@@ -15,13 +17,13 @@ export class MAppInfo {
   domains: string[]
   developer: string
   version: Long
-  constructor(info: PublicAppInfo) {
+  constructor(info: PublicAppInfo, version: Long) {
     this.name = info.name
     this.developer = info.developer
     this.iconURL = info.iconUrl
     this.homePageURL = info.homeUrl
     this.domains = info.domains
-    this.version = info.version
+    this.version = version
   }
 }
 
@@ -59,15 +61,19 @@ export class MApp {
     )
     const respData = await lcd.query(`/misesid.misestm.v1beta1.RestQuery/QueryApp`, requestData)
     const response = RestQueryAppResponse.decode(respData)
-    this._info = new MAppInfo(response.pubInfo!)
+    this._info = new MAppInfo(response.pubInfo!, Long.UZERO)
     return this._info
   }
   public connect(uid: string, permissions: string[]): boolean {
+    if (this._connectedUsers.find(x => x === uid)) {
+      return false
+    }
     this._connectedUsers.push(uid)
     return true
   }
   public disconnect(uid: string): boolean {
-    return false
+    this._connectedUsers = this._connectedUsers.filter(x => x !== uid)
+    return true
   }
   public connectedUsers(): string[] {
     return this._connectedUsers
