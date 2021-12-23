@@ -36,9 +36,13 @@ export class MApp {
   }
 
   public static appFromID(appid: string): MApp {
-    const address = appid.replace('did:misesapp:', '')
+    const address = MApp.addressOf(appid)
     return new MApp(address)
   }
+  public static addressOf(misesID: string): string {
+    return misesID.replace('did:misesapp:', '')
+  }
+
   private makeLCDConnection(): LCDConnection {
     return new LCDConnection('tcp://127.0.0.1:26657')
   }

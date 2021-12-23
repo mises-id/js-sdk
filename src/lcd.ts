@@ -56,6 +56,10 @@ export class LCDConnection {
       reverse: false
     })
   }
+  public async stargate(): Promise<StargateClient> {
+    const client = await StargateClient.connect(this._lcdEndpoint)
+    return client
+  }
 
   public async query(path: string, requset: Uint8Array): Promise<Uint8Array> {
     const [client, tmClient] = await this.makeClient(this._lcdEndpoint)

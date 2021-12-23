@@ -1,9 +1,10 @@
 // Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
 // import "core-js/fn/array.find"
 // ...
-import { fromHex } from '@cosmjs/encoding'
+import { fromHex, toHex } from '@cosmjs/encoding'
 import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing'
 import { BroadcastTxResponse } from '@cosmjs/stargate'
+import { sha256, Secp256k1 } from '@cosmjs/crypto'
 
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 
@@ -17,7 +18,10 @@ import {
 } from './proto/misestm/v1beta1/rest_query'
 import { LCDConnection } from './lcd'
 
+import { Mises } from './mises'
+import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin'
 import { PublicUserInfo } from './proto/misestm/v1beta1/UserInfo'
+import Long from 'long'
 
 export class MUserInfo {
   name: string
@@ -57,6 +61,10 @@ export class MUser {
   }
   public misesID(): string {
     return 'did:mises:' + this._address
+  }
+
+  public static addressOf(misesID: string): string {
+    return misesID.replace('did:mises:', '')
   }
 
   public async info(): Promise<MUserInfo> {
@@ -175,6 +183,36 @@ export class MUser {
   public connectedApps(): string[] {
     return this._connectedApps
   }
+
+  public async signMsg(msg: string): Promise<string> {
+    const hashedMessage = sha256(new TextEncoder().encode(msg))
+    const sig = await Secp256k1.createSignature(hashedMessage, this._pkey)
+    const der = sig.toDer()
+    return toHex(der)
+  }
+
+  public async getBalance(): Promise<Long> {
+    const lcd = this.makeLCDConnection()
+    const stargate = await lcd.stargate()
+    const coin = await stargate.getBalance(this._address, Mises.denom())
+    return Long.fromString(coin.amount)
+  }
+  public async sendUMIS(toMisesUID: string, amount: Long): Promise<BroadcastTxResponse> {
+    const lcd = this.makeLCDConnection()
+    const coin = Coin.fromPartial({
+      denom: Mises.denom(),
+      amount: amount.toString()
+    })
+    const msg = {
+      typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+      value: {
+        fromAddress: this._address,
+        toAddress: MUser.addressOf(toMisesUID),
+        amount: [coin]
+      }
+    }
+    return lcd.broadcast(msg, this._wallet)
+  }
 }
 export class MUserMgr {
   private _users: Map<string, MUser> = new Map()
@@ -192,7 +230,7 @@ export class MUserMgr {
 
   public async activateUser(priKeyHex: string): Promise<MUser> {
     const priKey = fromHex(priKeyHex)
-    const wallet = await DirectSecp256k1Wallet.fromKey(priKey, 'mises')
+    const wallet = await DirectSecp256k1Wallet.fromKey(priKey, Mises.prefix())
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
 
     const newUser = new MUser(wallet, address, pubkeyBytes)

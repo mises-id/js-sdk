@@ -11,9 +11,10 @@ import {
   mockQueryAccountResponse,
   mockRestQueryDidResponse,
   mockRestQueryUserResponse,
-  mockRestQueryUserRelationResponse
+  mockRestQueryUserRelationResponse,
+  mockQueryBalanceResponse
 } from './__mocks__/tendermint-rpc'
-
+import Long from 'long'
 /**
  * MSdk test
  */
@@ -37,6 +38,16 @@ describe('MUser test', () => {
 
     const user1 = await umgr.activateUser(testPkey1)
     expect(user1.misesID()).toEqual(testUserID1)
+  })
+
+  it('test signMsg', async () => {
+    const sdk = await MSdk.newSdk()
+    const umgr = sdk.userMgr()
+    const user = await umgr.activateUser(testPkey1)
+    const sig = await user.signMsg('mises_id=' + user.misesID() + '&nonce=001')
+    expect(sig).toEqual(
+      '304502210089aeb49f826444df7aecbc6c1b2f01e522aaa918548e8507b0c3e01ebea73fdd02200826c95ae5fb286ecfb7411e6a4f774e4516c165bcd8b6f6b3bc5b89a113ce5f'
+    )
   })
 
   it('test lock', async () => {
@@ -86,7 +97,6 @@ describe('MUser test', () => {
     const sdk = await MSdk.newSdk()
     const umgr = sdk.userMgr()
     const user = await umgr.activateUser(toHex(Random.getBytes(32)))
-    const did = user.misesID()
     Tendermint34Client.connect = mockTMClient(mockRestQueryUserRelationResponse())
     const followings = await user.getFollowing()
     expect(followings).toEqual([testUserID1])
@@ -100,13 +110,32 @@ describe('MUser test', () => {
     const sdk = await MSdk.newSdk()
     const umgr = sdk.userMgr()
     const user = await umgr.activateUser(toHex(Random.getBytes(32)))
-    const did = user.misesID()
     Tendermint34Client.connect = mockTMClient(mockRestQueryUserRelationResponse())
     const followings = await user.getFollowing()
     expect(followings).toEqual([testUserID1])
 
     Tendermint34Client.connect = mockTMClient(mockQueryAccountResponse())
     const resp1 = await user.unfollow(testUserID1)
+    expect(resp1.height).toBeGreaterThan(0)
+  })
+
+  it('test user query balance ', async () => {
+    const sdk = await MSdk.newSdk()
+    const umgr = sdk.userMgr()
+    const user = await umgr.activateUser(toHex(Random.getBytes(32)))
+    const did = user.misesID()
+    Tendermint34Client.connect = mockTMClient(mockQueryBalanceResponse(Long.fromValue(1)))
+    const balance = await user.getBalance()
+    expect(balance).toEqual(Long.fromValue(1))
+  })
+
+  it('test user transfer umis ', async () => {
+    const sdk = await MSdk.newSdk()
+    const umgr = sdk.userMgr()
+    const user = await umgr.activateUser(toHex(Random.getBytes(32)))
+
+    Tendermint34Client.connect = mockTMClient(mockQueryAccountResponse())
+    const resp1 = await user.sendUMIS(testUserID1, Long.fromString('1'))
     expect(resp1.height).toBeGreaterThan(0)
   })
 })

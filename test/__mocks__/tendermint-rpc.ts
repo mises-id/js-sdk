@@ -15,6 +15,7 @@ import {
   RestQueryDidResponse
 } from '../../src/proto/misestm/v1beta1/rest_query'
 import { QueryAccountResponse } from 'cosmjs-types/cosmos/auth/v1beta1/query'
+import { QueryBalanceResponse } from 'cosmjs-types/cosmos/bank/v1beta1/query'
 import { Any } from 'cosmjs-types/google/protobuf/any'
 
 export const testAppID = 'did:misesapp:mises1s0psf4wjssssdxpf0c29vyrnudrmggvp63qmmy'
@@ -81,6 +82,16 @@ export function mockRestQueryUserRelationResponse(): Uint8Array {
   })
 
   return RestQueryUserRelationResponse.encode(resp).finish()
+}
+export function mockQueryBalanceResponse(amount: Long): Uint8Array {
+  const resp = QueryBalanceResponse.fromPartial({
+    balance: {
+      denom: 'umis',
+      amount: amount.toString()
+    }
+  })
+
+  return QueryBalanceResponse.encode(resp).finish()
 }
 
 export function mockTMClient(respData: Uint8Array) {
