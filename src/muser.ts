@@ -5,7 +5,7 @@ import { fromHex, toHex } from '@cosmjs/encoding'
 import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing'
 import { BroadcastTxResponse } from '@cosmjs/stargate'
 import { sha256, Secp256k1 } from '@cosmjs/crypto'
-import { base58btc } from 'multiformats/bases/base58'
+import * as multiformats from 'multiformats/bases/base58'
 
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 
@@ -169,7 +169,7 @@ export class MUser {
   }
 
   public pubkeyMultibase(): string {
-    return base58btc.encoder.encode(this._pubkey)
+    return multiformats.base58btc.encoder.encode(this._pubkey)
   }
 
   public connect(appid: string, permissions: string[]): string {
