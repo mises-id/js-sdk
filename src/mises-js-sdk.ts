@@ -5,25 +5,28 @@
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 import { MUserMgr } from './muser'
 import { MAppMgr } from './mapp'
+import { MisesConfig } from './mises'
 
 export default class MSdk {
-  public static async newSdk(): Promise<MSdk> {
-    return new MSdk()
+  public static async newSdk(config: MisesConfig): Promise<MSdk> {
+    return new MSdk(config)
   }
-  private _lcdEndpoint: string = 'tcp://127.0.0.1:26657'
-  private _userMgr: MUserMgr = new MUserMgr()
-  private _appMgr: MAppMgr = new MAppMgr()
 
-  public setLCDEndpoint(endpoint: string): void {
-    this._lcdEndpoint = endpoint
+  private _userMgr: MUserMgr
+  private _appMgr: MAppMgr
+  private _config: MisesConfig
+
+  constructor(config: MisesConfig) {
+    this._config = config
+    this._userMgr = new MUserMgr(config)
+    this._appMgr = new MAppMgr(config)
   }
+
   public async testLCDConnection(): Promise<void> {
-    const tmClient = await Tendermint34Client.connect(this._lcdEndpoint)
+    const tmClient = await Tendermint34Client.connect(this._config.lcdEndpoint())
     tmClient.disconnect()
   }
-  public setLogLevel(level: number): void {
-    return
-  }
+
   public userMgr(): MUserMgr {
     return this._userMgr
   }

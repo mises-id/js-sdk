@@ -5,6 +5,7 @@ import { fromHex, toHex } from '@cosmjs/encoding'
 import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing'
 import { BroadcastTxResponse } from '@cosmjs/stargate'
 import { sha256, Secp256k1 } from '@cosmjs/crypto'
+import { base58btc } from 'multiformats/bases/base58'
 
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 
@@ -18,7 +19,7 @@ import {
 } from './proto/misestm/v1beta1/rest_query'
 import { LCDConnection } from './lcd'
 
-import { Mises } from './mises'
+import { MisesConfig } from './mises'
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin'
 import { PublicUserInfo } from './proto/misestm/v1beta1/UserInfo'
 import Long from 'long'
@@ -47,14 +48,24 @@ export class MUser {
 
   private _wallet: DirectSecp256k1Wallet
   private _address: string
-  private _pkey: Uint8Array
-  constructor(wallet: DirectSecp256k1Wallet, address: string, pkey: Uint8Array) {
+  private _prikey: Uint8Array
+  private _pubkey: Uint8Array
+  private _config: MisesConfig
+  constructor(
+    wallet: DirectSecp256k1Wallet,
+    address: string,
+    prikey: Uint8Array,
+    pubkey: Uint8Array,
+    config: MisesConfig
+  ) {
     this._wallet = wallet
     this._address = address
-    this._pkey = pkey
+    this._prikey = prikey
+    this._pubkey = pubkey
+    this._config = config
   }
   private makeLCDConnection(): LCDConnection {
-    return new LCDConnection('tcp://127.0.0.1:26657')
+    return new LCDConnection(this._config.lcdEndpoint())
   }
   public address(): string {
     return this._address
@@ -148,24 +159,17 @@ export class MUser {
         misesId: this.misesID()
       }).finish()
     )
-    const respData = await lcd.query(`/misesid.misestm.v1beta1.RestQuery/QueryDid`, requestData)
-    const response = RestQueryDidResponse.decode(respData)
-    return response.didRegistry !== undefined && response.didRegistry.did === this.misesID()
-  }
-  public register(): Promise<BroadcastTxResponse> {
-    const lcd = this.makeLCDConnection()
-    const msg = {
-      typeUrl: '/misesid.misestm.v1beta1.MsgCreateDidRegistry',
-      value: {
-        creator: this._address,
-        did: this.misesID(),
-        pkey_did: this.misesID() + '#key0',
-        pkey_type: 'EcdsaSecp256k1VerificationKey2019',
-        pkey_multibase: this._pkey,
-        action: 'unfollow'
-      }
+    try {
+      const respData = await lcd.query(`/misesid.misestm.v1beta1.RestQuery/QueryDid`, requestData)
+      const response = RestQueryDidResponse.decode(respData)
+      return response.didRegistry !== undefined && response.didRegistry.did === this.misesID()
+    } catch (error) {
+      return false
     }
-    return lcd.broadcast(msg, this._wallet)
+  }
+
+  public pubkeyMultibase(): string {
+    return base58btc.encoder.encode(this._pubkey)
   }
 
   public connect(appid: string, permissions: string[]): string {
@@ -186,7 +190,7 @@ export class MUser {
 
   public async signMsg(msg: string): Promise<string> {
     const hashedMessage = sha256(new TextEncoder().encode(msg))
-    const sig = await Secp256k1.createSignature(hashedMessage, this._pkey)
+    const sig = await Secp256k1.createSignature(hashedMessage, this._prikey)
     const der = sig.toDer()
     return toHex(der)
   }
@@ -194,13 +198,13 @@ export class MUser {
   public async getBalance(): Promise<Long> {
     const lcd = this.makeLCDConnection()
     const stargate = await lcd.stargate()
-    const coin = await stargate.getBalance(this._address, Mises.denom())
+    const coin = await stargate.getBalance(this._address, this._config.denom())
     return Long.fromString(coin.amount)
   }
   public async sendUMIS(toMisesUID: string, amount: Long): Promise<BroadcastTxResponse> {
     const lcd = this.makeLCDConnection()
     const coin = Coin.fromPartial({
-      denom: Mises.denom(),
+      denom: this._config.denom(),
       amount: amount.toString()
     })
     const msg = {
@@ -217,6 +221,12 @@ export class MUser {
 export class MUserMgr {
   private _users: Map<string, MUser> = new Map()
   private _activeUid: string | null = null
+  private _config: MisesConfig
+
+  constructor(config: MisesConfig) {
+    this._config = config
+  }
+
   public activeUser(): MUser | undefined {
     if (this._activeUid === null) {
       return
@@ -230,10 +240,10 @@ export class MUserMgr {
 
   public async activateUser(priKeyHex: string): Promise<MUser> {
     const priKey = fromHex(priKeyHex)
-    const wallet = await DirectSecp256k1Wallet.fromKey(priKey, Mises.prefix())
+    const wallet = await DirectSecp256k1Wallet.fromKey(priKey, this._config.prefix())
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
 
-    const newUser = new MUser(wallet, address, pubkeyBytes)
+    const newUser = new MUser(wallet, address, priKey, pubkeyBytes, this._config)
     const oldUser = this.findUser(newUser.misesID())
     if (oldUser) {
       this._activeUid = oldUser.misesID()

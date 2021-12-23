@@ -18,9 +18,13 @@ import { QueryAccountResponse } from 'cosmjs-types/cosmos/auth/v1beta1/query'
 import { QueryBalanceResponse } from 'cosmjs-types/cosmos/bank/v1beta1/query'
 import { Any } from 'cosmjs-types/google/protobuf/any'
 
-export const testAppID = 'did:misesapp:mises1s0psf4wjssssdxpf0c29vyrnudrmggvp63qmmy'
-export const testUserID1 = 'did:mises:mises1s0psf4wjssssdxpf0c29vyrnudrmggvp63qmmy'
-export const testPkey1 = '7fbe7f060e916f2901de4f44cea972c3083f99cd4bbcb39c0bb3e0c3f4f0f927'
+export const testUserID1 = 'did:mises:mises1y53kz80x5gm2w0ype8x7a3w6sstztxxg7qkl5n'
+export const testPkey1 = '37eb367cc6c16099efde2f552230fa3b04c4f3aa7b47837c4b7dccaa5a9b190d'
+export const testUserPubKeyBase58 = 'z2AGoGmCDd2d5eJYBjPDtqcAfLangm56ZHM8Ydg5YxEBvc'
+export const testAppID = 'did:misesapp:mises1ee2lrfge0ew6ttedxnfy7naa34x45kwfhsdufa'
+export const testAppPkey = '0bca778dd9ebfaaa190d1d10b69bca1947cefd13353cd06f97e117aa2f43b777'
+export const testAppPubKeyBase58 = 'zdFP8xrgHk2fHYkZwMbpMrCukakeMrC9zfu9sD2eKbosW'
+export const mockEnabled = true
 
 export function makeAny(object: any): Any {
   return Any.fromJSON(object)
@@ -93,6 +97,11 @@ export function mockQueryBalanceResponse(amount: Long): Uint8Array {
 
   return QueryBalanceResponse.encode(resp).finish()
 }
+export function mockTM(respData: Uint8Array) {
+  if (mockEnabled) {
+    Tendermint34Client.connect = mockTMClient(respData)
+  }
+}
 
 export function mockTMClient(respData: Uint8Array) {
   return jest.fn().mockReturnValue({
@@ -123,8 +132,14 @@ export function mockTMClient(respData: Uint8Array) {
     disconnect: jest.fn()
   })
 }
-jest.mock('@cosmjs/tendermint-rpc', () => ({
-  Tendermint34Client: {
-    connect: mockTMClient(new Uint8Array())
+
+export function startMock() {
+  if (!mockEnabled) {
+    return
   }
-}))
+  jest.mock('@cosmjs/tendermint-rpc', () => ({
+    Tendermint34Client: {
+      connect: mockTMClient(new Uint8Array())
+    }
+  }))
+}

@@ -1,14 +1,16 @@
 // Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
 // import "core-js/fn/array.find"
 // ...
-
+import { fromHex } from '@cosmjs/encoding'
 import { RestQueryAppRequest, RestQueryAppResponse } from './proto/misestm/v1beta1/rest_query'
-
+import { BroadcastTxResponse } from '@cosmjs/stargate'
 import { PublicAppInfo } from './proto/misestm/v1beta1/AppInfo'
 import { PublicUserInfo } from './proto/misestm/v1beta1/UserInfo'
-
+import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing'
 import Long from 'long'
 import { LCDConnection } from './lcd'
+import { MisesConfig } from './mises'
+import { version } from 'prettier'
 
 export class MAppInfo {
   name: string
@@ -31,20 +33,22 @@ export class MApp {
   private _connectedUsers: string[] = []
   private _address: string
   private _info: MAppInfo | null = null
-  constructor(address: string) {
+  private _config: MisesConfig
+  constructor(address: string, config: MisesConfig) {
     this._address = address
+    this._config = config
   }
 
-  public static appFromID(appid: string): MApp {
+  public static appFromID(appid: string, config: MisesConfig): MApp {
     const address = MApp.addressOf(appid)
-    return new MApp(address)
+    return new MApp(address, config)
   }
   public static addressOf(misesID: string): string {
     return misesID.replace('did:misesapp:', '')
   }
 
   private makeLCDConnection(): LCDConnection {
-    return new LCDConnection('tcp://127.0.0.1:26657')
+    return new LCDConnection(this._config.lcdEndpoint())
   }
   public address(): string {
     return this._address
@@ -82,16 +86,43 @@ export class MApp {
   public connectedUsers(): string[] {
     return this._connectedUsers
   }
+
+  public async registerUser(
+    appPriKey: string,
+    userMisesID: string,
+    userPubKeyMultibase: string
+  ): Promise<BroadcastTxResponse> {
+    const priKey = fromHex(appPriKey)
+    const wallet = await DirectSecp256k1Wallet.fromKey(priKey, this._config.prefix())
+    const lcd = this.makeLCDConnection()
+    const msg = {
+      typeUrl: '/misesid.misestm.v1beta1.MsgCreateDidRegistry',
+      value: {
+        creator: this._address,
+        did: userMisesID,
+        pkeyDid: userMisesID + '#key0',
+        pkeyType: 'EcdsaSecp256k1VerificationKey2019',
+        pkeyMultibase: userPubKeyMultibase
+      }
+    }
+    return lcd.broadcast(msg, wallet)
+  }
 }
 export class MAppMgr {
   private _apps: Map<string, MApp> = new Map()
+
+  private _config: MisesConfig
+
+  constructor(config: MisesConfig) {
+    this._config = config
+  }
 
   public async ensureApp(appid: string, domain: string): Promise<MApp> {
     const oldApp = this.findApp(appid)
     if (oldApp) {
       return oldApp
     }
-    const app = MApp.appFromID(appid)
+    const app = MApp.appFromID(appid, this._config)
     const appinfo = await app.info()
     if (appinfo.domains.indexOf(domain) >= 0) {
       this._apps.set(appid, app)

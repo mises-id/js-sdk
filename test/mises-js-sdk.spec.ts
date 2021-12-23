@@ -5,40 +5,44 @@ import {
   testAppID,
   testUserID1,
   testPkey1,
-  mockTMClient,
+  startMock,
+  mockTM,
   mockRestQueryAppResponse,
   mockQueryAccountResponse
 } from './__mocks__/tendermint-rpc'
+import { MisesConfig } from '../src/mises'
 
 /**
  * MSdk test
  */
 describe('MSdk test', () => {
+  startMock()
   it('works if true is truthy', () => {
     expect(true).toBeTruthy()
   })
 
   it('MSdk is instantiable', async () => {
-    const sdk = await MSdk.newSdk()
+    const sdk = await MSdk.newSdk(new MisesConfig())
     expect(sdk).toBeInstanceOf(MSdk)
   })
 
   it('set log', async () => {
-    const sdk = await MSdk.newSdk()
+    const config = new MisesConfig()
+    config.setLCDEndpoint('tcp://localhost:26657')
+    config.setLogLevel(1)
+    const sdk = await MSdk.newSdk(config)
     expect(sdk).toBeInstanceOf(MSdk)
-    sdk.setLogLevel(0)
   })
 
   it('testlcd connection', async () => {
-    const sdk = await MSdk.newSdk()
+    const sdk = await MSdk.newSdk(new MisesConfig())
     expect(sdk).toBeInstanceOf(MSdk)
-    sdk.setLCDEndpoint('tcp://127.0.0.1:26657')
-    Tendermint34Client.connect = mockTMClient(mockQueryAccountResponse())
+    mockTM(mockQueryAccountResponse())
     await sdk.testLCDConnection()
   })
 
   it('connect', async () => {
-    const sdk = await MSdk.newSdk()
+    const sdk = await MSdk.newSdk(new MisesConfig())
     expect(sdk).toBeInstanceOf(MSdk)
     expect(await sdk.connect('mock.site', testAppID, testUserID1, [])).toEqual('') // no user
 
@@ -49,7 +53,7 @@ describe('MSdk test', () => {
     const user = await umgr.activateUser(testPkey1)
     expect(user.misesID()).toEqual(testUserID1)
 
-    Tendermint34Client.connect = mockTMClient(mockRestQueryAppResponse('mock.site'))
+    mockTM(mockRestQueryAppResponse('mock.site'))
     expect(await sdk.connect('mock.site', testAppID, testUserID1, [])).toEqual(testUserID1)
 
     expect(sdk.connectedApps(testUserID1)).toEqual([testAppID])
