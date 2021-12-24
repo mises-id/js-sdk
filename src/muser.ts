@@ -195,6 +195,13 @@ export class MUser {
     return toHex(der)
   }
 
+  public async generateAuth(nonce: string): Promise<string> {
+    const misesID = this.misesID()
+    const signMsg = 'mises_id=' + misesID + '&nonce=' + nonce
+    const sig = await this.signMsg(signMsg)
+    return signMsg + '&sig=' + sig + '&pubkey=' + toHex(this._pubkey)
+  }
+
   public async getBalance(): Promise<Long> {
     const lcd = this.makeLCDConnection()
     const stargate = await lcd.stargate()
