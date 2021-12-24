@@ -8,8 +8,11 @@ import { MAppMgr } from './mapp'
 import { MisesConfig } from './mises'
 
 export default class MSdk {
-  public static async newSdk(config: MisesConfig): Promise<MSdk> {
+  public static newSdk(config: MisesConfig): MSdk {
     return new MSdk(config)
+  }
+  public static newConfig(): MisesConfig {
+    return new MisesConfig()
   }
 
   private _userMgr: MUserMgr
