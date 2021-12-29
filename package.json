@@ -33,7 +33,7 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "travis-deploy-once": "travis-deploy-once",
-    "proto-compile": "protoc --plugin='./node_modules/.bin/protoc-gen-ts_proto' --ts_proto_out=./src/proto --proto_path=./proto --ts_proto_opt=esModuleInterop=true,forceLong=long,useOptionals=true ./proto/misestm/v1beta1/rest_query.proto ./proto/misestm/v1beta1/query.proto ./proto/misestm/v1beta1/tx.proto"
+    "proto-compile": "protoc --plugin='./node_modules/.bin/protoc-gen-ts_proto' --ts_proto_out=./src/proto --proto_path=./proto --ts_proto_opt=esModuleInterop=true,forceLong=long,useOptionals=true ./proto/misestm/v1beta1/rest_query.proto ./proto/misestm/v1beta1/query.proto ./proto/misestm/v1beta1/tx.proto ./proto/cosmos/feegrant/v1beta1/tx.proto ./proto/cosmos/feegrant/v1beta1/feegrant.proto"
   },
   "lint-staged": {
     "linters": {

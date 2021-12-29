@@ -25,21 +25,23 @@ import { PublicUserInfo } from './proto/misestm/v1beta1/UserInfo'
 import Long from 'long'
 
 export class MUserInfo {
-  name: string
-  gender: string
-  avatarURL: string
-  homePageURL: string
-  emails: string[]
-  telephones: string[]
-  intro: string
-  constructor(info: PublicUserInfo) {
-    this.name = info.name
-    this.gender = info.gender
-    this.avatarURL = info.avatarUrl
-    this.homePageURL = info.homePageUrl
-    this.emails = info.emails
-    this.telephones = info.telephones
-    this.intro = info.intro
+  name: string | undefined
+  gender: string | undefined
+  avatarURL: string | undefined
+  homePageURL: string | undefined
+  emails: string[] | undefined
+  telephones: string[] | undefined
+  intro: string | undefined
+  constructor(info: PublicUserInfo | undefined) {
+    if (info) {
+      this.name = info.name
+      this.gender = info.gender
+      this.avatarURL = info.avatarUrl
+      this.homePageURL = info.homePageUrl
+      this.emails = info.emails
+      this.telephones = info.telephones
+      this.intro = info.intro
+    }
   }
 }
 
@@ -65,7 +67,11 @@ export class MUser {
     this._config = config
   }
   private makeLCDConnection(): LCDConnection {
-    return new LCDConnection(this._config.lcdEndpoint())
+    const conn = new LCDConnection(this._config.lcdEndpoint())
+    if (this._connectedApps.length > 0) {
+      conn.setFeeGrantor(this._connectedApps[0].replace('did:misesapp:', ''))
+    }
+    return conn
   }
   public address(): string {
     return this._address
@@ -89,7 +95,7 @@ export class MUser {
     )
     const response = RestQueryUserResponse.decode(respData)
 
-    return new MUserInfo(response.pubInfo!)
+    return new MUserInfo(response.pubInfo)
   }
   public setInfo(info: MUserInfo): Promise<BroadcastTxResponse> {
     const lcd = this.makeLCDConnection()

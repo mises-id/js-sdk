@@ -20,10 +20,10 @@ import { Any } from 'cosmjs-types/google/protobuf/any'
 
 export const testUserID1 = 'did:mises:mises1y53kz80x5gm2w0ype8x7a3w6sstztxxg7qkl5n'
 export const testPkey1 = '37eb367cc6c16099efde2f552230fa3b04c4f3aa7b47837c4b7dccaa5a9b190d'
-export const testUserPubKeyBase58 = 'z2AGoGmCDd2d5eJYBjPDtqcAfLangm56ZHM8Ydg5YxEBvc'
-export const testAppID = 'did:misesapp:mises1ee2lrfge0ew6ttedxnfy7naa34x45kwfhsdufa'
-export const testAppPkey = '0bca778dd9ebfaaa190d1d10b69bca1947cefd13353cd06f97e117aa2f43b777'
-export const testAppPubKeyBase58 = 'zdFP8xrgHk2fHYkZwMbpMrCukakeMrC9zfu9sD2eKbosW'
+export const testUserPubKeyMultiBase = 'z2AGoGmCDd2d5eJYBjPDtqcAfLangm56ZHM8Ydg5YxEBvc'
+export const testAppID = 'did:misesapp:mises1g3atpp5nlrzgqkzd4qfuzrdfkn8vy0a4jepr2t'
+export const testAppPkey = '76530e8adc206674e462bc20e6c7e4df0d43689d13da39b7e3f98ed70a777c8f'
+export const testAppPubKeyMultiBase = 'zqEs5knmSxGdrtnvU9j8eKZPWPSRvSEWMDgvTq5mRuEPM'
 export const mockEnabled = true
 
 export function makeAny(object: any): Any {

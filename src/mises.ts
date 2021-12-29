@@ -3,7 +3,7 @@
 // ...
 
 export class MisesConfig {
-  private _lcdEndpoint: string = 'tcp://127.0.0.1:26657'
+  private _lcdEndpoint: string = 'http://127.0.0.1:26657'
   private _logLevel: number = 0
   public setLCDEndpoint(endpoint: string): void {
     this._lcdEndpoint = endpoint

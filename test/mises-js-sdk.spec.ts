@@ -28,7 +28,7 @@ describe('MSdk test', () => {
 
   it('set log', async () => {
     const config = new MisesConfig()
-    config.setLCDEndpoint('tcp://localhost:26657')
+    config.setLCDEndpoint('http://localhost:26657')
     config.setLogLevel(1)
     const sdk = await MSdk.newSdk(config)
     expect(sdk).toBeInstanceOf(MSdk)

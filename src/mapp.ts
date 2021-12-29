@@ -6,6 +6,8 @@ import { RestQueryAppRequest, RestQueryAppResponse } from './proto/misestm/v1bet
 import { BroadcastTxResponse } from '@cosmjs/stargate'
 import { PublicAppInfo } from './proto/misestm/v1beta1/AppInfo'
 import { PublicUserInfo } from './proto/misestm/v1beta1/UserInfo'
+import { AllowedMsgAllowance, BasicAllowance } from './proto/cosmos/feegrant/v1beta1/feegrant'
+
 import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing'
 import Long from 'long'
 import { LCDConnection } from './lcd'
@@ -103,6 +105,40 @@ export class MApp {
         pkeyDid: userMisesID + '#key0',
         pkeyType: 'EcdsaSecp256k1VerificationKey2019',
         pkeyMultibase: userPubKeyMultibase
+      }
+    }
+    return lcd.broadcast(msg, wallet)
+  }
+
+  public async grantFeeForUser(
+    appPriKey: string,
+    userMisesID: string
+  ): Promise<BroadcastTxResponse> {
+    const priKey = fromHex(appPriKey)
+    const wallet = await DirectSecp256k1Wallet.fromKey(priKey, this._config.prefix())
+    const lcd = this.makeLCDConnection()
+    const basicAllowance = BasicAllowance.fromPartial({
+      spendLimit: [
+        {
+          denom: 'umis',
+          amount: '10000'
+        }
+      ],
+      expiration: undefined
+    })
+    const allowance = AllowedMsgAllowance.fromPartial({
+      allowance: {
+        typeUrl: '/cosmos.feegrant.v1beta1.FeeAllowanceI',
+        value: Uint8Array.from(BasicAllowance.encode(basicAllowance).finish())
+      },
+      allowedMessages: []
+    })
+    const msg = {
+      typeUrl: '/cosmos.feegrant.v1beta1.MsgGrantAllowance',
+      value: {
+        granter: this._address,
+        grantee: userMisesID.replace('did:mises:', ''),
+        allowance: allowance
       }
     }
     return lcd.broadcast(msg, wallet)

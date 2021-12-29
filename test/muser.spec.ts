@@ -1,6 +1,6 @@
 /* eslint-disable */
 import MSdk from '../src/mises-js-sdk'
-import { MUser } from '../src/muser'
+import { MUser, MUserInfo } from '../src/muser'
 import { MisesConfig } from '../src/mises'
 import { Random } from '@cosmjs/crypto'
 import { toHex } from '@cosmjs/encoding'
@@ -8,10 +8,10 @@ import { BroadcastTxSuccess } from '@cosmjs/stargate'
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 import {
   testUserID1,
-  testUserPubKeyBase58,
+  testUserPubKeyMultiBase,
   testPkey1,
   testAppID,
-  testAppPubKeyBase58,
+  testAppPubKeyMultiBase,
   testAppPkey,
   startMock,
   mockTM,
@@ -53,9 +53,9 @@ describe('MUser test', () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
     const umgr = sdk.userMgr()
     const user = await umgr.activateUser(testPkey1)
-    expect(user.pubkeyMultibase()).toEqual(testUserPubKeyBase58)
+    expect(user.pubkeyMultibase()).toEqual(testUserPubKeyMultiBase)
     const app = await umgr.activateUser(testAppPkey)
-    expect(app.pubkeyMultibase()).toEqual(testAppPubKeyBase58)
+    expect(app.pubkeyMultibase()).toEqual(testAppPubKeyMultiBase)
   })
 
   it('test generateAuth', async () => {
@@ -111,20 +111,31 @@ describe('MUser test', () => {
   })
 
   it('test user info ', async () => {
-    const sdk = await MSdk.newSdk(new MisesConfig())
+    const sdk = MSdk.newSdk(new MisesConfig())
     const umgr = sdk.userMgr()
+    const amgr = sdk.appMgr()
     const user = await umgr.activateUser(toHex(Random.getBytes(32)))
     const did = user.misesID()
-    mockTM(mockRestQueryUserResponse('mockName'))
-    const info = await user.info()
-    expect(info.name).toEqual('mockName')
+    mockTM(mockRestQueryAppResponse('mock.site'))
+    const app = await amgr.ensureApp(testAppID, 'mock.site')
+    mockTM(mockQueryAccountResponse())
+    await app.registerUser(testAppPkey, user.misesID(), user.pubkeyMultibase())
+
+    mockTM(mockRestQueryAppResponse('mock.site'))
+    await sdk.connect('mock.site', testAppID, user.misesID(), [])
 
     mockTM(mockQueryAccountResponse())
 
-    info.intro = 'mock intro'
-    const resp = await user.setInfo(info)
+    let newinfo = new MUserInfo(undefined)
+    newinfo.intro = 'mock intro'
+    newinfo.name = 'mockName'
+    const resp = await user.setInfo(newinfo)
     expect(resp.height).toBeGreaterThan(0)
-  })
+
+    mockTM(mockRestQueryUserResponse('mockName'))
+    const info = await user.info()
+    expect(info.name).toEqual('mockName')
+  }, 10000)
 
   it('test user follow ', async () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
