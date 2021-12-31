@@ -96,8 +96,8 @@ describe('MUser test', () => {
     const registed = await user.isRegistered()
     expect(registed).toBeFalsy()
 
-    mockTM(mockRestQueryAppResponse('mock.site'))
-    const app = await amgr.ensureApp(testAppID, 'mock.site')
+    mockTM(mockRestQueryAppResponse('mises.site'))
+    const app = await amgr.ensureApp(testAppID, 'mises.site')
 
     mockTM(mockQueryAccountResponse())
 
@@ -116,20 +116,47 @@ describe('MUser test', () => {
     const amgr = sdk.appMgr()
     const user = await umgr.activateUser(toHex(Random.getBytes(32)))
     const did = user.misesID()
-    mockTM(mockRestQueryAppResponse('mock.site'))
-    const app = await amgr.ensureApp(testAppID, 'mock.site')
+    mockTM(mockRestQueryAppResponse('mises.site'))
+    const app = await amgr.ensureApp(testAppID, 'mises.site')
     mockTM(mockQueryAccountResponse())
     await app.registerUser(testAppPkey, user.misesID(), user.pubkeyMultibase())
 
-    mockTM(mockRestQueryAppResponse('mock.site'))
-    await sdk.connect('mock.site', testAppID, user.misesID(), [])
+    mockTM(mockRestQueryAppResponse('mises.site'))
+    await sdk.connect('mises.site', testAppID, user.misesID(), [])
 
     mockTM(mockQueryAccountResponse())
 
-    let newinfo = new MUserInfo(undefined)
+    let newinfo = new MUserInfo(undefined, Long.fromNumber(0))
     newinfo.intro = 'mock intro'
     newinfo.name = 'mockName'
     const resp = await user.setInfo(newinfo)
+    expect(resp.height).toBeGreaterThan(0)
+
+    mockTM(mockRestQueryUserResponse('mockName'))
+    const info = await user.info()
+    expect(info.name).toEqual('mockName')
+  }, 10000)
+
+  it('test gas', async () => {
+    const sdk = MSdk.newSdk(new MisesConfig())
+    const umgr = sdk.userMgr()
+    const amgr = sdk.appMgr()
+    mockTM(mockRestQueryAppResponse('mises.site'))
+    const app = await amgr.ensureApp(testAppID, 'mises.site')
+    const user = await umgr.activateUser(
+      '2c7d8a44d2f8a0cfae8ee44db8ead906f121a064960cebc7a7751ed46284528d'
+    )
+
+    await sdk.connect('mises.site', testAppID, user.misesID(), [])
+
+    mockTM(mockRestQueryUserResponse('mockName'))
+    let newinfo = await user.info()
+    newinfo.intro = 'mock intro'
+    newinfo.name = 'mockName'
+    newinfo.version = Long.fromNumber(newinfo.version.toNumber() + 1)
+    mockTM(mockQueryAccountResponse())
+    const resp = await user.setInfo(newinfo)
+    console.log(resp)
     expect(resp.height).toBeGreaterThan(0)
 
     mockTM(mockRestQueryUserResponse('mockName'))

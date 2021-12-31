@@ -24,8 +24,8 @@ describe('MApp test', () => {
     const amgr = sdk.appMgr()
     expect(amgr.findApp(testAppID)).toBeUndefined()
 
-    mockTM(mockRestQueryAppResponse('mock.site'))
-    const app = await amgr.ensureApp(testAppID, 'mock.site')
+    mockTM(mockRestQueryAppResponse('mises.site'))
+    const app = await amgr.ensureApp(testAppID, 'mises.site')
     expect(app.misesID()).toEqual(testAppID)
     expect(amgr.findApp(testAppID)).toBeInstanceOf(MApp)
   })
@@ -35,10 +35,10 @@ describe('MApp test', () => {
     const amgr = sdk.appMgr()
     expect(amgr.findApp(testAppID)).toBeUndefined()
 
-    mockTM(mockRestQueryAppResponse('mock.site'))
-    const app = await amgr.ensureApp(testAppID, 'mock.site')
+    mockTM(mockRestQueryAppResponse('mises.site'))
+    const app = await amgr.ensureApp(testAppID, 'mises.site')
     mockTM(new Uint8Array())
-    const app1 = await amgr.ensureApp(testAppID, 'mock.site')
+    const app1 = await amgr.ensureApp(testAppID, 'mises.site')
     expect(app1.misesID()).toEqual(testAppID)
     expect(app1.address()).toBeDefined()
 
@@ -52,9 +52,9 @@ describe('MApp test', () => {
     const amgr = sdk.appMgr()
     expect(amgr.findApp(testAppID)).toBeUndefined()
 
-    mockTM(mockRestQueryAppResponse('mock.site'))
-    const app = await amgr.ensureApp(testAppID, 'mock.site')
+    mockTM(mockRestQueryAppResponse('mises.site'))
+    const app = await amgr.ensureApp(testAppID, 'mises.site')
     const app_info = await app.info()
-    expect(app_info.domains).toEqual(['mock.site'])
+    expect(app_info.domains).toEqual(['mises.site'])
   })
 })

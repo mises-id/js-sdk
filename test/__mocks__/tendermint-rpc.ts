@@ -17,6 +17,7 @@ import {
 import { QueryAccountResponse } from 'cosmjs-types/cosmos/auth/v1beta1/query'
 import { QueryBalanceResponse } from 'cosmjs-types/cosmos/bank/v1beta1/query'
 import { Any } from 'cosmjs-types/google/protobuf/any'
+import Long from 'long'
 
 export const testUserID1 = 'did:mises:mises1y53kz80x5gm2w0ype8x7a3w6sstztxxg7qkl5n'
 export const testPkey1 = '37eb367cc6c16099efde2f552230fa3b04c4f3aa7b47837c4b7dccaa5a9b190d'
@@ -60,7 +61,8 @@ export function mockRestQueryAppResponse(domain: string): Uint8Array {
     pubInfo: {
       name: 'mock app name',
       domains: [domain]
-    }
+    },
+    version: Long.fromNumber(0)
   })
 
   return RestQueryAppResponse.encode(resp).finish()
@@ -70,7 +72,8 @@ export function mockRestQueryUserResponse(name: string): Uint8Array {
   const resp = RestQueryUserResponse.fromPartial({
     pubInfo: {
       name: name
-    }
+    },
+    version: Long.fromNumber(0)
   })
 
   return RestQueryUserResponse.encode(resp).finish()

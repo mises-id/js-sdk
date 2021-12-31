@@ -17,6 +17,9 @@ import {
   RestQueryDidRequest,
   RestQueryDidResponse
 } from './proto/misestm/v1beta1/rest_query'
+
+import { MsgUpdateUserInfo } from './proto/misestm/v1beta1/tx'
+
 import { LCDConnection } from './lcd'
 
 import { MisesConfig } from './mises'
@@ -32,7 +35,8 @@ export class MUserInfo {
   emails: string[] | undefined
   telephones: string[] | undefined
   intro: string | undefined
-  constructor(info: PublicUserInfo | undefined) {
+  version: Long
+  constructor(info: PublicUserInfo | undefined, version: Long) {
     if (info) {
       this.name = info.name
       this.gender = info.gender
@@ -42,6 +46,7 @@ export class MUserInfo {
       this.telephones = info.telephones
       this.intro = info.intro
     }
+    this.version = version
   }
 }
 
@@ -89,13 +94,10 @@ export class MUser {
     const requestData = Uint8Array.from(
       RestQueryUserRequest.encode({ misesUid: this.misesID() }).finish()
     )
-    const respData = await lcd.query(
-      `/misesid.misestm.v1beta1.RestQuery/QueryUserRelation`,
-      requestData
-    )
+    const respData = await lcd.query(`/misesid.misestm.v1beta1.RestQuery/QueryUser`, requestData)
     const response = RestQueryUserResponse.decode(respData)
 
-    return new MUserInfo(response.pubInfo)
+    return new MUserInfo(response.pubInfo, response.version)
   }
   public setInfo(info: MUserInfo): Promise<BroadcastTxResponse> {
     const lcd = this.makeLCDConnection()
@@ -103,11 +105,13 @@ export class MUser {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserInfo',
       value: {
         creator: this._address,
-        id: '-1',
         uid: this.misesID(),
-        pub_data: info,
-        enc_data: '',
-        iv: ''
+        pubInfo: info,
+        priInfo: {
+          encData: '',
+          iv: ''
+        },
+        version: info.version
       }
     }
     return lcd.broadcast(msg, this._wallet)
@@ -138,8 +142,8 @@ export class MUser {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
       value: {
         creator: this._address,
-        uid_from: this.misesID(),
-        uid_to: followingId,
+        uidFrom: this.misesID(),
+        uidTo: followingId,
         isFollowing: true
       }
     }
@@ -151,8 +155,8 @@ export class MUser {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
       value: {
         creator: this._address,
-        uid_from: this.misesID(),
-        uid_to: unfollowingId,
+        uidFrom: this.misesID(),
+        uidTo: unfollowingId,
         isFollowing: false
       }
     }

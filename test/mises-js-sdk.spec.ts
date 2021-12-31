@@ -44,7 +44,7 @@ describe('MSdk test', () => {
   it('connect', async () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
     expect(sdk).toBeInstanceOf(MSdk)
-    expect(await sdk.connect('mock.site', testAppID, testUserID1, [])).toEqual('') // no user
+    expect(await sdk.connect('mises.site', testAppID, testUserID1, [])).toEqual('') // no user
 
     const umgr = sdk.userMgr()
 
@@ -53,13 +53,13 @@ describe('MSdk test', () => {
     const user = await umgr.activateUser(testPkey1)
     expect(user.misesID()).toEqual(testUserID1)
 
-    mockTM(mockRestQueryAppResponse('mock.site'))
-    expect(await sdk.connect('mock.site', testAppID, testUserID1, [])).toEqual(testUserID1)
+    mockTM(mockRestQueryAppResponse('mises.site'))
+    expect(await sdk.connect('mises.site', testAppID, testUserID1, [])).toEqual(testUserID1)
 
     expect(sdk.connectedApps(testUserID1)).toEqual([testAppID])
     expect(sdk.connectedUsers(testAppID)).toEqual([testUserID1])
 
-    expect(await sdk.connect('mock.site', testAppID, testUserID1, [])).toEqual(testUserID1)
+    expect(await sdk.connect('mises.site', testAppID, testUserID1, [])).toEqual(testUserID1)
     expect(sdk.connectedApps(testUserID1)).toEqual([testAppID])
     expect(sdk.connectedUsers(testAppID)).toEqual([testUserID1])
 

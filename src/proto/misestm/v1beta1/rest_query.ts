@@ -24,6 +24,7 @@ export interface RestQueryUserRequest {
 export interface RestQueryUserResponse {
   pubInfo?: PublicUserInfo
   priInfo?: PrivateUserInfo
+  version: Long
 }
 
 export interface RestQueryUserRelationRequest {
@@ -47,6 +48,7 @@ export interface RestQueryAppRequest {
 
 export interface RestQueryAppResponse {
   pubInfo?: PublicAppInfo
+  version: Long
 }
 
 export interface RestQueryAppFeeGrantRequest {
@@ -216,7 +218,7 @@ export const RestQueryUserRequest = {
   }
 }
 
-const baseRestQueryUserResponse: object = {}
+const baseRestQueryUserResponse: object = { version: Long.UZERO }
 
 export const RestQueryUserResponse = {
   encode(message: RestQueryUserResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
@@ -225,6 +227,9 @@ export const RestQueryUserResponse = {
     }
     if (message.priInfo !== undefined) {
       PrivateUserInfo.encode(message.priInfo, writer.uint32(18).fork()).ldelim()
+    }
+    if (!message.version.isZero()) {
+      writer.uint32(24).uint64(message.version)
     }
     return writer
   },
@@ -241,6 +246,9 @@ export const RestQueryUserResponse = {
           break
         case 2:
           message.priInfo = PrivateUserInfo.decode(reader, reader.uint32())
+          break
+        case 3:
+          message.version = reader.uint64() as Long
           break
         default:
           reader.skipType(tag & 7)
@@ -262,6 +270,11 @@ export const RestQueryUserResponse = {
     } else {
       message.priInfo = undefined
     }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -271,6 +284,7 @@ export const RestQueryUserResponse = {
       (obj.pubInfo = message.pubInfo ? PublicUserInfo.toJSON(message.pubInfo) : undefined)
     message.priInfo !== undefined &&
       (obj.priInfo = message.priInfo ? PrivateUserInfo.toJSON(message.priInfo) : undefined)
+    message.version !== undefined && (obj.version = (message.version || Long.UZERO).toString())
     return obj
   },
 
@@ -285,6 +299,11 @@ export const RestQueryUserResponse = {
       message.priInfo = PrivateUserInfo.fromPartial(object.priInfo)
     } else {
       message.priInfo = undefined
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
     }
     return message
   }
@@ -572,12 +591,15 @@ export const RestQueryAppRequest = {
   }
 }
 
-const baseRestQueryAppResponse: object = {}
+const baseRestQueryAppResponse: object = { version: Long.UZERO }
 
 export const RestQueryAppResponse = {
   encode(message: RestQueryAppResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.pubInfo !== undefined) {
       PublicAppInfo.encode(message.pubInfo, writer.uint32(10).fork()).ldelim()
+    }
+    if (!message.version.isZero()) {
+      writer.uint32(16).uint64(message.version)
     }
     return writer
   },
@@ -591,6 +613,9 @@ export const RestQueryAppResponse = {
       switch (tag >>> 3) {
         case 1:
           message.pubInfo = PublicAppInfo.decode(reader, reader.uint32())
+          break
+        case 2:
+          message.version = reader.uint64() as Long
           break
         default:
           reader.skipType(tag & 7)
@@ -607,6 +632,11 @@ export const RestQueryAppResponse = {
     } else {
       message.pubInfo = undefined
     }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = Long.fromString(object.version)
+    } else {
+      message.version = Long.UZERO
+    }
     return message
   },
 
@@ -614,6 +644,7 @@ export const RestQueryAppResponse = {
     const obj: any = {}
     message.pubInfo !== undefined &&
       (obj.pubInfo = message.pubInfo ? PublicAppInfo.toJSON(message.pubInfo) : undefined)
+    message.version !== undefined && (obj.version = (message.version || Long.UZERO).toString())
     return obj
   },
 
@@ -623,6 +654,11 @@ export const RestQueryAppResponse = {
       message.pubInfo = PublicAppInfo.fromPartial(object.pubInfo)
     } else {
       message.pubInfo = undefined
+    }
+    if (object.version !== undefined && object.version !== null) {
+      message.version = object.version as Long
+    } else {
+      message.version = Long.UZERO
     }
     return message
   }
