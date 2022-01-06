@@ -30,25 +30,29 @@ function precisionRound(n: number, p: number): number {
 }
 
 export class MisesCoin {
-  public static toCoinUMIS(umis: Long): Coin {
+  public async load(): Promise<void> {
+    return
+  }
+
+  public toCoinUMIS(umis: Long): Coin {
     return coin(umis.toNumber(), 'umis')
   }
 
-  public static toCoinMMIS(umis: Long): Coin {
+  public toCoinMMIS(umis: Long): Coin {
     return {
       amount: precisionRound(umis.toNumber() / 1000, 3).toString(),
       denom: 'mmis'
     }
   }
 
-  public static toCoinMIS(umis: Long): Coin {
+  public toCoinMIS(umis: Long): Coin {
     return {
       amount: precisionRound(umis.toNumber() / 1000000, 6).toString(),
       denom: 'mis'
     }
   }
 
-  public static fromCoin(coin: Coin): Long {
+  public fromCoin(coin: Coin): Long {
     let res: number = Number.parseFloat(coin.amount)
     if (coin.denom.toLowerCase() === 'mis') {
       res = res * 1000000

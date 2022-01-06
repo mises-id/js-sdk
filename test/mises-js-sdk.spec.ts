@@ -70,24 +70,26 @@ describe('MSdk test', () => {
   })
 
   it('coin test', async () => {
-    const umis = MisesCoin.toCoinUMIS(Long.fromValue(100001))
+    const coinDef = await MSdk.newCoinDefine()
+    await coinDef.load()
+    const umis = coinDef.toCoinUMIS(Long.fromValue(100001))
     expect(umis.denom).toEqual('umis')
     expect(umis.amount).toEqual('100001')
-    const mmis = MisesCoin.toCoinMMIS(Long.fromValue(100001))
+    const mmis = coinDef.toCoinMMIS(Long.fromValue(100001))
     expect(mmis.denom).toEqual('mmis')
     expect(mmis.amount).toEqual('100.001')
 
-    const mis = MisesCoin.toCoinMIS(Long.fromValue(100001))
+    const mis = coinDef.toCoinMIS(Long.fromValue(100001))
     expect(mis.denom).toEqual('mis')
     expect(mis.amount).toEqual('0.100001')
 
-    const umisLong = MisesCoin.fromCoin(mis)
+    const umisLong = coinDef.fromCoin(mis)
     expect(umisLong.toString()).toEqual('100001')
 
-    const mmisLong = MisesCoin.fromCoin(mmis)
+    const mmisLong = coinDef.fromCoin(mmis)
     expect(mmisLong.toString()).toEqual('100001')
 
-    const misLong = MisesCoin.fromCoin(mis)
+    const misLong = coinDef.fromCoin(mis)
     expect(misLong.toString()).toEqual('100001')
   })
 })

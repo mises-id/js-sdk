@@ -1,6 +1,6 @@
 {
   "name": "mises-js-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "keywords": [],
   "main": "dist/mises-js-sdk.umd.js",
@@ -30,6 +30,7 @@
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
+    "release": "yarn lint && yarn build && yarn publish",
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "travis-deploy-once": "travis-deploy-once",
