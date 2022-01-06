@@ -1,6 +1,6 @@
 {
   "name": "mises-js-sdk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "keywords": [],
   "main": "dist/mises-js-sdk.umd.js",
@@ -19,7 +19,7 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "docs": "typedoc --options typedoc.js src/mises-js-sdk.ts",
+    "docs": "typedoc --options typedoc.js src/*.ts",
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts",

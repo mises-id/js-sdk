@@ -196,7 +196,7 @@ describe('MUser test', () => {
     const user = await umgr.activateUser(toHex(Random.getBytes(32)))
     const did = user.misesID()
     mockTM(mockQueryBalanceResponse(Long.fromValue(1)))
-    const balance = await user.getBalance()
+    const balance = await user.getBalanceUMIS()
     expect(balance).toEqual(Long.fromValue(1))
   })
 

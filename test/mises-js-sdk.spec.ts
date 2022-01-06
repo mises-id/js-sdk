@@ -10,7 +10,8 @@ import {
   mockRestQueryAppResponse,
   mockQueryAccountResponse
 } from './__mocks__/tendermint-rpc'
-import { MisesConfig } from '../src/mises'
+import { MisesCoin, MisesConfig } from '../src/mises'
+import Long from 'long'
 
 /**
  * MSdk test
@@ -66,5 +67,27 @@ describe('MSdk test', () => {
     expect(sdk.disconnect(testAppID, testUserID1)).toBeTruthy()
     expect(sdk.connectedApps(testUserID1)).toEqual([])
     expect(sdk.connectedUsers(testAppID)).toEqual([])
+  })
+
+  it('coin test', async () => {
+    const umis = MisesCoin.toCoinUMIS(Long.fromValue(100001))
+    expect(umis.denom).toEqual('umis')
+    expect(umis.amount).toEqual('100001')
+    const mmis = MisesCoin.toCoinMMIS(Long.fromValue(100001))
+    expect(mmis.denom).toEqual('mmis')
+    expect(mmis.amount).toEqual('100.001')
+
+    const mis = MisesCoin.toCoinMIS(Long.fromValue(100001))
+    expect(mis.denom).toEqual('mis')
+    expect(mis.amount).toEqual('0.100001')
+
+    const umisLong = MisesCoin.fromCoin(mis)
+    expect(umisLong.toString()).toEqual('100001')
+
+    const mmisLong = MisesCoin.fromCoin(mmis)
+    expect(mmisLong.toString()).toEqual('100001')
+
+    const misLong = MisesCoin.fromCoin(mis)
+    expect(misLong.toString()).toEqual('100001')
   })
 })

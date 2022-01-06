@@ -212,7 +212,7 @@ export class MUser {
     return signMsg + '&sig=' + sig + '&pubkey=' + toHex(this._pubkey)
   }
 
-  public async getBalance(): Promise<Long> {
+  public async getBalanceUMIS(): Promise<Long> {
     const lcd = this.makeLCDConnection()
     const stargate = await lcd.stargate()
     const coin = await stargate.getBalance(this._address, this._config.denom())
