@@ -3,7 +3,7 @@
 // ...
 import { fromHex, toHex } from '@cosmjs/encoding'
 import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing'
-import { BroadcastTxResponse } from '@cosmjs/stargate'
+import { BroadcastTxResponse, IndexedTx, SearchBySentFromOrToQuery } from '@cosmjs/stargate'
 import { sha256, Secp256k1 } from '@cosmjs/crypto'
 import * as multiformats from 'multiformats/bases/base58'
 
@@ -30,8 +30,8 @@ import Long from 'long'
 export class MUserInfo {
   name: string | undefined
   gender: string | undefined
-  avatarURL: string | undefined
-  homePageURL: string | undefined
+  avatarUrl: string | undefined
+  homePageUrl: string | undefined
   emails: string[] | undefined
   telephones: string[] | undefined
   intro: string | undefined
@@ -40,8 +40,8 @@ export class MUserInfo {
     if (info) {
       this.name = info.name
       this.gender = info.gender
-      this.avatarURL = info.avatarUrl
-      this.homePageURL = info.homePageUrl
+      this.avatarUrl = info.avatarUrl
+      this.homePageUrl = info.homePageUrl
       this.emails = info.emails
       this.telephones = info.telephones
       this.intro = info.intro
@@ -71,9 +71,9 @@ export class MUser {
     this._pubkey = pubkey
     this._config = config
   }
-  private makeLCDConnection(): LCDConnection {
+  private makeLCDConnection(withFeeGrantor: boolean): LCDConnection {
     const conn = new LCDConnection(this._config.lcdEndpoint())
-    if (this._connectedApps.length > 0) {
+    if (this._connectedApps.length > 0 && withFeeGrantor) {
       conn.setFeeGrantor(this._connectedApps[0].replace('did:misesapp:', ''))
     }
     return conn
@@ -90,7 +90,7 @@ export class MUser {
   }
 
   public async info(): Promise<MUserInfo> {
-    const lcd = this.makeLCDConnection()
+    const lcd = this.makeLCDConnection(false)
     const requestData = Uint8Array.from(
       RestQueryUserRequest.encode({ misesUid: this.misesID() }).finish()
     )
@@ -100,7 +100,7 @@ export class MUser {
     return new MUserInfo(response.pubInfo, response.version)
   }
   public setInfo(info: MUserInfo): Promise<BroadcastTxResponse> {
-    const lcd = this.makeLCDConnection()
+    const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserInfo',
       value: {
@@ -117,7 +117,7 @@ export class MUser {
     return lcd.broadcast(msg, this._wallet)
   }
   public async getFollowing(): Promise<string[]> {
-    const lcd = this.makeLCDConnection()
+    const lcd = this.makeLCDConnection(false)
     const requestData = Uint8Array.from(
       RestQueryUserRelationRequest.encode({
         misesUid: this.misesID(),
@@ -137,7 +137,7 @@ export class MUser {
     return ids
   }
   public follow(followingId: string): Promise<BroadcastTxResponse> {
-    const lcd = this.makeLCDConnection()
+    const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
       value: {
@@ -150,7 +150,7 @@ export class MUser {
     return lcd.broadcast(msg, this._wallet)
   }
   public unfollow(unfollowingId: string): Promise<BroadcastTxResponse> {
-    const lcd = this.makeLCDConnection()
+    const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
       value: {
@@ -163,7 +163,7 @@ export class MUser {
     return lcd.broadcast(msg, this._wallet)
   }
   public async isRegistered(): Promise<boolean> {
-    const lcd = this.makeLCDConnection()
+    const lcd = this.makeLCDConnection(false)
     const requestData = Uint8Array.from(
       RestQueryDidRequest.encode({
         misesId: this.misesID()
@@ -213,13 +213,13 @@ export class MUser {
   }
 
   public async getBalanceUMIS(): Promise<Long> {
-    const lcd = this.makeLCDConnection()
+    const lcd = this.makeLCDConnection(false)
     const stargate = await lcd.stargate()
     const coin = await stargate.getBalance(this._address, this._config.denom())
     return Long.fromString(coin.amount)
   }
   public async sendUMIS(toMisesUID: string, amount: Long): Promise<BroadcastTxResponse> {
-    const lcd = this.makeLCDConnection()
+    const lcd = this.makeLCDConnection(true)
     const coin = Coin.fromPartial({
       denom: this._config.denom(),
       amount: amount.toString()
@@ -233,6 +233,11 @@ export class MUser {
       }
     }
     return lcd.broadcast(msg, this._wallet)
+  }
+  public async recentTransactions(): Promise<readonly IndexedTx[]> {
+    const lcd = this.makeLCDConnection(false)
+    const stargate = await lcd.stargate()
+    return stargate.searchTx({ sentFromOrTo: this._address })
   }
 }
 export class MUserMgr {
@@ -256,6 +261,12 @@ export class MUserMgr {
   }
 
   public async activateUser(priKeyHex: string): Promise<MUser> {
+    const user = await this.getUser(priKeyHex)
+    this._activeUid = user.misesID()
+    return user
+  }
+
+  public async getUser(priKeyHex: string): Promise<MUser> {
     const priKey = fromHex(priKeyHex)
     const wallet = await DirectSecp256k1Wallet.fromKey(priKey, this._config.prefix())
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
@@ -263,12 +274,10 @@ export class MUserMgr {
     const newUser = new MUser(wallet, address, priKey, pubkeyBytes, this._config)
     const oldUser = this.findUser(newUser.misesID())
     if (oldUser) {
-      this._activeUid = oldUser.misesID()
       return oldUser
     }
     const uid = newUser.misesID()
     this._users.set(uid, newUser)
-    this._activeUid = uid
     return newUser
   }
 

@@ -208,5 +208,8 @@ describe('MUser test', () => {
     mockTM(mockQueryAccountResponse())
     const resp1 = await user.sendUMIS(testUserID1, Long.fromString('1'))
     expect(resp1.height).toBeGreaterThan(0)
+
+    const resp2 = await user.recentTransactions()
+    expect(resp2.length).toBeGreaterThan(0)
   })
 })
