@@ -20,12 +20,34 @@ import {
   mockRestQueryUserResponse,
   mockRestQueryUserRelationResponse,
   mockQueryBalanceResponse,
-  mockRestQueryAppResponse
+  mockRestQueryAppResponse,
+  mockEnabled
 } from './__mocks__/tendermint-rpc'
 import Long from 'long'
 /**
  * MSdk test
  */
+
+async function randomUser(sdk: MSdk): Promise<MUser> {
+  const umgr = sdk.userMgr()
+  const amgr = sdk.appMgr()
+  const user = await umgr.activateUser(toHex(Random.getBytes(32)))
+  mockTM(mockRestQueryAppResponse('mises.site'))
+  const app = await amgr.ensureApp(testAppID, 'mises.site')
+  if (mockEnabled) {
+    await sdk.connect('mises.site', testAppID, user.misesID(), [])
+  } else {
+    await app.registerUser(testAppPkey, user.misesID(), user.pubkeyMultibase())
+
+    await app.registerUser(testAppPkey, testUserID1, testUserPubKeyMultiBase)
+
+    const appuser = await umgr.getUser(testAppPkey)
+
+    await appuser.sendUMIS(user.misesID(), Long.fromInt(10000))
+  }
+
+  return user
+}
 describe('MUser test', () => {
   startMock()
   it('test activate user', async () => {
@@ -108,25 +130,18 @@ describe('MUser test', () => {
     mockTM(mockRestQueryDidResponse(did))
     const registed1 = await user.isRegistered()
     expect(registed1).toBeTruthy()
-  })
+  }, 20000)
 
   it('test user info ', async () => {
     const sdk = MSdk.newSdk(new MisesConfig())
-    const umgr = sdk.userMgr()
-    const amgr = sdk.appMgr()
-    const user = await umgr.activateUser(toHex(Random.getBytes(32)))
-    const did = user.misesID()
-    mockTM(mockRestQueryAppResponse('mises.site'))
-    const app = await amgr.ensureApp(testAppID, 'mises.site')
-    mockTM(mockQueryAccountResponse())
-    await app.registerUser(testAppPkey, user.misesID(), user.pubkeyMultibase())
+    const user = await randomUser(sdk)
 
-    mockTM(mockRestQueryAppResponse('mises.site'))
-    await sdk.connect('mises.site', testAppID, user.misesID(), [])
+    // mockTM(mockRestQueryAppResponse('mises.site'))
+    // await sdk.connect('mises.site', testAppID, user.misesID(), [])
 
     mockTM(mockQueryAccountResponse())
 
-    let newinfo = new MUserInfo(undefined, Long.fromNumber(0))
+    let newinfo = new MUserInfo(undefined, Long.fromNumber(1))
     newinfo.intro = 'mock intro'
     newinfo.name = 'mockName'
     const resp = await user.setInfo(newinfo)
@@ -135,7 +150,7 @@ describe('MUser test', () => {
     mockTM(mockRestQueryUserResponse('mockName'))
     const info = await user.info()
     expect(info.name).toEqual('mockName')
-  }, 10000)
+  }, 60000)
 
   it('test gas', async () => {
     const sdk = MSdk.newSdk(new MisesConfig())
@@ -164,46 +179,74 @@ describe('MUser test', () => {
     expect(info.name).toEqual('mockName')
   }, 10000)
 
-  it('test user follow ', async () => {
+  it('test user follow unfollow', async () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
-    const umgr = sdk.userMgr()
-    const user = await umgr.activateUser(toHex(Random.getBytes(32)))
-    mockTM(mockRestQueryUserRelationResponse())
-    const followings = await user.getFollowing()
-    expect(followings).toEqual([testUserID1])
+    const user = await randomUser(sdk)
+
+    mockTM(mockRestQueryUserRelationResponse(undefined))
+    const followings_empty = await user.getFollowing()
+    expect(followings_empty).toEqual([])
 
     mockTM(mockQueryAccountResponse())
     const resp = await user.follow(testUserID1)
     expect(resp.height).toBeGreaterThan(0)
-  })
+    console.log(resp)
 
-  it('test user unfollow ', async () => {
-    const sdk = await MSdk.newSdk(new MisesConfig())
-    const umgr = sdk.userMgr()
-    const user = await umgr.activateUser(toHex(Random.getBytes(32)))
-    mockTM(mockRestQueryUserRelationResponse())
+    mockTM(mockRestQueryUserRelationResponse(testUserID1))
     const followings = await user.getFollowing()
     expect(followings).toEqual([testUserID1])
 
     mockTM(mockQueryAccountResponse())
     const resp1 = await user.unfollow(testUserID1)
     expect(resp1.height).toBeGreaterThan(0)
-  })
+
+    mockTM(mockRestQueryUserRelationResponse(undefined))
+    const followings_empty1 = await user.getFollowing()
+    expect(followings_empty1).toEqual([])
+  }, 60000)
+
+  it('test user block unblock', async () => {
+    const sdk = await MSdk.newSdk(new MisesConfig())
+    const user = await randomUser(sdk)
+
+    mockTM(mockRestQueryUserRelationResponse(undefined))
+    const followings_empty = await user.getFollowing()
+    expect(followings_empty).toEqual([])
+
+    mockTM(mockQueryAccountResponse())
+    const resp = await user.follow(testUserID1)
+    expect(resp.height).toBeGreaterThan(0)
+    console.log(resp)
+
+    mockTM(mockRestQueryUserRelationResponse(testUserID1))
+    const followings = await user.getFollowing()
+    expect(followings).toEqual([testUserID1])
+
+    mockTM(mockQueryAccountResponse())
+    const resp1 = await user.block(testUserID1)
+    expect(resp1.height).toBeGreaterThan(0)
+
+    mockTM(mockRestQueryUserRelationResponse(undefined))
+    const followings_empty1 = await user.getFollowing()
+    expect(followings_empty1).toEqual([])
+
+    mockTM(mockQueryAccountResponse())
+    const resp2 = await user.unblock(testUserID1)
+    expect(resp2.height).toBeGreaterThan(0)
+  }, 60000)
 
   it('test user query balance ', async () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
-    const umgr = sdk.userMgr()
-    const user = await umgr.activateUser(toHex(Random.getBytes(32)))
+    const user = await randomUser(sdk)
     const did = user.misesID()
     mockTM(mockQueryBalanceResponse(Long.fromValue(1)))
     const balance = await user.getBalanceUMIS()
     expect(balance).toEqual(Long.fromValue(1))
-  })
+  }, 60000)
 
   it('test user transfer umis ', async () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
-    const umgr = sdk.userMgr()
-    const user = await umgr.activateUser(toHex(Random.getBytes(32)))
+    const user = await randomUser(sdk)
 
     mockTM(mockQueryAccountResponse())
     const resp1 = await user.sendUMIS(testUserID1, Long.fromString('1'))
@@ -211,5 +254,6 @@ describe('MUser test', () => {
 
     const resp2 = await user.recentTransactions()
     expect(resp2.length).toBeGreaterThan(0)
-  })
+    console.log(resp2)
+  }, 60000)
 })

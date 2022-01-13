@@ -121,8 +121,8 @@ export class MUser {
     const requestData = Uint8Array.from(
       RestQueryUserRelationRequest.encode({
         misesUid: this.misesID(),
-        filter: '',
-        pagination: lcd.createPagination(new Uint8Array())
+        filter: 'following',
+        pagination: lcd.createPagination()
       }).finish()
     )
     const respData = await lcd.query(
@@ -136,27 +136,58 @@ export class MUser {
     })
     return ids
   }
-  public follow(followingId: string): Promise<BroadcastTxResponse> {
+  public follow(toUid: string): Promise<BroadcastTxResponse> {
     const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
       value: {
         creator: this._address,
         uidFrom: this.misesID(),
-        uidTo: followingId,
-        isFollowing: true
+        uidTo: toUid,
+        isFollowing: true,
+        isBlocking: false
       }
     }
     return lcd.broadcast(msg, this._wallet)
   }
-  public unfollow(unfollowingId: string): Promise<BroadcastTxResponse> {
+  public unfollow(toUid: string): Promise<BroadcastTxResponse> {
     const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
       value: {
         creator: this._address,
         uidFrom: this.misesID(),
-        uidTo: unfollowingId,
+        uidTo: toUid,
+        isFollowing: false,
+        isBlocking: false
+      }
+    }
+    return lcd.broadcast(msg, this._wallet)
+  }
+
+  public block(toUid: string): Promise<BroadcastTxResponse> {
+    const lcd = this.makeLCDConnection(true)
+    const msg = {
+      typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
+      value: {
+        creator: this._address,
+        uidFrom: this.misesID(),
+        uidTo: toUid,
+        isFollowing: false,
+        isBlocking: true
+      }
+    }
+    return lcd.broadcast(msg, this._wallet)
+  }
+  public unblock(toUid: string): Promise<BroadcastTxResponse> {
+    const lcd = this.makeLCDConnection(true)
+    const msg = {
+      typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
+      value: {
+        creator: this._address,
+        uidFrom: this.misesID(),
+        uidTo: toUid,
+        isBlocking: false,
         isFollowing: false
       }
     }

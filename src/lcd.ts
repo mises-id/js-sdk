@@ -60,7 +60,7 @@ export class LCDConnection {
     return PageRequest.fromPartial({
       key: paginationKey,
       offset: Long.fromNumber(0, true),
-      limit: Long.fromNumber(0, true),
+      limit: Long.fromNumber(20, true),
       countTotal: false,
       reverse: false
     })

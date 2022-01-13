@@ -79,14 +79,21 @@ export function mockRestQueryUserResponse(name: string): Uint8Array {
   return RestQueryUserResponse.encode(resp).finish()
 }
 
-export function mockRestQueryUserRelationResponse(): Uint8Array {
-  const resp = RestQueryUserRelationResponse.fromPartial({
-    misesList: [
-      {
-        misesId: testUserID1
-      }
-    ]
-  })
+export function mockRestQueryUserRelationResponse(uid: string | undefined): Uint8Array {
+  var resp: RestQueryUserRelationResponse
+  if (!uid) {
+    resp = RestQueryUserRelationResponse.fromPartial({
+      misesList: []
+    })
+  } else {
+    resp = RestQueryUserRelationResponse.fromPartial({
+      misesList: [
+        {
+          misesId: uid
+        }
+      ]
+    })
+  }
 
   return RestQueryUserRelationResponse.encode(resp).finish()
 }
