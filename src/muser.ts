@@ -1,7 +1,7 @@
 // Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
 // import "core-js/fn/array.find"
 // ...
-import { fromHex, toHex } from '@cosmjs/encoding'
+import { fromHex, toHex, Bech32 } from '@cosmjs/encoding'
 import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing'
 import { BroadcastTxResponse, IndexedTx, SearchBySentFromOrToQuery } from '@cosmjs/stargate'
 import { sha256, Secp256k1 } from '@cosmjs/crypto'
@@ -278,6 +278,17 @@ export class MUserMgr {
 
   constructor(config: MisesConfig) {
     this._config = config
+  }
+  public verifyAddress(address: string): boolean {
+    try {
+      const { prefix, data } = Bech32.decode(address)
+      if (prefix !== 'mises') {
+        return false
+      }
+      return data.length === 20
+    } catch {
+      return false
+    }
   }
 
   public activeUser(): MUser | undefined {

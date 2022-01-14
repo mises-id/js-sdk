@@ -71,6 +71,13 @@ describe('MUser test', () => {
     expect(user1.misesID()).toEqual(testUserID1)
   })
 
+  it('test validate address', async () => {
+    const sdk = await MSdk.newSdk(new MisesConfig())
+    const umgr = sdk.userMgr()
+    expect(umgr.verifyAddress('asd')).toEqual(false)
+    expect(umgr.verifyAddress('mises1y53kz80x5gm2w0ype8x7a3w6sstztxxg7qkl5n')).toEqual(true)
+  })
+
   it('test pubkeyMultibase', async () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
     const umgr = sdk.userMgr()
