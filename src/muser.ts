@@ -250,7 +250,7 @@ export class MUser {
     return Long.fromString(coin.amount)
   }
   public async sendUMIS(toMisesUID: string, amount: Long): Promise<BroadcastTxResponse> {
-    const lcd = this.makeLCDConnection(true)
+    const lcd = this.makeLCDConnection(false)
     const coin = Coin.fromPartial({
       denom: this._config.denom(),
       amount: amount.toString()
