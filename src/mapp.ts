@@ -50,7 +50,7 @@ export class MApp {
   }
 
   private makeLCDConnection(): LCDConnection {
-    return new LCDConnection(this._config.lcdEndpoint())
+    return new LCDConnection(this._config)
   }
   public address(): string {
     return this._address
@@ -120,7 +120,7 @@ export class MApp {
     const basicAllowance = BasicAllowance.fromPartial({
       spendLimit: [
         {
-          denom: 'umis',
+          denom: this._config.denom(),
           amount: '10000'
         }
       ],

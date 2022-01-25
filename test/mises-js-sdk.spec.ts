@@ -92,4 +92,15 @@ describe('MSdk test', () => {
     const misLong = coinDef.fromCoin(mis)
     expect(misLong.toString()).toEqual('100001')
   })
+
+  it('gas test', async () => {
+    const config = new MisesConfig()
+    expect(config.feeLimit()).toEqual(2000)
+    expect(config.setGasPriceAndLimit(0, 0)).toEqual(false)
+    expect(config.setGasPriceAndLimit(0, 1)).toEqual(false)
+    expect(config.setGasPriceAndLimit(0, 1000)).toEqual(false)
+    expect(config.setGasPriceAndLimit(0, 4999)).toEqual(false)
+    expect(config.setGasPriceAndLimit(0, 10000)).toEqual(true)
+    expect(config.feeLimit()).toEqual(1)
+  })
 })

@@ -2,7 +2,7 @@
 // import "core-js/fn/array.find"
 // ...
 import { fromHex, toHex, Bech32 } from '@cosmjs/encoding'
-import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing'
+import { DirectSecp256k1Wallet, decodeTxRaw } from '@cosmjs/proto-signing'
 import { BroadcastTxResponse, IndexedTx, SearchBySentFromOrToQuery } from '@cosmjs/stargate'
 import { sha256, Secp256k1 } from '@cosmjs/crypto'
 import * as multiformats from 'multiformats/bases/base58'
@@ -72,7 +72,7 @@ export class MUser {
     this._config = config
   }
   private makeLCDConnection(withFeeGrantor: boolean): LCDConnection {
-    const conn = new LCDConnection(this._config.lcdEndpoint())
+    const conn = new LCDConnection(this._config)
     if (this._connectedApps.length > 0 && withFeeGrantor) {
       conn.setFeeGrantor(this._connectedApps[0].replace('did:misesapp:', ''))
     }

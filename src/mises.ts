@@ -4,9 +4,16 @@
 import { Coin, coin, coins, parseCoins } from '@cosmjs/proto-signing'
 import Long from 'long'
 
+function precisionRound(n: number, p: number): number {
+  let factor = Math.pow(10, p)
+  return Math.round(n * factor) / factor
+}
+
 export class MisesConfig {
   private _lcdEndpoint: string = 'http://127.0.0.1:26657'
   private _logLevel: number = 0
+  private _gasPrice: number = 0.01 // umis
+  private _gasLimit: number = 200000
   public setLCDEndpoint(endpoint: string): void {
     this._lcdEndpoint = endpoint
   }
@@ -22,11 +29,30 @@ export class MisesConfig {
   public denom(): string {
     return 'umis'
   }
-}
 
-function precisionRound(n: number, p: number): number {
-  let factor = Math.pow(10, p)
-  return Math.round(n * factor) / factor
+  public setGasPriceAndLimit(gp: number, limit: number): boolean {
+    if (gp < 0.0001) {
+      gp = 0.0001
+    }
+    gp = precisionRound(gp, 4)
+    limit = precisionRound(limit, 0)
+    if (precisionRound(gp * limit, 0) > 0) {
+      this._gasPrice = gp
+      this._gasLimit = limit
+      return true
+    }
+    return false
+  }
+
+  public gasPrice(): number {
+    return this._gasPrice
+  }
+  public feeLimit(): number {
+    return precisionRound(this._gasPrice * this._gasLimit, 0)
+  }
+  public gasLimit(): number {
+    return this._gasLimit
+  }
 }
 
 export class MisesCoin {

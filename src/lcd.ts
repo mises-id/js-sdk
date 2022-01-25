@@ -33,14 +33,14 @@ import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing'
 import { AuthInfo, SignDoc, SignerInfo, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import { Any } from 'cosmjs-types/google/protobuf/any'
 import Long from 'long'
+import { MisesConfig } from './mises'
 
 export class LCDConnection {
-  private _lcdEndpoint: string
+  private _config: MisesConfig
   private _registry = new Registry([...defaultRegistryTypes])
   private _feeGrantor: string | undefined
-  constructor(endpoint: string) {
-    this._lcdEndpoint = endpoint
-
+  constructor(config: MisesConfig) {
+    this._config = config
     this._registry.register('/misesid.misestm.v1beta1.MsgCreateDidRegistry', MsgCreateDidRegistry)
     this._registry.register('/misesid.misestm.v1beta1.MsgUpdateUserInfo', MsgUpdateUserInfo)
     this._registry.register('/misesid.misestm.v1beta1.MsgUpdateUserRelation', MsgUpdateUserRelation)
@@ -66,12 +66,12 @@ export class LCDConnection {
     })
   }
   public async stargate(): Promise<StargateClient> {
-    const client = await StargateClient.connect(this._lcdEndpoint)
+    const client = await StargateClient.connect(this._config.lcdEndpoint())
     return client
   }
 
   public async query(path: string, requset: Uint8Array): Promise<Uint8Array> {
-    const [client, tmClient] = await this.makeClient(this._lcdEndpoint)
+    const [client, tmClient] = await this.makeClient(this._config.lcdEndpoint())
 
     const data = await client.queryUnverified(path, requset)
 
@@ -125,7 +125,7 @@ export class LCDConnection {
   }
   public async broadcast(msg: any, wallet: DirectSecp256k1Wallet): Promise<BroadcastTxResponse> {
     // console.log('broadcast', msg, 'granter', this._feeGrantor)
-    const client = await StargateClient.connect(this._lcdEndpoint)
+    const client = await StargateClient.connect(this._config.lcdEndpoint())
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
     const pubkey = encodePubkey({
       type: 'tendermint/PubKeySecp256k1',
@@ -139,8 +139,8 @@ export class LCDConnection {
     }
     const txBodyBytes = this._registry.encode(txBodyFields)
     const { accountNumber, sequence } = await client.getSequence(address)
-    const feeAmount = coins(2000, 'umis')
-    const gasLimit = 200000
+    const feeAmount = coins(this._config.feeLimit(), this._config.denom())
+    const gasLimit = this._config.gasLimit()
     const authInfoBytes = this.makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit)
 
     const chainId = await client.getChainId()
