@@ -268,7 +268,31 @@ export class MUser {
   public async recentTransactions(): Promise<readonly IndexedTx[]> {
     const lcd = this.makeLCDConnection(false)
     const stargate = await lcd.stargate()
-    return stargate.searchTx({ sentFromOrTo: this._address })
+    let txs
+    const sentQuery = {
+      tags: [
+        { key: 'message.module', value: 'bank' },
+        { key: 'transfer.sender', value: this._address }
+      ]
+    }
+    const receivedQuery = {
+      tags: [
+        { key: 'message.module', value: 'bank' },
+        { key: 'transfer.recipient', value: this._address }
+      ]
+    }
+
+    const [sent, received] = await Promise.all(
+      [sentQuery, receivedQuery].map(rawQuery =>
+        stargate.searchTx(rawQuery).catch(error => {
+          console.log(error)
+          return []
+        })
+      )
+    )
+    const sentHashes = sent.map(t => t.hash)
+    txs = [...sent, ...received.filter(t => !sentHashes.includes(t.hash))]
+    return txs
   }
 }
 export class MUserMgr {

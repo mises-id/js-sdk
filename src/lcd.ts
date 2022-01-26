@@ -123,6 +123,7 @@ export class LCDConnection {
       return AuthInfo.encode(AuthInfo.fromPartial(authInfo)).finish()
     }
   }
+
   public async broadcast(msg: any, wallet: DirectSecp256k1Wallet): Promise<BroadcastTxResponse> {
     // console.log('broadcast', msg, 'granter', this._feeGrantor)
     const client = await StargateClient.connect(this._config.lcdEndpoint())
