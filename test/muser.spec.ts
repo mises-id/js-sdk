@@ -166,14 +166,8 @@ describe('MUser test', () => {
 
   it('test gas', async () => {
     const sdk = MSdk.newSdk(new MisesConfig())
-    const umgr = sdk.userMgr()
-    const amgr = sdk.appMgr()
+    const user = await randomUser(sdk)
     mockTM(mockRestQueryAppResponse('mises.site'))
-    const app = await amgr.ensureApp(testAppID, 'mises.site')
-    const user = await umgr.activateUser(
-      '2c7d8a44d2f8a0cfae8ee44db8ead906f121a064960cebc7a7751ed46284528d'
-    )
-
     await sdk.connect('mises.site', testAppID, user.misesID(), [])
 
     mockTM(mockRestQueryUserResponse('mockName'))
@@ -251,30 +245,48 @@ describe('MUser test', () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
     const user = await randomUser(sdk)
     const did = user.misesID()
-    mockTM(mockQueryBalanceResponse(Long.fromValue(1)))
+    mockTM(mockQueryBalanceResponse(Long.fromValue(10000)))
     const balance = await user.getBalanceUMIS()
-    expect(balance).toEqual(Long.fromValue(1))
+    expect(balance).toEqual(Long.fromValue(10000))
   }, 60000)
 
   it('test user transfer umis', async () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
-    console.log(1)
     const user = await randomUser(sdk)
-    console.log(2)
     const user1 = await randomNewUser(sdk)
 
     mockTM(mockQueryAccountResponse())
-    console.log(3)
     const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'))
     expect(resp1.height).toBeGreaterThan(0)
 
-    console.log(4)
-    const resp2 = await user.recentTransactions()
+    const resp2 = await user.recentTransactions(10)
     expect(resp2.length).toBeGreaterThan(0)
     console.log(resp2)
 
-    const resp3 = await user1.recentTransactions()
+    const resp3 = await user1.recentTransactions(undefined)
     expect(resp3.length).toBeGreaterThan(0)
+    console.log(resp3)
+  }, 60000)
+
+  it('test user history trans action', async () => {
+    const sdk = await MSdk.newSdk(new MisesConfig())
+    const user = await randomUser(sdk)
+    const user1 = await randomNewUser(sdk)
+
+    mockTM(mockQueryAccountResponse())
+    const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'))
+    expect(resp1.height).toBeGreaterThan(0)
+
+    const resp2 = await user.searchSendTransactions({ minHeight: 0, maxHeight: undefined, page: 1 })
+    expect(resp2.totalCount).toBeGreaterThan(0)
+    console.log(resp2)
+
+    const resp3 = await user1.searchRecvTransactions({
+      minHeight: 0,
+      maxHeight: undefined,
+      page: 1
+    })
+    expect(resp3.totalCount).toBeGreaterThan(0)
     console.log(resp3)
   }, 60000)
 })

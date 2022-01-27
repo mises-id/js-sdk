@@ -1,7 +1,7 @@
 // Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
 // import "core-js/fn/array.find"
 // ...
-import { fromBase64, toBase64 } from '@cosmjs/encoding'
+import { fromBase64, toBase64, toHex } from '@cosmjs/encoding'
 import {
   coins,
   DirectSecp256k1Wallet,
@@ -15,6 +15,7 @@ import {
   BroadcastTxResponse,
   QueryClient,
   TimeoutError,
+  IndexedTx,
   defaultRegistryTypes
 } from '@cosmjs/stargate'
 
@@ -34,6 +35,16 @@ import { AuthInfo, SignDoc, SignerInfo, TxRaw } from 'cosmjs-types/cosmos/tx/v1b
 import { Any } from 'cosmjs-types/google/protobuf/any'
 import Long from 'long'
 import { MisesConfig } from './mises'
+
+export class TxSearchParam {
+  minHeight: number | undefined
+  maxHeight: number | undefined
+  page: number | undefined
+}
+export class TxSearchResp {
+  totalCount: number | undefined
+  txs: IndexedTx[] | undefined
+}
 
 export class LCDConnection {
   private _config: MisesConfig
@@ -125,7 +136,6 @@ export class LCDConnection {
   }
 
   public async broadcast(msg: any, wallet: DirectSecp256k1Wallet): Promise<BroadcastTxResponse> {
-    // console.log('broadcast', msg, 'granter', this._feeGrantor)
     const client = await StargateClient.connect(this._config.lcdEndpoint())
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
     const pubkey = encodePubkey({
@@ -155,5 +165,31 @@ export class LCDConnection {
     const txRawBytes = Uint8Array.from(TxRaw.encode(txRaw).finish())
     const txResult = await client.broadcastTx(txRawBytes)
     return txResult
+  }
+
+  public async txsQuery(query: string, param: TxSearchParam): Promise<TxSearchResp> {
+    const [client, tmClient] = await this.makeClient(this._config.lcdEndpoint())
+    const minHeight = param.minHeight || 0
+    const maxHeight = param.maxHeight || Number.MAX_SAFE_INTEGER
+    const page = param.page || 1
+    function withFilters(originalQuery: string): string {
+      return `${originalQuery} AND tx.height>=${minHeight} AND tx.height<=${maxHeight}`
+    }
+    const results = await tmClient.txSearch({ query: withFilters(query), page })
+    tmClient.disconnect()
+    return {
+      totalCount: results.totalCount,
+      txs: results.txs.map(tx => {
+        return {
+          height: tx.height,
+          hash: toHex(tx.hash).toUpperCase(),
+          code: tx.result.code,
+          rawLog: tx.result.log || '',
+          tx: tx.tx,
+          gasUsed: tx.result.gasUsed,
+          gasWanted: tx.result.gasWanted
+        }
+      })
+    }
   }
 }

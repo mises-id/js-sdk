@@ -7,7 +7,7 @@ import { BroadcastTxResponse, IndexedTx, SearchBySentFromOrToQuery } from '@cosm
 import { sha256, Secp256k1 } from '@cosmjs/crypto'
 import * as multiformats from 'multiformats/bases/base58'
 
-import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
+import { Tendermint34Client, TxSearchParams } from '@cosmjs/tendermint-rpc'
 
 import {
   RestQueryUserRequest,
@@ -20,7 +20,7 @@ import {
 
 import { MsgUpdateUserInfo } from './proto/misestm/v1beta1/tx'
 
-import { LCDConnection } from './lcd'
+import { LCDConnection, TxSearchParam, TxSearchResp } from './lcd'
 
 import { MisesConfig } from './mises'
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin'
@@ -265,17 +265,50 @@ export class MUser {
     }
     return lcd.broadcast(msg, this._wallet)
   }
-  public async recentTransactions(): Promise<readonly IndexedTx[]> {
+  public async searchSendTransactions(param: TxSearchParam): Promise<TxSearchResp> {
+    const lcd = this.makeLCDConnection(false)
+    const query = {
+      tags: [
+        { key: 'message.module', value: 'bank' },
+        { key: 'transfer.sender', value: this._address }
+      ]
+    }
+    const rawQuery = query.tags.map(t => `${t.key}='${t.value}'`).join(' AND ')
+
+    return lcd.txsQuery(rawQuery, param)
+  }
+  public async searchRecvTransactions(param: TxSearchParam): Promise<TxSearchResp> {
+    const lcd = this.makeLCDConnection(false)
+    const query = {
+      tags: [
+        { key: 'message.module', value: 'bank' },
+        { key: 'transfer.recipient', value: this._address }
+      ]
+    }
+    const rawQuery = query.tags.map(t => `${t.key}='${t.value}'`).join(' AND ')
+
+    return lcd.txsQuery(rawQuery, param)
+  }
+  public async recentTransactions(fromHeight: number | undefined): Promise<readonly IndexedTx[]> {
     const lcd = this.makeLCDConnection(false)
     const stargate = await lcd.stargate()
     let txs
+    const currentHeight = await stargate.getHeight()
+    if (!fromHeight) {
+      if (currentHeight > 50000) {
+        fromHeight = currentHeight - 50000
+      }
+    }
+
     const sentQuery = {
+      minHeight: fromHeight,
       tags: [
         { key: 'message.module', value: 'bank' },
         { key: 'transfer.sender', value: this._address }
       ]
     }
     const receivedQuery = {
+      minHeight: fromHeight,
       tags: [
         { key: 'message.module', value: 'bank' },
         { key: 'transfer.recipient', value: this._address }
@@ -283,12 +316,7 @@ export class MUser {
     }
 
     const [sent, received] = await Promise.all(
-      [sentQuery, receivedQuery].map(rawQuery =>
-        stargate.searchTx(rawQuery).catch(error => {
-          console.log(error)
-          return []
-        })
-      )
+      [sentQuery, receivedQuery].map(rawQuery => stargate.searchTx(rawQuery).catch(_error => []))
     )
     const sentHashes = sent.map(t => t.hash)
     txs = [...sent, ...received.filter(t => !sentHashes.includes(t.hash))]

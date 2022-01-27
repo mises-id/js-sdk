@@ -121,12 +121,30 @@ export function mockTMClient(respData: Uint8Array) {
     status: jest.fn().mockReturnValue({
       nodeInfo: {
         network: 'test'
+      },
+      syncInfo: {
+        latestBlockHeight: 100
       }
     }),
     broadcastTxSync: jest.fn().mockReturnValue({
       hash: 'mockHash'
     }),
     txSearchAll: jest.fn().mockReturnValue({
+      totalCount: 1,
+      txs: [
+        {
+          hash: 'mockHash',
+          height: 1,
+          result: {
+            code: 0,
+            gasUsed: 0,
+            gasWanted: 0
+          }
+        }
+      ]
+    }),
+    txSearch: jest.fn().mockReturnValue({
+      totalCount: 1,
       txs: [
         {
           hash: 'mockHash',
