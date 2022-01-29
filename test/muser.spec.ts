@@ -259,7 +259,7 @@ describe('MUser test', () => {
     const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'))
     expect(resp1.height).toBeGreaterThan(0)
 
-    const resp2 = await user.recentTransactions(10)
+    const resp2 = await user.recentTransactions(0)
     expect(resp2.length).toBeGreaterThan(0)
     console.log(resp2)
 

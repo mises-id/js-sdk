@@ -301,14 +301,12 @@ export class MUser {
     }
 
     const sentQuery = {
-      minHeight: fromHeight,
       tags: [
         { key: 'message.module', value: 'bank' },
         { key: 'transfer.sender', value: this._address }
       ]
     }
     const receivedQuery = {
-      minHeight: fromHeight,
       tags: [
         { key: 'message.module', value: 'bank' },
         { key: 'transfer.recipient', value: this._address }
@@ -316,7 +314,9 @@ export class MUser {
     }
 
     const [sent, received] = await Promise.all(
-      [sentQuery, receivedQuery].map(rawQuery => stargate.searchTx(rawQuery).catch(_error => []))
+      [sentQuery, receivedQuery].map(rawQuery =>
+        stargate.searchTx(rawQuery, { minHeight: fromHeight }).catch(_error => [])
+      )
     )
     const sentHashes = sent.map(t => t.hash)
     txs = [...sent, ...received.filter(t => !sentHashes.includes(t.hash))]
