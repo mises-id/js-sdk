@@ -1,7 +1,8 @@
 // Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
 // import "core-js/fn/array.find"
 // ...
-import { Coin, coin, coins, parseCoins } from '@cosmjs/proto-signing'
+import { Coin } from '@cosmjs/proto-signing'
+import { Uint53, Uint64 } from '@cosmjs/math'
 import Long from 'long'
 
 function precisionRound(n: number, p: number): number {
@@ -60,8 +61,27 @@ export class MisesCoin {
     return
   }
 
+  public coin(amount: number | string, denom: string): Coin {
+    let outAmount: string
+    if (typeof amount === 'number') {
+      try {
+        outAmount = new Uint53(amount).toString()
+      } catch (_err) {
+        throw 'Given amount is not a safe integer. Consider using a string instead to overcome the limitations of JS numbers.'
+      }
+    } else {
+      if (!amount.match(/^[0-9]+$/)) {
+        throw 'Invalid unsigned integer string format'
+      }
+      outAmount = amount.replace(/^0*/, '') || '0'
+    }
+    return {
+      amount: outAmount,
+      denom: denom
+    }
+  }
   public toCoinUMIS(umis: Long): Coin {
-    return coin(umis.toNumber(), 'umis')
+    return this.coin(umis.toNumber(), 'umis')
   }
 
   public toCoinMMIS(umis: Long): Coin {

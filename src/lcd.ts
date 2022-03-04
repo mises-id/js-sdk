@@ -3,18 +3,19 @@
 // ...
 import { fromBase64, toBase64, toHex } from '@cosmjs/encoding'
 import {
-  coins,
   DirectSecp256k1Wallet,
   encodePubkey,
   makeSignDoc,
   Registry,
-  TxBodyEncodeObject
+  TxBodyEncodeObject,
+  EncodeObject
 } from '@cosmjs/proto-signing'
 import {
+  SigningStargateClient,
   StargateClient,
-  BroadcastTxResponse,
+  DeliverTxResponse,
   QueryClient,
-  TimeoutError,
+  calculateFee,
   IndexedTx,
   defaultRegistryTypes
 } from '@cosmjs/stargate'
@@ -134,8 +135,24 @@ export class LCDConnection {
       return AuthInfo.encode(AuthInfo.fromPartial(authInfo)).finish()
     }
   }
+  public async simulate(
+    signerAddress: string,
+    messages: readonly EncodeObject[],
+    wallet: DirectSecp256k1Wallet
+  ): Promise<number> {
+    const client = await SigningStargateClient.connectWithSigner(
+      this._config.lcdEndpoint(),
+      wallet,
+      { registry: this._registry }
+    )
+    return client.simulate(signerAddress, messages, undefined)
+  }
 
-  public async broadcast(msg: any, wallet: DirectSecp256k1Wallet): Promise<BroadcastTxResponse> {
+  public async broadcast(
+    msg: any,
+    wallet: DirectSecp256k1Wallet,
+    simulate: Boolean = false
+  ): Promise<DeliverTxResponse> {
     const client = await StargateClient.connect(this._config.lcdEndpoint())
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
     const pubkey = encodePubkey({
@@ -150,9 +167,24 @@ export class LCDConnection {
     }
     const txBodyBytes = this._registry.encode(txBodyFields)
     const { accountNumber, sequence } = await client.getSequence(address)
-    const feeAmount = coins(this._config.feeLimit(), this._config.denom())
-    const gasLimit = this._config.gasLimit()
-    const authInfoBytes = this.makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit)
+    const gasEstimation = await this.simulate(address, [msg], wallet)
+    if (simulate) {
+      return {
+        height: 0,
+        code: 0,
+        transactionHash: '',
+        gasWanted: gasEstimation * 1.3,
+        gasUsed: gasEstimation * 1.05
+      }
+    }
+    const fee = calculateFee(
+      Math.round(gasEstimation * 1.05),
+      this._config.gasPrice() + this._config.denom()
+    )
+
+    //const feeAmount = coins(this._config.feeLimit(), this._config.denom())
+    const gasLimit = Math.max(this._config.gasLimit(), gasEstimation * 1.3)
+    const authInfoBytes = this.makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit)
 
     const chainId = await client.getChainId()
     const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber)

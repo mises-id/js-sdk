@@ -91,6 +91,13 @@ describe('MSdk test', () => {
 
     const misLong = coinDef.fromCoin(mis)
     expect(misLong.toString()).toEqual('100001')
+
+    expect(() => {
+      coinDef.coin('invalid', '')
+    }).toThrow('Invalid unsigned integer string format')
+
+    const c = coinDef.coin('1', '')
+    expect(c.amount).toEqual('1')
   })
 
   it('gas test', async () => {

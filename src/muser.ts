@@ -3,7 +3,7 @@
 // ...
 import { fromHex, toHex, Bech32 } from '@cosmjs/encoding'
 import { DirectSecp256k1Wallet, decodeTxRaw } from '@cosmjs/proto-signing'
-import { BroadcastTxResponse, IndexedTx, SearchBySentFromOrToQuery } from '@cosmjs/stargate'
+import { DeliverTxResponse, IndexedTx, SearchBySentFromOrToQuery } from '@cosmjs/stargate'
 import { sha256, Secp256k1 } from '@cosmjs/crypto'
 import * as multiformats from 'multiformats/bases/base58'
 
@@ -99,7 +99,7 @@ export class MUser {
 
     return new MUserInfo(response.pubInfo, response.version)
   }
-  public setInfo(info: MUserInfo): Promise<BroadcastTxResponse> {
+  public setInfo(info: MUserInfo): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserInfo',
@@ -136,7 +136,7 @@ export class MUser {
     })
     return ids
   }
-  public follow(toUid: string): Promise<BroadcastTxResponse> {
+  public follow(toUid: string): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
@@ -150,7 +150,7 @@ export class MUser {
     }
     return lcd.broadcast(msg, this._wallet)
   }
-  public unfollow(toUid: string): Promise<BroadcastTxResponse> {
+  public unfollow(toUid: string): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
@@ -165,7 +165,7 @@ export class MUser {
     return lcd.broadcast(msg, this._wallet)
   }
 
-  public block(toUid: string): Promise<BroadcastTxResponse> {
+  public block(toUid: string): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
@@ -179,7 +179,7 @@ export class MUser {
     }
     return lcd.broadcast(msg, this._wallet)
   }
-  public unblock(toUid: string): Promise<BroadcastTxResponse> {
+  public unblock(toUid: string): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(true)
     const msg = {
       typeUrl: '/misesid.misestm.v1beta1.MsgUpdateUserRelation',
@@ -249,7 +249,11 @@ export class MUser {
     const coin = await stargate.getBalance(this._address, this._config.denom())
     return Long.fromString(coin.amount)
   }
-  public async sendUMIS(toMisesUID: string, amount: Long): Promise<BroadcastTxResponse> {
+  public async sendUMIS(
+    toMisesUID: string,
+    amount: Long,
+    simulate: Boolean
+  ): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(false)
     const coin = Coin.fromPartial({
       denom: this._config.denom(),
@@ -263,7 +267,7 @@ export class MUser {
         amount: [coin]
       }
     }
-    return lcd.broadcast(msg, this._wallet)
+    return lcd.broadcast(msg, this._wallet, simulate)
   }
   public async searchSendTransactions(param: TxSearchParam): Promise<TxSearchResp> {
     const lcd = this.makeLCDConnection(false)

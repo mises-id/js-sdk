@@ -3,16 +3,14 @@
 // ...
 import { fromHex } from '@cosmjs/encoding'
 import { RestQueryAppRequest, RestQueryAppResponse } from './proto/misestm/v1beta1/rest_query'
-import { BroadcastTxResponse } from '@cosmjs/stargate'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 import { PublicAppInfo } from './proto/misestm/v1beta1/AppInfo'
-import { PublicUserInfo } from './proto/misestm/v1beta1/UserInfo'
 import { AllowedMsgAllowance, BasicAllowance } from './proto/cosmos/feegrant/v1beta1/feegrant'
 
 import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing'
 import Long from 'long'
 import { LCDConnection } from './lcd'
 import { MisesConfig } from './mises'
-import { version } from 'prettier'
 
 export class MAppInfo {
   name: string
@@ -93,7 +91,7 @@ export class MApp {
     appPriKey: string,
     userMisesID: string,
     userPubKeyMultibase: string
-  ): Promise<BroadcastTxResponse> {
+  ): Promise<DeliverTxResponse> {
     const priKey = fromHex(appPriKey)
     const wallet = await DirectSecp256k1Wallet.fromKey(priKey, this._config.prefix())
     const lcd = this.makeLCDConnection()
@@ -110,10 +108,7 @@ export class MApp {
     return lcd.broadcast(msg, wallet)
   }
 
-  public async grantFeeForUser(
-    appPriKey: string,
-    userMisesID: string
-  ): Promise<BroadcastTxResponse> {
+  public async grantFeeForUser(appPriKey: string, userMisesID: string): Promise<DeliverTxResponse> {
     const priKey = fromHex(appPriKey)
     const wallet = await DirectSecp256k1Wallet.fromKey(priKey, this._config.prefix())
     const lcd = this.makeLCDConnection()

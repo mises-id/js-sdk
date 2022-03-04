@@ -4,8 +4,7 @@ import { MUser, MUserInfo } from '../src/muser'
 import { MisesConfig } from '../src/mises'
 import { Random } from '@cosmjs/crypto'
 import { toHex } from '@cosmjs/encoding'
-import { BroadcastTxSuccess } from '@cosmjs/stargate'
-import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 import {
   testUserID1,
   testUserPubKeyMultiBase,
@@ -43,12 +42,13 @@ async function randomUser(sdk: MSdk): Promise<MUser> {
     await sdk.connect('mises.site', testAppID, user.misesID(), [])
   } else {
     await app.registerUser(testAppPkey, user.misesID(), user.pubkeyMultibase())
-
-    await app.registerUser(testAppPkey, testUserID1, testUserPubKeyMultiBase)
+    try {
+      await app.registerUser(testAppPkey, testUserID1, testUserPubKeyMultiBase)
+    } catch (_err) {}
 
     const appuser = await umgr.getUser(testAppPkey)
 
-    await appuser.sendUMIS(user.misesID(), Long.fromInt(10000))
+    await appuser.sendUMIS(user.misesID(), Long.fromInt(10000), false)
   }
 
   return user
@@ -133,10 +133,8 @@ describe('MUser test', () => {
     mockTM(mockRestQueryAppResponse('mises.site'))
     const app = await amgr.ensureApp(testAppID, 'mises.site')
 
-    mockTM(mockQueryAccountResponse())
-
     const resp = await app.registerUser(testAppPkey, user.misesID(), user.pubkeyMultibase())
-    expect(resp as BroadcastTxSuccess).toBeDefined()
+    expect(resp as DeliverTxResponse).toBeDefined()
     expect(resp.height).toBeGreaterThan(0)
 
     mockTM(mockRestQueryDidResponse(did))
@@ -175,7 +173,7 @@ describe('MUser test', () => {
     newinfo.intro = 'mock intro'
     newinfo.name = 'mockName'
     newinfo.version = Long.fromNumber(newinfo.version.toNumber() + 1)
-    mockTM(mockQueryAccountResponse())
+
     const resp = await user.setInfo(newinfo)
     console.log(resp)
     expect(resp.height).toBeGreaterThan(0)
@@ -193,7 +191,6 @@ describe('MUser test', () => {
     const followings_empty = await user.getFollowing()
     expect(followings_empty).toEqual([])
 
-    mockTM(mockQueryAccountResponse())
     const resp = await user.follow(testUserID1)
     expect(resp.height).toBeGreaterThan(0)
     console.log(resp)
@@ -202,7 +199,6 @@ describe('MUser test', () => {
     const followings = await user.getFollowing()
     expect(followings).toEqual([testUserID1])
 
-    mockTM(mockQueryAccountResponse())
     const resp1 = await user.unfollow(testUserID1)
     expect(resp1.height).toBeGreaterThan(0)
 
@@ -219,7 +215,6 @@ describe('MUser test', () => {
     const followings_empty = await user.getFollowing()
     expect(followings_empty).toEqual([])
 
-    mockTM(mockQueryAccountResponse())
     const resp = await user.follow(testUserID1)
     expect(resp.height).toBeGreaterThan(0)
     console.log(resp)
@@ -228,7 +223,6 @@ describe('MUser test', () => {
     const followings = await user.getFollowing()
     expect(followings).toEqual([testUserID1])
 
-    mockTM(mockQueryAccountResponse())
     const resp1 = await user.block(testUserID1)
     expect(resp1.height).toBeGreaterThan(0)
 
@@ -236,7 +230,6 @@ describe('MUser test', () => {
     const followings_empty1 = await user.getFollowing()
     expect(followings_empty1).toEqual([])
 
-    mockTM(mockQueryAccountResponse())
     const resp2 = await user.unblock(testUserID1)
     expect(resp2.height).toBeGreaterThan(0)
   }, 60000)
@@ -256,7 +249,10 @@ describe('MUser test', () => {
     const user1 = await randomNewUser(sdk)
 
     mockTM(mockQueryAccountResponse())
-    const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'))
+    const sim = await user.sendUMIS(user1.misesID(), Long.fromString('1'), true)
+    expect(sim.gasWanted).toBeGreaterThan(0)
+
+    const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'), false)
     expect(resp1.height).toBeGreaterThan(0)
 
     const resp2 = await user.recentTransactions(0)
@@ -274,7 +270,7 @@ describe('MUser test', () => {
     const user1 = await randomNewUser(sdk)
 
     mockTM(mockQueryAccountResponse())
-    const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'))
+    const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'), false)
     expect(resp1.height).toBeGreaterThan(0)
 
     const resp2 = await user.searchSendTransactions({ minHeight: 0, maxHeight: undefined, page: 1 })

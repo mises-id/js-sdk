@@ -6,7 +6,8 @@ import {
   AbciQueryResponse,
   StatusResponse,
   BroadcastTxSyncResponse,
-  TxSearchResponse
+  TxSearchResponse,
+  AbciQueryParams
 } from '@cosmjs/tendermint-rpc'
 import {
   RestQueryUserResponse,
@@ -16,6 +17,7 @@ import {
 } from '../../src/proto/misestm/v1beta1/rest_query'
 import { QueryAccountResponse } from 'cosmjs-types/cosmos/auth/v1beta1/query'
 import { QueryBalanceResponse } from 'cosmjs-types/cosmos/bank/v1beta1/query'
+import { SimulateResponse } from 'cosmjs-types/cosmos/tx/v1beta1/service'
 import { Any } from 'cosmjs-types/google/protobuf/any'
 import Long from 'long'
 
@@ -45,6 +47,16 @@ export function mockQueryAccountResponse(): Uint8Array {
   })
 
   return QueryAccountResponse.encode(resp).finish()
+}
+export function mockSimulateResponse(): Uint8Array {
+  const resp = SimulateResponse.fromPartial({
+    gasInfo: {
+      gasUsed: '100',
+      gasWanted: '101'
+    }
+  })
+
+  return SimulateResponse.encode(resp).finish()
 }
 export function mockRestQueryDidResponse(did: string): Uint8Array {
   const resp = RestQueryDidResponse.fromPartial({
@@ -115,9 +127,21 @@ export function mockTM(respData: Uint8Array) {
 
 export function mockTMClient(respData: Uint8Array) {
   return jest.fn().mockReturnValue({
-    abciQuery: jest.fn().mockReturnValue({
-      value: respData
-    }),
+    abciQuery: function(params: AbciQueryParams) {
+      if (params.path == '/cosmos.auth.v1beta1.Query/Account') {
+        return {
+          value: mockQueryAccountResponse()
+        }
+      }
+      if (params.path == '/cosmos.tx.v1beta1.Service/Simulate') {
+        return {
+          value: mockSimulateResponse()
+        }
+      }
+      return {
+        value: respData
+      }
+    },
     status: jest.fn().mockReturnValue({
       nodeInfo: {
         network: 'test'
