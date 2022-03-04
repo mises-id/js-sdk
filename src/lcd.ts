@@ -182,7 +182,7 @@ export class LCDConnection {
       this._config.gasPrice() + this._config.denom()
     )
 
-    //const feeAmount = coins(this._config.feeLimit(), this._config.denom())
+    // const feeAmount = coins(this._config.feeLimit(), this._config.denom())
     const gasLimit = Math.max(this._config.gasLimit(), gasEstimation * 1.3)
     const authInfoBytes = this.makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit)
 

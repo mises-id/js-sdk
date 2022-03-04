@@ -67,11 +67,13 @@ export class MisesCoin {
       try {
         outAmount = new Uint53(amount).toString()
       } catch (_err) {
-        throw 'Given amount is not a safe integer. Consider using a string instead to overcome the limitations of JS numbers.'
+        throw new Error(
+          'Given amount is not a safe integer. Consider using a string instead to overcome the limitations of JS numbers.'
+        )
       }
     } else {
       if (!amount.match(/^[0-9]+$/)) {
-        throw 'Invalid unsigned integer string format'
+        throw new Error('Invalid unsigned integer string format')
       }
       outAmount = amount.replace(/^0*/, '') || '0'
     }

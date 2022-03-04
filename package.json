@@ -1,6 +1,6 @@
 {
   "name": "mises-js-sdk",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "keywords": [],
   "main": "dist/mises-js-sdk.umd.js",
