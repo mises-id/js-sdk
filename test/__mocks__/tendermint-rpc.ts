@@ -125,6 +125,12 @@ export function mockTM(respData: Uint8Array) {
   }
 }
 
+export function mockErrorTM() {
+  if (mockEnabled) {
+    Tendermint34Client.connect = mockExceptionTMClient()
+  }
+}
+
 export function mockTMClient(respData: Uint8Array) {
   return jest.fn().mockReturnValue({
     abciQuery: function(params: AbciQueryParams) {
@@ -181,6 +187,26 @@ export function mockTMClient(respData: Uint8Array) {
         }
       ]
     }),
+    disconnect: jest.fn()
+  })
+}
+
+export function mockExceptionTMClient() {
+  return jest.fn().mockReturnValue({
+    abciQuery: jest.fn().mockRejectedValue(new Error('mock error abciQuery')),
+    status: jest.fn().mockReturnValue({
+      nodeInfo: {
+        network: 'test'
+      },
+      syncInfo: {
+        latestBlockHeight: 100
+      }
+    }),
+    broadcastTxSync: jest.fn().mockReturnValue({
+      hash: 'mockHash'
+    }),
+    txSearchAll: jest.fn().mockRejectedValue(new Error('mock error txSearchAll')),
+    txSearch: jest.fn().mockRejectedValue(new Error('mock error txSearch')),
     disconnect: jest.fn()
   })
 }

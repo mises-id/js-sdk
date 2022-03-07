@@ -2,6 +2,7 @@
 // import "core-js/fn/array.find"
 // ...
 import { fromBase64, toBase64, toHex } from '@cosmjs/encoding'
+import { sleep } from '@cosmjs/utils'
 import {
   DirectSecp256k1Wallet,
   encodePubkey,
@@ -17,7 +18,8 @@ import {
   QueryClient,
   calculateFee,
   IndexedTx,
-  defaultRegistryTypes
+  defaultRegistryTypes,
+  TimeoutError
 } from '@cosmjs/stargate'
 
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
@@ -153,7 +155,7 @@ export class LCDConnection {
     wallet: DirectSecp256k1Wallet,
     simulate: Boolean = false
   ): Promise<DeliverTxResponse> {
-    const client = await StargateClient.connect(this._config.lcdEndpoint())
+    const client = await this.stargate()
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
     const pubkey = encodePubkey({
       type: 'tendermint/PubKeySecp256k1',
@@ -173,8 +175,8 @@ export class LCDConnection {
         height: 0,
         code: 0,
         transactionHash: '',
-        gasWanted: gasEstimation * 1.3,
-        gasUsed: gasEstimation * 1.05
+        gasWanted: Math.round(gasEstimation * 1.3),
+        gasUsed: Math.round(gasEstimation * 1.05)
       }
     }
     const fee = calculateFee(
@@ -195,7 +197,7 @@ export class LCDConnection {
       signatures: [fromBase64(signature.signature)]
     })
     const txRawBytes = Uint8Array.from(TxRaw.encode(txRaw).finish())
-    const txResult = await client.broadcastTx(txRawBytes)
+    const txResult = await this.broadcastTx(txRawBytes)
     return txResult
   }
 
@@ -207,7 +209,15 @@ export class LCDConnection {
     function withFilters(originalQuery: string): string {
       return `${originalQuery} AND tx.height>=${minHeight} AND tx.height<=${maxHeight}`
     }
-    const results = await tmClient.txSearch({ query: withFilters(query), page })
+    let results
+    try {
+      results = await tmClient.txSearch({ query: withFilters(query), page })
+    } catch (_err) {
+      results = {
+        totalCount: 0,
+        txs: []
+      }
+    }
     tmClient.disconnect()
     return {
       totalCount: results.totalCount,
@@ -223,5 +233,69 @@ export class LCDConnection {
         }
       })
     }
+  }
+  public async getTx(id: string): Promise<IndexedTx | null> {
+    const results = await this.txsQuery(`tx.hash='${id}'`, {
+      minHeight: 0,
+      maxHeight: undefined,
+      page: 1
+    })
+    if (results.totalCount === 0 || !results.txs) {
+      return null
+    }
+    return results.txs[0]
+  }
+
+  public async broadcastTx(
+    tx: Uint8Array,
+    timeoutMs: number = 30000,
+    pollIntervalMs: number = 3000
+  ): Promise<DeliverTxResponse> {
+    let timedOut = false
+    const txPollTimeout = setTimeout(() => {
+      timedOut = true
+    }, timeoutMs)
+
+    const pollForTx = async (txId: string): Promise<DeliverTxResponse> => {
+      if (timedOut) {
+        throw new TimeoutError(
+          `Transaction with ID ${txId} was submitted but was not yet found on the chain. You might want to check later.`,
+          txId
+        )
+      }
+      await sleep(pollIntervalMs)
+      const result = await this.getTx(txId)
+      return result
+        ? {
+            code: result.code,
+            height: result.height,
+            rawLog: result.rawLog,
+            transactionHash: txId,
+            gasUsed: result.gasUsed,
+            gasWanted: result.gasWanted
+          }
+        : pollForTx(txId)
+    }
+
+    const [client, tmClient] = await this.makeClient(this._config.lcdEndpoint())
+    const broadcasted = await tmClient.broadcastTxSync({ tx })
+    if (broadcasted.code) {
+      throw new Error(
+        `Broadcasting transaction failed with code ${broadcasted.code} (codespace: ${broadcasted.codeSpace}). Log: ${broadcasted.log}`
+      )
+    }
+    const transactionId = toHex(broadcasted.hash).toUpperCase()
+    return new Promise((resolve, reject) =>
+      pollForTx(transactionId).then(
+        value => {
+          clearTimeout(txPollTimeout)
+          resolve(value)
+        },
+        error => {
+          clearTimeout(txPollTimeout)
+          reject(error)
+        }
+      )
+    )
   }
 }

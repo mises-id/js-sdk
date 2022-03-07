@@ -7,11 +7,16 @@ import {
   testPkey1,
   startMock,
   mockTM,
+  mockErrorTM,
   mockRestQueryAppResponse,
   mockQueryAccountResponse
 } from './__mocks__/tendermint-rpc'
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import { MisesCoin, MisesConfig } from '../src/mises'
+import { LCDConnection } from '../src/lcd'
+
 import Long from 'long'
+import { TimeoutError } from '@cosmjs/stargate'
 
 /**
  * MSdk test
@@ -109,5 +114,17 @@ describe('MSdk test', () => {
     expect(config.setGasPriceAndLimit(0, 4999)).toEqual(false)
     expect(config.setGasPriceAndLimit(0, 10000)).toEqual(true)
     expect(config.feeLimit()).toEqual(1)
+  })
+
+  it('lcd test', async () => {
+    const config = new MisesConfig()
+    const client = new LCDConnection(config)
+
+    mockErrorTM()
+    const nullTx = await client.getTx('')
+    expect(nullTx).toEqual(null)
+
+    const tx = TxRaw.encode(TxRaw.fromPartial({})).finish()
+    await expect(client.broadcastTx(Uint8Array.from(tx), 1, 1)).rejects.toThrow(TimeoutError)
   })
 })
