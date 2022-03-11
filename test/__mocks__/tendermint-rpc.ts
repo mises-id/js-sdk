@@ -91,7 +91,10 @@ export function mockRestQueryUserResponse(name: string): Uint8Array {
   return RestQueryUserResponse.encode(resp).finish()
 }
 
-export function mockRestQueryUserRelationResponse(uid: string | undefined): Uint8Array {
+export function mockRestQueryUserRelationResponse(
+  uid: string | undefined,
+  rel: string | undefined
+): Uint8Array {
   var resp: RestQueryUserRelationResponse
   if (!uid) {
     resp = RestQueryUserRelationResponse.fromPartial({
@@ -101,7 +104,8 @@ export function mockRestQueryUserRelationResponse(uid: string | undefined): Uint
     resp = RestQueryUserRelationResponse.fromPartial({
       misesList: [
         {
-          misesId: uid
+          misesId: uid,
+          relType: rel
         }
       ]
     })

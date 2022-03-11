@@ -127,17 +127,21 @@ describe('MUser test', () => {
     const user = await umgr.activateUser(prikey)
     const did = user.misesID()
     mockTM(mockRestQueryDidResponse(''))
+    console.log('isRegistered')
     const registed = await user.isRegistered()
     expect(registed).toBeFalsy()
 
+    console.log('ensureApp')
     mockTM(mockRestQueryAppResponse('mises.site'))
     const app = await amgr.ensureApp(testAppID, 'mises.site')
 
+    console.log('registerUser')
     const resp = await app.registerUser(testAppPkey, user.misesID(), user.pubkeyMultibase())
     expect(resp as DeliverTxResponse).toBeDefined()
     expect(resp.height).toBeGreaterThan(0)
 
     mockTM(mockRestQueryDidResponse(did))
+    console.log('isRegistered')
     const registed1 = await user.isRegistered()
     expect(registed1).toBeTruthy()
   }, 20000)
@@ -187,51 +191,72 @@ describe('MUser test', () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
     const user = await randomUser(sdk)
 
-    mockTM(mockRestQueryUserRelationResponse(undefined))
-    const followings_empty = await user.getFollowing()
-    expect(followings_empty).toEqual([])
+    console.log('isFollowing')
+    mockTM(mockRestQueryUserRelationResponse(undefined, undefined))
+    const is_followings = await user.isFollowing(testUserID1)
+    expect(is_followings).toEqual(false)
 
+    console.log('follow')
     const resp = await user.follow(testUserID1)
     expect(resp.height).toBeGreaterThan(0)
     console.log(resp)
 
-    mockTM(mockRestQueryUserRelationResponse(testUserID1))
-    const followings = await user.getFollowing()
-    expect(followings).toEqual([testUserID1])
+    console.log('isFollowing')
+    mockTM(mockRestQueryUserRelationResponse(testUserID1, 'following'))
+    const followings = await user.isFollowing(testUserID1)
+    expect(followings).toEqual(true)
 
+    console.log('unfollow')
     const resp1 = await user.unfollow(testUserID1)
     expect(resp1.height).toBeGreaterThan(0)
 
-    mockTM(mockRestQueryUserRelationResponse(undefined))
-    const followings_empty1 = await user.getFollowing()
-    expect(followings_empty1).toEqual([])
+    console.log('isFollowing')
+    mockTM(mockRestQueryUserRelationResponse(undefined, undefined))
+    const is_followings1 = await user.isFollowing(testUserID1)
+    expect(is_followings1).toEqual(false)
+  }, 60000)
+
+  it('test user following list', async () => {
+    const sdk = await MSdk.newSdk(new MisesConfig())
+    const user = await randomUser(sdk)
+
+    console.log('isFollowing')
+    mockTM(mockRestQueryUserRelationResponse(undefined, undefined))
+    const followings_empty = await user.getFollowing()
+    expect(followings_empty).toEqual([])
+
+    console.log('follow')
+    const resp = await user.follow(testUserID1)
+    expect(resp.height).toBeGreaterThan(0)
+    console.log(resp)
+
+    console.log('isFollowing')
+    mockTM(mockRestQueryUserRelationResponse(testUserID1, 'following'))
+    const followings = await user.getFollowing()
+    expect(followings).toEqual([testUserID1])
   }, 60000)
 
   it('test user block unblock', async () => {
     const sdk = await MSdk.newSdk(new MisesConfig())
     const user = await randomUser(sdk)
 
-    mockTM(mockRestQueryUserRelationResponse(undefined))
-    const followings_empty = await user.getFollowing()
-    expect(followings_empty).toEqual([])
-
-    const resp = await user.follow(testUserID1)
-    expect(resp.height).toBeGreaterThan(0)
-    console.log(resp)
-
-    mockTM(mockRestQueryUserRelationResponse(testUserID1))
-    const followings = await user.getFollowing()
-    expect(followings).toEqual([testUserID1])
+    mockTM(mockRestQueryUserRelationResponse(undefined, undefined))
+    const is_blocking_no = await user.isBlocking(testUserID1)
+    expect(is_blocking_no).toEqual(false)
 
     const resp1 = await user.block(testUserID1)
     expect(resp1.height).toBeGreaterThan(0)
 
-    mockTM(mockRestQueryUserRelationResponse(undefined))
-    const followings_empty1 = await user.getFollowing()
-    expect(followings_empty1).toEqual([])
+    mockTM(mockRestQueryUserRelationResponse(testUserID1, 'blocking'))
+    const is_blocking = await user.isBlocking(testUserID1)
+    expect(is_blocking).toEqual(true)
 
     const resp2 = await user.unblock(testUserID1)
     expect(resp2.height).toBeGreaterThan(0)
+
+    mockTM(mockRestQueryUserRelationResponse(testUserID1, ''))
+    const is_blocking_false = await user.isBlocking(testUserID1)
+    expect(is_blocking_false).toEqual(false)
   }, 60000)
 
   it('test user query balance ', async () => {

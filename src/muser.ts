@@ -136,6 +136,28 @@ export class MUser {
     })
     return ids
   }
+  public async isFollowing(toUid: string): Promise<boolean> {
+    const lcd = this.makeLCDConnection(false)
+    const requestData = Uint8Array.from(
+      RestQueryUserRelationRequest.encode({
+        misesUid: this.misesID(),
+        filter: toUid,
+        pagination: lcd.createPagination()
+      }).finish()
+    )
+    const respData = await lcd.query(
+      `/misesid.misestm.v1beta1.RestQuery/QueryUserRelation`,
+      requestData
+    )
+    const response = RestQueryUserRelationResponse.decode(respData)
+    let ids: string[] = []
+    response.misesList.forEach(u => {
+      if (u.relType.indexOf('following') >= 0) {
+        ids.push(u.misesId)
+      }
+    })
+    return ids.length > 0
+  }
   public follow(toUid: string): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(true)
     const msg = {
@@ -192,6 +214,28 @@ export class MUser {
       }
     }
     return lcd.broadcast(msg, this._wallet)
+  }
+  public async isBlocking(toUid: string): Promise<boolean> {
+    const lcd = this.makeLCDConnection(false)
+    const requestData = Uint8Array.from(
+      RestQueryUserRelationRequest.encode({
+        misesUid: this.misesID(),
+        filter: toUid,
+        pagination: lcd.createPagination()
+      }).finish()
+    )
+    const respData = await lcd.query(
+      `/misesid.misestm.v1beta1.RestQuery/QueryUserRelation`,
+      requestData
+    )
+    const response = RestQueryUserRelationResponse.decode(respData)
+    let ids: string[] = []
+    response.misesList.forEach(u => {
+      if (u.relType.indexOf('blocking') >= 0) {
+        ids.push(u.misesId)
+      }
+    })
+    return ids.length > 0
   }
   public async isRegistered(): Promise<boolean> {
     const lcd = this.makeLCDConnection(false)

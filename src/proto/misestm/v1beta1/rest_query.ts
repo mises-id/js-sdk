@@ -35,6 +35,7 @@ export interface RestQueryUserRelationRequest {
 
 export interface MisesID {
   misesId: string
+  relType: string
 }
 
 export interface RestQueryUserRelationResponse {
@@ -400,12 +401,15 @@ export const RestQueryUserRelationRequest = {
   }
 }
 
-const baseMisesID: object = { misesId: '' }
+const baseMisesID: object = { misesId: '', relType: '' }
 
 export const MisesID = {
   encode(message: MisesID, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.misesId !== '') {
       writer.uint32(10).string(message.misesId)
+    }
+    if (message.relType !== '') {
+      writer.uint32(18).string(message.relType)
     }
     return writer
   },
@@ -419,6 +423,9 @@ export const MisesID = {
       switch (tag >>> 3) {
         case 1:
           message.misesId = reader.string()
+          break
+        case 2:
+          message.relType = reader.string()
           break
         default:
           reader.skipType(tag & 7)
@@ -435,18 +442,25 @@ export const MisesID = {
     } else {
       message.misesId = ''
     }
+    if (object.relType !== undefined && object.relType !== null) {
+      message.relType = String(object.relType)
+    } else {
+      message.relType = ''
+    }
     return message
   },
 
   toJSON(message: MisesID): unknown {
     const obj: any = {}
     message.misesId !== undefined && (obj.misesId = message.misesId)
+    message.relType !== undefined && (obj.relType = message.relType)
     return obj
   },
 
   fromPartial(object: DeepPartial<MisesID>): MisesID {
     const message = { ...baseMisesID } as MisesID
     message.misesId = object.misesId ?? ''
+    message.relType = object.relType ?? ''
     return message
   }
 }
