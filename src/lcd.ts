@@ -168,8 +168,12 @@ export class LCDConnection {
       }
     }
     const txBodyBytes = this._registry.encode(txBodyFields)
-    const { accountNumber, sequence } = await client.getSequence(address)
-    const gasEstimation = await this.simulate(address, [msg], wallet)
+    let gasEstimation
+    try {
+      gasEstimation = await this.simulate(address, [msg], wallet)
+    } catch (_err) {
+      gasEstimation = 100000
+    }
     if (simulate) {
       return {
         height: 0,
@@ -179,6 +183,7 @@ export class LCDConnection {
         gasUsed: Math.round(gasEstimation * 1.05)
       }
     }
+
     const fee = calculateFee(
       Math.round(gasEstimation * 1.05),
       this._config.gasPrice() + this._config.denom()
@@ -186,6 +191,8 @@ export class LCDConnection {
 
     // const feeAmount = coins(this._config.feeLimit(), this._config.denom())
     const gasLimit = Math.max(this._config.gasLimit(), gasEstimation * 1.3)
+
+    const { accountNumber, sequence } = await client.getSequence(address)
     const authInfoBytes = this.makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit)
 
     const chainId = await client.getChainId()
