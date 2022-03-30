@@ -291,6 +291,7 @@ export class MUser {
     const lcd = this.makeLCDConnection(false)
     const stargate = await lcd.stargate()
     const coin = await stargate.getBalance(this._address, this._config.denom())
+    stargate.disconnect()
     return Long.fromString(coin.amount)
   }
   public async sendUMIS(
@@ -368,6 +369,8 @@ export class MUser {
     )
     const sentHashes = sent.map(t => t.hash)
     txs = [...sent, ...received.filter(t => !sentHashes.includes(t.hash))]
+
+    stargate.disconnect()
     return txs
   }
 }

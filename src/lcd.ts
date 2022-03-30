@@ -155,7 +155,6 @@ export class LCDConnection {
     wallet: DirectSecp256k1Wallet,
     simulate: Boolean = false
   ): Promise<DeliverTxResponse> {
-    const client = await this.stargate()
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
     const pubkey = encodePubkey({
       type: 'tendermint/PubKeySecp256k1',
@@ -192,6 +191,7 @@ export class LCDConnection {
     // const feeAmount = coins(this._config.feeLimit(), this._config.denom())
     const gasLimit = Math.max(this._config.gasLimit(), gasEstimation * 1.3)
 
+    const client = await this.stargate()
     const { accountNumber, sequence } = await client.getSequence(address)
     const authInfoBytes = this.makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit)
 
@@ -205,6 +205,7 @@ export class LCDConnection {
     })
     const txRawBytes = Uint8Array.from(TxRaw.encode(txRaw).finish())
     const txResult = await this.broadcastTx(txRawBytes)
+    client.disconnect()
     return txResult
   }
 
