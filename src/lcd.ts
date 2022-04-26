@@ -153,7 +153,8 @@ export class LCDConnection {
   public async broadcast(
     msg: any,
     wallet: DirectSecp256k1Wallet,
-    simulate: Boolean = false
+    simulate: Boolean = false,
+    memo: string = ''
   ): Promise<DeliverTxResponse> {
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
     const pubkey = encodePubkey({
@@ -163,7 +164,8 @@ export class LCDConnection {
     const txBodyFields: TxBodyEncodeObject = {
       typeUrl: '/cosmos.tx.v1beta1.TxBody',
       value: {
-        messages: [msg]
+        messages: [msg],
+        memo: memo
       }
     }
     const txBodyBytes = this._registry.encode(txBodyFields)

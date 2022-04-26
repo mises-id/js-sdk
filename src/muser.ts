@@ -297,7 +297,8 @@ export class MUser {
   public async sendUMIS(
     toMisesUID: string,
     amount: Long,
-    simulate: Boolean
+    simulate: Boolean,
+    memo: string
   ): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(false)
     const coin = Coin.fromPartial({
@@ -312,7 +313,7 @@ export class MUser {
         amount: [coin]
       }
     }
-    return lcd.broadcast(msg, this._wallet, simulate)
+    return lcd.broadcast(msg, this._wallet, simulate, memo)
   }
   public async searchSendTransactions(param: TxSearchParam): Promise<TxSearchResp> {
     const lcd = this.makeLCDConnection(false)

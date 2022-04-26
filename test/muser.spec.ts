@@ -48,7 +48,7 @@ async function randomUser(sdk: MSdk): Promise<MUser> {
 
     const appuser = await umgr.getUser(testAppPkey)
 
-    await appuser.sendUMIS(user.misesID(), Long.fromInt(10000), false)
+    await appuser.sendUMIS(user.misesID(), Long.fromInt(10000), false, '')
   }
 
   return user
@@ -274,10 +274,10 @@ describe('MUser test', () => {
     const user1 = await randomNewUser(sdk)
 
     mockTM(mockQueryAccountResponse())
-    const sim = await user.sendUMIS(user1.misesID(), Long.fromString('1'), true)
+    const sim = await user.sendUMIS(user1.misesID(), Long.fromString('1'), true, '')
     expect(sim.gasWanted).toBeGreaterThan(0)
 
-    const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'), false)
+    const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'), false, '')
     expect(resp1.height).toBeGreaterThan(0)
 
     const resp2 = await user.recentTransactions(0)
@@ -295,7 +295,7 @@ describe('MUser test', () => {
     const user1 = await randomNewUser(sdk)
 
     mockTM(mockQueryAccountResponse())
-    const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'), false)
+    const resp1 = await user.sendUMIS(user1.misesID(), Long.fromString('1'), false, '')
     expect(resp1.height).toBeGreaterThan(0)
 
     const resp2 = await user.searchSendTransactions({ minHeight: 0, maxHeight: undefined, page: 1 })
