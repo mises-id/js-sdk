@@ -26,6 +26,7 @@ import { MisesConfig } from './mises'
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin'
 import { PublicUserInfo } from './proto/misestm/v1beta1/UserInfo'
 import Long from 'long'
+import { Any } from './proto/google/protobuf/any'
 
 export class MUserInfo {
   name: string | undefined
@@ -114,7 +115,7 @@ export class MUser {
         version: info.version
       }
     }
-    return lcd.broadcast(msg, this._wallet)
+    return lcd.broadcast([msg], this._wallet)
   }
   public async getFollowing(): Promise<string[]> {
     const lcd = this.makeLCDConnection(false)
@@ -170,7 +171,7 @@ export class MUser {
         isBlocking: false
       }
     }
-    return lcd.broadcast(msg, this._wallet)
+    return lcd.broadcast([msg], this._wallet)
   }
   public unfollow(toUid: string): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(true)
@@ -184,7 +185,7 @@ export class MUser {
         isBlocking: false
       }
     }
-    return lcd.broadcast(msg, this._wallet)
+    return lcd.broadcast([msg], this._wallet)
   }
 
   public block(toUid: string): Promise<DeliverTxResponse> {
@@ -199,7 +200,7 @@ export class MUser {
         isBlocking: true
       }
     }
-    return lcd.broadcast(msg, this._wallet)
+    return lcd.broadcast([msg], this._wallet)
   }
   public unblock(toUid: string): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(true)
@@ -213,7 +214,7 @@ export class MUser {
         isFollowing: false
       }
     }
-    return lcd.broadcast(msg, this._wallet)
+    return lcd.broadcast([msg], this._wallet)
   }
   public async isBlocking(toUid: string): Promise<boolean> {
     const lcd = this.makeLCDConnection(false)
@@ -300,7 +301,6 @@ export class MUser {
     simulate: Boolean,
     memo: string
   ): Promise<DeliverTxResponse> {
-    const lcd = this.makeLCDConnection(false)
     const coin = Coin.fromPartial({
       denom: this._config.denom(),
       amount: amount.toString()
@@ -313,8 +313,14 @@ export class MUser {
         amount: [coin]
       }
     }
-    return lcd.broadcast(msg, this._wallet, simulate, memo)
+    return this.postTx([msg], simulate, memo)
   }
+
+  public async postTx(msgs: any[], simulate: Boolean, memo: string): Promise<DeliverTxResponse> {
+    const lcd = this.makeLCDConnection(false)
+    return lcd.broadcast(msgs, this._wallet, simulate, memo)
+  }
+
   public async searchSendTransactions(param: TxSearchParam): Promise<TxSearchResp> {
     const lcd = this.makeLCDConnection(false)
     const query = {

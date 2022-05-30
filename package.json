@@ -1,6 +1,6 @@
 {
   "name": "mises-js-sdk",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "",
   "keywords": [],
   "main": "dist/mises-js-sdk.umd.js",
@@ -34,7 +34,7 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "travis-deploy-once": "travis-deploy-once",
-    "proto-compile": "protoc --plugin='./node_modules/.bin/protoc-gen-ts_proto' --ts_proto_out=./src/proto --proto_path=./proto --ts_proto_opt=esModuleInterop=true,forceLong=long,useOptionals=true ./proto/misestm/v1beta1/rest_query.proto ./proto/misestm/v1beta1/query.proto ./proto/misestm/v1beta1/tx.proto ./proto/cosmos/feegrant/v1beta1/tx.proto ./proto/cosmos/feegrant/v1beta1/feegrant.proto"
+    "proto-compile": "protoc --plugin='./node_modules/.bin/protoc-gen-ts_proto' --ts_proto_out=./src/proto --proto_path=./proto --ts_proto_opt=esModuleInterop=true,forceLong=long,useOptionals=true ./proto/misestm/v1beta1/rest_query.proto ./proto/misestm/v1beta1/query.proto ./proto/misestm/v1beta1/tx.proto ./proto/cosmos/feegrant/v1beta1/tx.proto ./proto/cosmos/feegrant/v1beta1/feegrant.proto ./proto/cosmos/staking/v1beta1/tx.proto ./proto/cosmos/staking/v1beta1/staking.proto ./proto/cosmos/distribution/v1beta1/tx.proto"
   },
   "lint-staged": {
     "linters": {

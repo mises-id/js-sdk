@@ -105,7 +105,7 @@ export class MApp {
         pkeyMultibase: userPubKeyMultibase
       }
     }
-    return lcd.broadcast(msg, wallet)
+    return lcd.broadcast([msg], wallet)
   }
 
   public async grantFeeForUser(appPriKey: string, userMisesID: string): Promise<DeliverTxResponse> {
@@ -136,7 +136,7 @@ export class MApp {
         allowance: allowance
       }
     }
-    return lcd.broadcast(msg, wallet)
+    return lcd.broadcast([msg], wallet)
   }
 }
 export class MAppMgr {

@@ -32,6 +32,11 @@ import {
   MsgUpdateUserRelation
 } from './proto/misestm/v1beta1/tx'
 import { MsgGrantAllowance } from './proto/cosmos/feegrant/v1beta1/tx'
+import { MsgDelegate, MsgBeginRedelegate, MsgUndelegate } from './proto/cosmos/staking/v1beta1/tx'
+import {
+  MsgSetWithdrawAddress,
+  MsgWithdrawDelegatorReward
+} from './proto/cosmos/distribution/v1beta1/tx'
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin'
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing'
 import { AuthInfo, SignDoc, SignerInfo, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
@@ -60,6 +65,17 @@ export class LCDConnection {
     this._registry.register('/misesid.misestm.v1beta1.MsgUpdateUserRelation', MsgUpdateUserRelation)
     this._registry.register('/misesid.misestm.v1beta1.MsgUpdateAppInfo', MsgUpdateAppInfo)
     this._registry.register('/cosmos.feegrant.v1beta1.MsgGrantAllowance', MsgGrantAllowance)
+    this._registry.register('/cosmos.staking.v1beta1.MsgDelegate', MsgDelegate)
+    this._registry.register('/cosmos.staking.v1beta1.MsgBeginRedelegate', MsgBeginRedelegate)
+    this._registry.register('/cosmos.staking.v1beta1.MsgUndelegate', MsgUndelegate)
+    this._registry.register(
+      '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
+      MsgSetWithdrawAddress
+    )
+    this._registry.register(
+      '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+      MsgWithdrawDelegatorReward
+    )
   }
   private async makeClient(rpcUrl: string): Promise<[QueryClient, Tendermint34Client]> {
     const tmClient = await Tendermint34Client.connect(rpcUrl)
@@ -151,7 +167,7 @@ export class LCDConnection {
   }
 
   public async broadcast(
-    msg: any,
+    msgs: any[],
     wallet: DirectSecp256k1Wallet,
     simulate: Boolean = false,
     memo: string = ''
@@ -164,14 +180,14 @@ export class LCDConnection {
     const txBodyFields: TxBodyEncodeObject = {
       typeUrl: '/cosmos.tx.v1beta1.TxBody',
       value: {
-        messages: [msg],
+        messages: msgs,
         memo: memo
       }
     }
     const txBodyBytes = this._registry.encode(txBodyFields)
     let gasEstimation
     try {
-      gasEstimation = await this.simulate(address, [msg], wallet)
+      gasEstimation = await this.simulate(address, msgs, wallet)
     } catch (_err) {
       gasEstimation = 100000
     }
