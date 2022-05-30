@@ -153,25 +153,41 @@ export class LCDConnection {
       return AuthInfo.encode(AuthInfo.fromPartial(authInfo)).finish()
     }
   }
-  public async simulate(
+  public async simulateTx(
     signerAddress: string,
     messages: readonly EncodeObject[],
-    wallet: DirectSecp256k1Wallet
+    wallet: DirectSecp256k1Wallet,
+    memo: string
   ): Promise<number> {
     const client = await SigningStargateClient.connectWithSigner(
       this._config.lcdEndpoint(),
       wallet,
       { registry: this._registry }
     )
-    return client.simulate(signerAddress, messages, undefined)
+    return client.simulate(signerAddress, messages, memo)
   }
 
-  public async broadcast(
-    msgs: any[],
-    wallet: DirectSecp256k1Wallet,
-    simulate: Boolean = false,
-    memo: string = ''
-  ): Promise<DeliverTxResponse> {
+  public async feeEstimate(msgs: any[], wallet: DirectSecp256k1Wallet, memo: string) {
+    const [{ address }] = await wallet.getAccounts()
+    let gasEstimation
+    try {
+      gasEstimation = await this.simulateTx(address, msgs, wallet, memo)
+    } catch (_err) {
+      gasEstimation = 100000
+    }
+    const fee = calculateFee(
+      Math.round(gasEstimation * 1.05),
+      this._config.gasPrice() + this._config.denom()
+    )
+    const gasLimit = Math.max(this._config.gasLimit(), gasEstimation * 1.3)
+    return {
+      fee: fee.amount,
+      gasWanted: Math.round(gasEstimation * 1.3),
+      gasUsed: Math.round(gasEstimation * 1.05),
+      gasLimit
+    }
+  }
+  public async makeTxBodyBytes(msgs: any[], wallet: DirectSecp256k1Wallet, memo: string = '') {
     const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts()
     const pubkey = encodePubkey({
       type: 'tendermint/PubKeySecp256k1',
@@ -184,34 +200,38 @@ export class LCDConnection {
         memo: memo
       }
     }
-    const txBodyBytes = this._registry.encode(txBodyFields)
-    let gasEstimation
-    try {
-      gasEstimation = await this.simulate(address, msgs, wallet)
-    } catch (_err) {
-      gasEstimation = 100000
+    return {
+      address,
+      pubkey,
+      txBodyBytes: this._registry.encode(txBodyFields)
     }
-    if (simulate) {
-      return {
-        height: 0,
-        code: 0,
-        transactionHash: '',
-        gasWanted: Math.round(gasEstimation * 1.3),
-        gasUsed: Math.round(gasEstimation * 1.05)
-      }
+  }
+
+  public async simulate(
+    msgs: any[],
+    wallet: DirectSecp256k1Wallet,
+    memo: string = ''
+  ): Promise<DeliverTxResponse> {
+    const { gasWanted, gasUsed } = await this.feeEstimate(msgs, wallet, memo)
+    return {
+      height: 0,
+      code: 0,
+      transactionHash: '',
+      gasWanted,
+      gasUsed
     }
-
-    const fee = calculateFee(
-      Math.round(gasEstimation * 1.05),
-      this._config.gasPrice() + this._config.denom()
-    )
-
-    // const feeAmount = coins(this._config.feeLimit(), this._config.denom())
-    const gasLimit = Math.max(this._config.gasLimit(), gasEstimation * 1.3)
-
+  }
+  public async broadcastWithFee(
+    msgs: any[],
+    wallet: DirectSecp256k1Wallet,
+    memo: string,
+    feeAmount: readonly Coin[],
+    gasLimit: number
+  ): Promise<DeliverTxResponse> {
+    const { address, pubkey, txBodyBytes } = await this.makeTxBodyBytes(msgs, wallet, memo)
     const client = await this.stargate()
     const { accountNumber, sequence } = await client.getSequence(address)
-    const authInfoBytes = this.makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit)
+    const authInfoBytes = this.makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit)
 
     const chainId = await client.getChainId()
     const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber)
@@ -225,6 +245,14 @@ export class LCDConnection {
     const txResult = await this.broadcastTx(txRawBytes)
     client.disconnect()
     return txResult
+  }
+  public async broadcast(
+    msgs: any[],
+    wallet: DirectSecp256k1Wallet,
+    memo: string = ''
+  ): Promise<DeliverTxResponse> {
+    const { gasLimit, fee } = await this.feeEstimate(msgs, wallet, memo)
+    return this.broadcastWithFee(msgs, wallet, memo, fee, gasLimit)
   }
 
   public async txsQuery(query: string, param: TxSearchParam): Promise<TxSearchResp> {

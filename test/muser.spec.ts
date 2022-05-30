@@ -81,6 +81,7 @@ describe('MUser test', () => {
     const umgr = sdk.userMgr()
     expect(umgr.verifyAddress('asd')).toEqual(false)
     expect(umgr.verifyAddress('mises1y53kz80x5gm2w0ype8x7a3w6sstztxxg7qkl5n')).toEqual(true)
+    expect(umgr.verifyAddress('terra19fsnd3rpc9pdj5m7welnxvj6klrxets0hlmprw')).toEqual(false)
   })
 
   it('test pubkeyMultibase', async () => {

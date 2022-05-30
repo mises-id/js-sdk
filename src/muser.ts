@@ -313,12 +313,23 @@ export class MUser {
         amount: [coin]
       }
     }
-    return this.postTx([msg], simulate, memo)
+
+    const lcd = this.makeLCDConnection(false)
+    if (simulate) {
+      return lcd.simulate([msg], this._wallet, memo)
+    }
+    const { gasLimit, fee } = await lcd.feeEstimate([msg], this._wallet, memo)
+    return this.postTx([msg], memo, fee, gasLimit)
   }
 
-  public async postTx(msgs: any[], simulate: Boolean, memo: string): Promise<DeliverTxResponse> {
+  public async postTx(
+    msgs: any[],
+    memo: string,
+    feeAmount: readonly Coin[],
+    gasLimit: number
+  ): Promise<DeliverTxResponse> {
     const lcd = this.makeLCDConnection(false)
-    return lcd.broadcast(msgs, this._wallet, simulate, memo)
+    return lcd.broadcastWithFee(msgs, this._wallet, memo, feeAmount, gasLimit)
   }
 
   public async searchSendTransactions(param: TxSearchParam): Promise<TxSearchResp> {
