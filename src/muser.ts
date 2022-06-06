@@ -336,7 +336,7 @@ export class MUser {
     const lcd = this.makeLCDConnection(false)
     const query = {
       tags: [
-        { key: 'message.module', value: 'bank' },
+        // { key: 'message.module', value: 'bank' },
         { key: 'transfer.sender', value: this._address }
       ]
     }
@@ -348,7 +348,7 @@ export class MUser {
     const lcd = this.makeLCDConnection(false)
     const query = {
       tags: [
-        { key: 'message.module', value: 'bank' },
+        // { key: 'message.module', value: 'bank' },
         { key: 'transfer.recipient', value: this._address }
       ]
     }
@@ -369,13 +369,13 @@ export class MUser {
 
     const sentQuery = {
       tags: [
-        { key: 'message.module', value: 'bank' },
+        // { key: 'message.module', value: 'bank' },
         { key: 'transfer.sender', value: this._address }
       ]
     }
     const receivedQuery = {
       tags: [
-        { key: 'message.module', value: 'bank' },
+        // { key: 'message.module', value: 'bank' },
         { key: 'transfer.recipient', value: this._address }
       ]
     }
