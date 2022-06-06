@@ -5,7 +5,7 @@
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 import { MUserMgr } from './muser'
 import { MAppMgr } from './mapp'
-import { MisesConfig, MisesCoin } from './mises'
+import { MisesConfig, MisesCoin, MsgReader } from './mises'
 
 export default class MSdk {
   public static newSdk(config: MisesConfig): MSdk {
@@ -16,6 +16,9 @@ export default class MSdk {
   }
   public static newCoinDefine(): MisesCoin {
     return new MisesCoin()
+  }
+  public static newMsgReader(): MsgReader {
+    return new MsgReader()
   }
 
   private _userMgr: MUserMgr

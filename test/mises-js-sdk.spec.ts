@@ -12,7 +12,7 @@ import {
   mockQueryAccountResponse
 } from './__mocks__/tendermint-rpc'
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
-import { MisesCoin, MisesConfig } from '../src/mises'
+import { MisesCoin, MisesConfig, MsgReader } from '../src/mises'
 import { LCDConnection } from '../src/lcd'
 
 import Long from 'long'
@@ -126,5 +126,131 @@ describe('MSdk test', () => {
 
     const tx = TxRaw.encode(TxRaw.fromPartial({})).finish()
     await expect(client.broadcastTx(Uint8Array.from(tx), 1, 1)).rejects.toThrow(TimeoutError)
+  })
+
+  it('msg reader test', async () => {
+    const reader = new MsgReader()
+
+    expect(reader.summary({})).toEqual('')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+        value: {
+          fromAddress: 'addr_from',
+          toAddress: 'addr_to',
+          amount: [{ denom: 'umis', amount: '100' }]
+        }
+      })
+    ).toEqual('Send 100umis to addr_to')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+        value: {
+          delegatorDddress: 'addr_from',
+          validatorAddress: 'addr_to',
+          amount: { denom: 'umis', amount: '100' }
+        }
+      })
+    ).toEqual('Delegate 100umis to addr_to')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
+        value: {
+          validatorSrcAddress: 'addr_from',
+          validatorDstAddress: 'addr_to',
+          amount: { denom: 'umis', amount: '100' }
+        }
+      })
+    ).toEqual('Redelegate 100umis from addr_from to addr_to')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+        value: {
+          validatorAddress: 'addr_from',
+          amount: { denom: 'umis', amount: '100' }
+        }
+      })
+    ).toEqual('Undelegate 100umis from addr_from')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+        value: {
+          validatorAddress: 'addr_from'
+        }
+      })
+    ).toEqual('Withdraw rewards from addr_from')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
+        value: {
+          proposal_id: 3000,
+          amount: [{ denom: 'umis', amount: '100' }]
+        }
+      })
+    ).toEqual('Deposit 100umis to proposal 3000')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+        value: {
+          proposal_id: 3000,
+          option: 1
+        }
+      })
+    ).toEqual('Vote YES on proposal 3000')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.gov.v1beta1.MsgSubmitProposal',
+        value: {
+          content: {
+            typeUrl: '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal',
+            value: {}
+          }
+        }
+      })
+    ).toEqual('Submit a community pool spend proposal')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.gov.v1beta1.MsgSubmitProposal',
+        value: {
+          content: {
+            typeUrl: '/cosmos.gov.v1beta1.TextProposal',
+            value: {}
+          }
+        }
+      })
+    ).toEqual('Submit a text proposal')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.gov.v1beta1.MsgSubmitProposal',
+        value: {
+          content: {
+            typeUrl: '/cosmos.params.v1beta1.ParameterChangeProposal',
+            value: {}
+          }
+        }
+      })
+    ).toEqual('Submit a parameter change proposal')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.gov.v1beta1.MsgSubmitProposal',
+        value: {
+          content: {
+            typeUrl: '/cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal',
+            value: {}
+          }
+        }
+      })
+    ).toEqual('Submit a cancel software upgrade proposal')
+    expect(
+      reader.summary({
+        typeUrl: '/cosmos.gov.v1beta1.MsgSubmitProposal',
+        value: {
+          content: {
+            typeUrl: '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal',
+            value: {}
+          }
+        }
+      })
+    ).toEqual('Submit a software upgrade proposal')
   })
 })

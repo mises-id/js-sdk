@@ -1,6 +1,6 @@
 {
   "name": "mises-js-sdk",
-  "version": "0.1.10",
+  "version": "0.1.12",
   "description": "",
   "keywords": [],
   "main": "dist/mises-js-sdk.umd.js",
@@ -147,7 +147,8 @@
     "@cosmjs/proto-signing": "0.27.1",
     "@cosmjs/stargate": "0.27.1",
     "@cosmjs/tendermint-rpc": "0.27.1",
-    "multiformats": "^9.5.4"
+    "multiformats": "^9.5.4",
+    "sentence-case": "^3.0.4"
   },
   "husky": {
     "hooks": {
