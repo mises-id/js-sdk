@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { MSdk } from '../src/mises-js-sdk'
+import { MSdk } from '../src/msdk'
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc'
 import {
   testAppID,
