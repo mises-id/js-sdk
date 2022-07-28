@@ -1,5 +1,5 @@
 /* eslint-disable */
-import MSdk from '../src/mises-js-sdk'
+import { MSdk } from '../src/mises-js-sdk'
 import { MApp } from '../src/mapp'
 import { MisesConfig } from '../src/mises'
 import { Random } from '@cosmjs/crypto'

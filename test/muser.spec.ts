@@ -1,5 +1,5 @@
 /* eslint-disable */
-import MSdk from '../src/mises-js-sdk'
+import { MSdk } from '../src/mises-js-sdk'
 import { MUser, MUserInfo } from '../src/muser'
 import { MisesConfig } from '../src/mises'
 import { Random } from '@cosmjs/crypto'
